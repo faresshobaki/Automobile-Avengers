@@ -9,21 +9,25 @@
         <link rel="stylesheet" href="media-queries.css" />
         <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" />
     </head>
+    <script src="auth.js" defer></script>
     <body>
         <!-- Header -->
         <header class="header">
             <nav class="nav">
-                <a href="#" class="nav_logo">AutomobileAvengers</a>
+                <a href="index.html" class="nav_logo">AutomobileAvengers</a>
                 <ul class="nav_items">
                     <li class="nav_item">
-                        <a href="#" class="nav_link">Booking</a>
-                        <a href="#" class="nav_link">Mechanics</a>
-                        <a href="#" class="nav_link">Services</a>
-                        <a href="#" class="nav_link">Promotions</a>
-                        <a href="#" class="nav_link">Service Status</a>
+                        <a href="booking.html" class="nav_link">Booking</a>
+                        <a href="mechanics.html" class="nav_link">Mechanics</a>
+                        <a href="services.html" class="nav_link">Services</a>
+                        <a href="promotions.html" class="nav_link">Promotions</a>
+                        <a href="servicestatus.html" class="nav_link">Service Status</a>
                     </li>
                 </ul>
-                <button class="login_button">Login</button>
+                <div id="authButtons">
+                    <button id="loginButton" class="login_button">Login</button>
+                    <button id="logoutButton" class="login_button" style="display: none;">Logout</button>
+                </div>
             </nav>
         </header>
 
