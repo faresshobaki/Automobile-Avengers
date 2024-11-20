@@ -7,8 +7,10 @@ import com.example.BackendAMA.repository.MechanicWorkRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MechanicWorkService {
@@ -24,8 +26,13 @@ public class MechanicWorkService {
     }
 
     public boolean clockIn(Long mechanicId, LocalDateTime clockInTime) {
-        MechanicWork mechanic = mechanicWorkRepository.findById(mechanicId).orElse(null);
-        if (mechanic == null) {
+        Optional<MechanicWork> mechanicOptional = mechanicWorkRepository.findById(mechanicId);
+        if (mechanicOptional.isEmpty()) {
+            return false;
+        }
+
+        ClockLog lastLog = clockLogRepository.findTopByMechanicIdOrderByClockInDesc(mechanicId);
+        if (lastLog != null && lastLog.getClockOut() == null) {
             return false;
         }
 
@@ -37,24 +44,71 @@ public class MechanicWorkService {
         return true;
     }
 
-    public boolean clockOut(Long mechanicId, LocalDateTime clockOutTime) {
-        MechanicWork mechanic = mechanicWorkRepository.findById(mechanicId).orElse(null);
-        if (mechanic == null) {
+    public boolean clockOut(Long mechanicId) {
+        Optional<MechanicWork> mechanicOptional = mechanicWorkRepository.findById(mechanicId);
+        if (mechanicOptional.isEmpty()) {
             return false;
         }
 
-        ClockLog clockLog = clockLogRepository.findTopByMechanicIdOrderByClockInDesc(mechanicId);
-        if (clockLog == null || clockLog.getClockOut() != null) {
-            return false; // No open clock-in record
+        ClockLog lastLog = clockLogRepository.findTopByMechanicIdOrderByClockInDesc(mechanicId);
+        if (lastLog == null || lastLog.getClockOut() != null) {
+            return false;
         }
 
-        clockLog.setClockOut(clockOutTime);
-        long hoursWorked = java.time.Duration.between(clockLog.getClockIn(), clockOutTime).toHours();
+        lastLog.setClockOut(LocalDateTime.now());
+
+        Duration duration = Duration.between(lastLog.getClockIn(), lastLog.getClockOut());
+        double hoursWorked = duration.toMinutes() / 60.0;
+
+        MechanicWork mechanic = mechanicOptional.get();
         mechanic.setHoursWorked(mechanic.getHoursWorked() + hoursWorked);
 
-        clockLogRepository.save(clockLog);
+        clockLogRepository.save(lastLog);
         mechanicWorkRepository.save(mechanic);
 
         return true;
     }
+
+    public MechanicWork verifyCredentials(String username, String password) {
+        return mechanicWorkRepository.findByUsernameAndPassword(username, password).orElse(null);
+    }
+
+
+
+    public boolean updateHourlyRate(Long id, double hourlyRate) {
+        Optional<MechanicWork> mechanicOpt = mechanicWorkRepository.findById(id);
+        if (mechanicOpt.isPresent()) {
+            MechanicWork mechanic = mechanicOpt.get();
+            mechanic.setHourlyRate(hourlyRate);
+            mechanicWorkRepository.save(mechanic);
+            return true;
+        }
+        return false;
+    }
+
+    public void createMechanic(MechanicWork newMechanic) {
+        mechanicWorkRepository.save(newMechanic);
+  
+    }
+
+    public boolean updateCredentials(Long id, String username, String password) {
+        Optional<MechanicWork> mechanicOpt = mechanicWorkRepository.findById(id);
+        if (mechanicOpt.isPresent()) {
+            MechanicWork mechanic = mechanicOpt.get();
+            mechanic.setUsername(username);
+            mechanic.setPassword(password);
+            mechanicWorkRepository.save(mechanic);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean deleteMechanic(Long id) {
+        if (mechanicWorkRepository.existsById(id)) {
+            mechanicWorkRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
 }
+

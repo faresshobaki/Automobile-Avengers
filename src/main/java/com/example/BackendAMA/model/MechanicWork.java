@@ -3,27 +3,32 @@ package com.example.BackendAMA.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "mechanic_work") // Ensures table name consistency
+@Table(name = "mechanics") // Ensures table name consistency
 public class MechanicWork {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment ID
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "mechanic_name", nullable = false) // Explicitly map column
+    @Column(name = "mechanicName")
     private String mechanicName;
 
-    @Column(name = "mechanic_id", nullable = false, unique = true) // Ensure unique mechanic ID
+    @Column(name = "mechanicId")
     private String mechanicId;
 
-    @Column(name = "hourly_rate", nullable = false) // Ensures hourlyRate column is not null
+    @Column(name = "hourlyRate")
     private Double hourlyRate;
 
-    @Column(name = "hours_worked", nullable = false) // Ensures hoursWorked column is not null
-    private Double hoursWorked;
+    @Column(name = "hoursWorked")
+    private Double hoursWorked = 0.00;
 
-    @Column(name = "tax_rate", nullable = false) // Ensures taxRate column is not null
-    private Double taxRate;
+    @Column(name = "taxRate")
+    private Double taxRate = 0.08; // Default value
+
+    @Column(name = "username", unique = true, nullable = false)
+    private String username; // New field for login username
+
+    @Column(name = "password", nullable = false)
+    private String password; // New field for login password
 
     // Default Constructor
     public MechanicWork() {}
@@ -75,6 +80,22 @@ public class MechanicWork {
 
     public void setTaxRate(Double taxRate) {
         this.taxRate = taxRate;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     // Utility Methods
