@@ -1,6 +1,6 @@
-package repository;
+package com.example.BackendAMA.repository;
 
-import model.MechanicWork;
+import com.example.BackendAMA.model.MechanicWork;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
