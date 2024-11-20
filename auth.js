@@ -23,7 +23,22 @@ function handleLogin(event) {
         alert("Invalid username or password!");
     }
 }
+// ADMIN LOGIN FOR PAGE
+function handleLogin(event) {
+    event.preventDefault(); // Prevent form submission
 
+    const username = document.getElementById("adminusername").value;
+    const password = document.getElementById("adminpassword").value;
+
+    // Simulate login validation (replace with backend validation if needed)
+    if (username === "admin" && password === "1234") {
+        sessionStorage.setItem("isLoggedIn", true); // Mark user as logged in
+        alert("Login successful!");
+        window.location.href = "adminpage.html"; // Redirect to homepage
+    } else {
+        alert("Invalid username or password!");
+    }
+}
 // Handle logout
 function logout() {
     sessionStorage.removeItem("isLoggedIn"); // Clear login session

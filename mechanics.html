@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="media-queries.css">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
 </head>
+<script src="auth.js"></script>
 <body>
     <!-- Header -->
     <header class="header">
@@ -23,8 +24,10 @@
                     <a href="status.html" class="nav_link">Service Status</a>
                 </li>
             </ul>
-            <button class="login_button">Login</button>
-        </nav>
+            <div id="authButtons">
+                <button id="loginButton" class="login_button">Login</button>
+                <button id="logoutButton" class="login_button" style="display: none;">Logout</button>
+            </div>
     </header>
 
     <!-- Mechanics Section -->
