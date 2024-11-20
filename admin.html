@@ -11,7 +11,7 @@
     <!-- Login Section -->
     <section class="login-section">
         <h1>Login to your Admin Account</h1>
-        <form id="loginForm" class="login-form">
+        <form id="loginForm" class="login-form" onsubmit="handleLogin(event, true)">
             <label for="username">Email:</label>
             <input type="text" id="adminusername" name="username" placeholder="Enter your username or email" required>
             

@@ -8,33 +8,22 @@ function checkLoginStatus() {
 }
 
 // Handle login form submission
-function handleLogin(event) {
+function handleLogin(event, isAdmin = false) {
     event.preventDefault(); // Prevent form submission
 
-    const username = document.getElementById("username").value;
-    const password = document.getElementById("password").value;
+    // Get the correct inputs based on whether it's admin login
+    const username = document.getElementById(isAdmin ? "adminusername" : "username").value;
+    const password = document.getElementById(isAdmin ? "adminpassword" : "password").value;
 
-    // Simulate login validation (replace with backend validation if needed)
-    if (username === "test" && password === "1234") {
+    // Simulate login validation (replace with backend validation)
+    if ((isAdmin && username === "admin" && password === "1234") || 
+        (!isAdmin && username === "test" && password === "1234")) {
+        
         sessionStorage.setItem("isLoggedIn", true); // Mark user as logged in
         alert("Login successful!");
-        window.location.href = "index.html"; // Redirect to homepage
-    } else {
-        alert("Invalid username or password!");
-    }
-}
-// ADMIN LOGIN FOR PAGE
-function handleLogin(event) {
-    event.preventDefault(); // Prevent form submission
-
-    const username = document.getElementById("adminusername").value;
-    const password = document.getElementById("adminpassword").value;
-
-    // Simulate login validation (replace with backend validation if needed)
-    if (username === "admin" && password === "1234") {
-        sessionStorage.setItem("isLoggedIn", true); // Mark user as logged in
-        alert("Login successful!");
-        window.location.href = "adminpage.html"; // Redirect to homepage
+        
+        // Redirect to the correct page based on user type
+        window.location.href = isAdmin ? "adminpage.html" : "index.html";
     } else {
         alert("Invalid username or password!");
     }
@@ -85,4 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (loginForm) {
         loginForm.addEventListener("submit", handleLogin);
     }
+});
+document.getElementById("loginButton").addEventListener("click", function() {
+    window.location.href = "login.html"; // Redirect to login.html
 });
