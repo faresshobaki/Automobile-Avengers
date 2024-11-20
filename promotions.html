@@ -10,15 +10,20 @@
     <!-- Header -->
     <header class="header">
         <nav class="nav">
-            <a href="#" class="nav_logo">Automobile Avengers</a>
+            <a href="index.html" class="nav_logo">AutomobileAvengers</a>
             <ul class="nav_items">
-                <li><a href="booking.html" class="nav_link">Booking</a></li>
-                <li><a href="mechanics.html" class="nav_link">Mechanics</a></li>
-                <li><a href="services.html" class="nav_link">Services</a></li>
-                <li><a href="promotions.html" class="nav_link">Promotions</a></li>
-                <li><a href="status.html" class="nav_link">Service Status</a></li>
+                <li class="nav_item">
+                    <a href="booking.html" class="nav_link">Booking</a>
+                    <a href="mechanics.html" class="nav_link">Mechanics</a>
+                    <a href="services.html" class="nav_link">Services</a>
+                    <a href="promotions.html" class="nav_link">Promotions</a>
+                    <a href="servicestatus.html" class="nav_link">Service Status</a>
+                </li>
             </ul>
-            <button class="login_button">Login</button>
+            <div id="authButtons">
+                <button id="loginButton" class="login_button">Login</button>
+                <button id="logoutButton" class="login_button" style="display: none;">Logout</button>
+            </div>
         </nav>
     </header>
 
