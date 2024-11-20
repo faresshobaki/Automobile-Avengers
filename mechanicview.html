@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mechanic View</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .mechanic-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .mechanic-card {
+            flex: 1 1 calc(33% - 20px);
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .mechanic-card h3 {
+            margin: 0 0 10px;
+            font-size: 1.25rem;
+            color: #333;
+        }
+
+        .mechanic-card p {
+            margin: 5px 0;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .actions {
+            margin-top: 10px;
+        }
+
+        .actions button {
+            padding: 8px 12px;
+            margin: 5px 0;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .actions button.clock-out {
+            background-color: #dc3545;
+        }
+
+        .actions button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        Mechanic View
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h2>Mechanics</h2>
+            <p>Clock in and clock out to track hours worked and calculate salaries.</p>
+        </div>
+        
+        <div class="mechanic-section" id="mechanics">
+            <!-- Mechanics will be dynamically loaded here -->
+        </div>
+    </div>
+
+    <script>
+        async function fetchMechanics() {
+    try {
+        const response = await fetch("http://localhost:3000/api/mechanics");
+        if (!response.ok) throw new Error("Failed to fetch mechanics");
+
+        const mechanics = await response.json();
+        const mechanicsContainer = document.getElementById("mechanics");
+
+        mechanicsContainer.innerHTML = "";
+
+        mechanics.forEach(mechanic => {
+            const card = document.createElement("div");
+            card.className = "mechanic-card";
+
+            card.innerHTML = `
+                <h3>${mechanic.mechanicName}</h3>
+                <p><strong>Mechanic ID:</strong> ${mechanic.mechanicId}</p>
+                <p><strong>Hourly Rate:</strong> $${mechanic.hourlyRate.toFixed(2)}</p>
+                <p><strong>Hours Worked:</strong> ${mechanic.hoursWorked.toFixed(2)}</p>
+                <p><strong>Gross Salary:</strong> $${(mechanic.hourlyRate * mechanic.hoursWorked).toFixed(2)}</p>
+                <div class="actions">
+                    <button onclick="clockIn(${mechanic.id})">Clock In</button>
+                    <button class="clock-out" onclick="clockOut(${mechanic.id})">Clock Out</button>
+                </div>
+            `;
+            mechanicsContainer.appendChild(card);
+        });
+    } catch (error) {
+        console.error("Error loading mechanics:", error);
+        document.getElementById("mechanics").innerHTML = "<p>Error loading data. Please try again.</p>";
+    }
+}
+
+// Load mechanics on page load
+fetchMechanics();
+
+
+        async function clockIn(id) {
+            try {
+                const response = await fetch(`http://localhost:3000/api/mechanics/${id}/clock-in`, { method: "POST" });
+                if (!response.ok) throw new Error("Failed to clock in");
+                alert(`Mechanic ${id} clocked in!`);
+                fetchMechanics();
+            } catch (error) {
+                console.error("Clock-in error:", error);
+                alert("Clock-in failed. Please try again.");
+            }
+        }
+
+        async function clockOut(id) {
+            try {
+                const response = await fetch(`http://localhost:3000/api/mechanics/${id}/clock-out`, { method: "POST" });
+                if (!response.ok) throw new Error("Failed to clock out");
+                alert(`Mechanic ${id} clocked out!`);
+                fetchMechanics();
+            } catch (error) {
+                console.error("Clock-out error:", error);
+                alert("Clock-out failed. Please try again.");
+            }
+        }
+
+        // Load mechanics on page load
+        fetchMechanics();
+    </script>
+</body>
+</html>
