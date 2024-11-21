@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mechanics Admin View</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .mechanic-card {
+            margin: 10px 0;
+            padding: 15px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .mechanic-card p {
+            margin: 5px 0;
+        }
+
+        .actions input {
+            margin: 5px 0;
+            padding: 8px;
+            width: 200px;
+        }
+
+        .actions button {
+            padding: 8px 12px;
+            margin-top: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .actions button.delete {
+            background-color: #dc3545;
+        }
+
+        .actions button:hover {
+            background-color: #0056b3;
+        }
+
+        .actions button.delete:hover {
+            background-color: #a71d2a;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        Mechanics Admin View
+    </div>
+
+    <div class="container">
+        <h2>Manage Mechanics</h2>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Mechanic Name</th>
+                    <th>Username</th>
+                    <th>Password</th>
+                    <th>Hourly Rate</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="mechanics-table">
+                <!-- Mechanics will be dynamically loaded here -->
+            </tbody>
+        </table>
+
+        <h3>Add New Mechanic Login</h3>
+        <form id="addMechanicForm">
+            <input type="text" id="newMechanicName" placeholder="Mechanic Name" required>
+            <input type="text" id="newMechanicId" placeholder="Mechanic ID" required>
+            <input type="number" id="newHourlyRate" placeholder="Hourly Rate" required>
+            <input type="text" id="newMechanicUsername" placeholder="Username" required>
+            <input type="password" id="newMechanicPassword" placeholder="Password" required>
+            <button type="submit">Create Mechanic</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('addMechanicForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('newMechanicName').value;
+            const mechanicId = document.getElementById('newMechanicId').value;
+            const hourlyRate = document.getElementById('newHourlyRate').value;
+            const username = document.getElementById('newMechanicUsername').value;
+            const password = document.getElementById('newMechanicPassword').value;
+
+            try {
+                const response = await fetch('http://localhost:8080/api/mechanics', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        mechanicName: name,
+                        mechanicId,
+                        hourlyRate,
+                        username,
+                        password,
+                        taxRate: 0.08 // Default tax rate
+                    })
+                });
+                if (response.ok) {
+                    alert('Mechanic created successfully!');
+                    fetchMechanics();
+                } else {
+                    alert('Failed to create mechanic');
+                }
+            } catch (error) {
+                console.error(error);
+                alert('An error occurred');
+            }
+        });
+
+        async function fetchMechanics() {
+            try {
+                const response = await fetch('http://localhost:8080/api/mechanics');
+                const mechanics = await response.json();
+                const table = document.getElementById("mechanics-table");
+
+                table.innerHTML = ""; // Clear the table before adding rows
+
+                mechanics.forEach(mechanic => {
+                    const row = document.createElement("tr");
+
+                    row.innerHTML = `
+                        <td>${mechanic.id}</td>
+                        <td>${mechanic.mechanicName}</td>
+                        <td><input type="text" id="username-${mechanic.id}" value="${mechanic.username || ''}"></td>
+                        <td><input type="password" id="password-${mechanic.id}" value="${mechanic.password || ''}"></td>
+                        <td><input type="number" id="hourlyRate-${mechanic.id}" value="${mechanic.hourlyRate.toFixed(2)}"></td>
+                        <td>
+                            <button onclick="updateMechanic(${mechanic.id})">Save</button>
+                            <button class="delete" onclick="deleteMechanic(${mechanic.id})">Delete</button>
+                        </td>
+                    `;
+
+                    table.appendChild(row);
+                });
+            } catch (error) {
+                console.error("Error loading mechanics:", error);
+                alert("Failed to load mechanics");
+            }
+        }
+
+        async function updateMechanic(id) {
+            const username = document.getElementById(`username-${id}`).value;
+            const password = document.getElementById(`password-${id}`).value;
+            const hourlyRate = document.getElementById(`hourlyRate-${id}`).value;
+
+            try {
+                const response = await fetch(`http://localhost:8080/api/mechanics/${id}/credentials`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ username, password, hourlyRate })
+                });
+
+                if (response.ok) {
+                    alert("Mechanic updated successfully!");
+                    fetchMechanics();
+                } else {
+                    alert("Failed to update mechanic");
+                }
+            } catch (error) {
+                console.error("Error updating mechanic:", error);
+                alert("An error occurred. Please try again.");
+            }
+        }
+
+        async function deleteMechanic(id) {
+            if (!confirm("Are you sure you want to delete this mechanic? This action cannot be undone.")) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://localhost:8080/api/mechanics/${id}`, {
+                    method: "DELETE"
+                });
+
+                if (response.ok) {
+                    alert("Mechanic deleted successfully!");
+                    fetchMechanics(); // Refresh the list
+                } else {
+                    alert("Failed to delete mechanic");
+                }
+            } catch (error) {
+                console.error("Error deleting mechanic:", error);
+                alert("An error occurred. Please try again.");
+            }
+        }
+
+        // Load mechanics on page load
+        fetchMechanics();
+    </script>
+</body>
+</html>
