@@ -38,7 +38,7 @@
                     <h2>Oil Change</h2>
                     <p class="promotion-price">$10 Off</p>
                     <p class="promotion-details">Cannot be combined with other offers</p>
-                    <button class="claim-button">Claim</button>
+                    <button class="claim-button" onclick="redirectToBarcode()">Claim</button>
                 </div>
             </div>
 
@@ -49,7 +49,7 @@
                     <h2>Synthetic Oil Change</h2>
                     <p class="promotion-price">$30 Off</p>
                     <p class="promotion-details">Cannot be combined with other offers</p>
-                    <button class="claim-button">Claim</button>
+                    <button class="claim-button" onclick="redirectToBarcode()">Claim</button>
                 </div>
             </div>
 
@@ -60,10 +60,17 @@
                     <h2>Tire Rotation</h2>
                     <p class="promotion-price">$25 Off</p>
                     <p class="promotion-details">Cannot be combined with other offers</p>
-                    <button class="claim-button">Claim</button>
+                    <button class="claim-button" onclick="redirectToBarcode()">Claim</button>
                 </div>
             </div>
         </div>
     </section>
+
+    <script>
+        function redirectToBarcode() {
+            const randomCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+            window.location.href = `barcode.html?code=${randomCode}`;
+        }
+    </script>
 </body>
 </html>
