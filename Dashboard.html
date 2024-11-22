@@ -3,14 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<link rel="stylesheet" href="style.css">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="media-queries.css">
     <script src="auth.js"></script>
+</head>
+<body>
+
 <header class="header">
     <nav class="nav">
-        <a href="adminpage.html" class="nav_logo">ADMIN GAY</a>
+        <a href="adminpage.html" class="nav_logo">AutomobileAvengers</a>
         <ul class="nav_items">
             <li class="nav_item">
                 <a href="Dashboard.html" class="nav_link">Dashboard</a>
@@ -24,18 +26,42 @@
         </div>
     </nav>
 </header>
-<body>
-    <section class="simple-section">
-        <div class="text-content">
-            <h1>Dashboard</h1>
-            <p>
-                As an Automobile Avengeers Admin, we empower you to effortlessly manage mechanics, services and promotions. Streamline operations, track performance, and keep your team at the top of their gam with powerful, intuitive tools at your fingertips.
-            </p>
-            <button class="get_started_button">Dashboard</button>
+
+<div class="dashboard-container">
+    <h1>Admin Dashboard:</h1>
+    <div class="dashboard-cards">
+        <div class="card">
+            <h2>
+                <i class="material-icons card-icon">attach_money</i>
+                New Net Income
+            </h2>
+            <p class="value">$8,245.00</p>
+            <p class="trend">▼ -0.85% from last week</p>
+            <!-- Correct icon for bar chart -->
+            <i class="material-icons card-icon-right">bar_chart</i>
         </div>
-        <div class="image-content">
-            <img class="section-image" src="images/assets/Automobile Avengers.png" alt="Automobile Avengers Image">
+        <div class="card">
+            <h2>
+                <i class="material-icons card-icon">event_note</i>
+                Total Bookings
+            </h2>
+            <p class="value">256</p>
+            <p class="trend">▲ +3.01% from last week</p>
+            <!-- Correct icon for stacked bar chart -->
+            <i class="material-icons card-icon-right">trending_up</i>
         </div>
-    </section>
+        <div class="card">
+            <h2>
+                <i class="material-icons card-icon">build</i>
+                Services Provided
+            </h2>
+            <p class="value">1,256</p>
+            <p class="trend">▲ +1.0% from last week</p>
+            <!-- Correct icon for analytics or bar chart -->
+            <i class="material-icons card-icon-right">trending_up</i>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
