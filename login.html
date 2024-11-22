@@ -5,39 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | Automobile Avengers</title>
     <link rel="stylesheet" href="style.css">
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            document.getElementById("loginForm").addEventListener("submit", async (e) => {
-                e.preventDefault();
-
-                const email = document.getElementById("username").value;
-                const password = document.getElementById("password").value;
-
-                try {
-                    const response = await fetch("http://localhost:8080/api/users/login", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ email, password }),
-                    });
-
-                    if (response.ok) {
-                        const user = await response.json();
-                        alert(`Welcome back, ${user.firstName}!`);
-                        window.location.href = "index.html"; // Redirect to dashboard
-                    } else if (response.status === 401) {
-                        alert("Invalid email or password. Please try again.");
-                    } else {
-                        alert("An error occurred. Please try again.");
-                    }
-                } catch (error) {
-                    console.error("Login error:", error);
-                    alert("Unable to connect to the server. Please try again later.");
-                }
-            });
-        });
-    </script>
+    <script src="auth.js" defer></script>
 </head>
 <body>
+    <!-- Login Section -->
     <section class="login-section">
         <h1>Welcome Back!</h1>
         <a href="javascript:history.back()" class="back-button">
@@ -45,14 +16,14 @@
         </a>
         <form id="loginForm" class="login-form">
             <label for="username">Email:</label>
-            <input type="text" id="username" name="username" placeholder="Enter your email" required>
+            <input type="text" id="username" name="username" placeholder="Enter your username or email" required>
             
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" placeholder="Enter your password" required>
             
             <button type="submit" class="login-button">Login</button>
         </form>
-        <div class="forgot-password">
+        <div class="forgot-passord">
             <a href="signup.html">Forgot Password?</a>
         </div>
         <div class="login-footer">
@@ -64,5 +35,3 @@
     </section>
 </body>
 </html>
-
-
