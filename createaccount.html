@@ -1,10 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login | Automobile Avengers</title>
     <link rel="stylesheet" href="style.css" />
+    <script src="auth.js" defer></script>
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("loginForm").addEventListener("submit", async (e) => {
@@ -15,14 +12,12 @@
             email: document.getElementById("email").value,
             password: document.getElementById("password").value,
           };
-
           try {
             const response = await fetch("http://localhost:8080/api/users", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify(user),
             });
-
             if (response.ok) {
               alert("Account created successfully!");
               window.location.href = "login.html";
@@ -40,51 +35,23 @@
   </head>
   <body>
     <!-- Create Account -->
-    <section class="login-section">
-      <h1>Create Account</h1>
-      <form id="loginForm" class="login-form">
+@@ -15,9 +46,9 @@ <h1>Create Account</h1>
         <label for="username">First Name:</label>
         <input
           type="text"
+          id="fiestname"
           id="firstname"
           name="firstname"
+          placeholder="Enter your email"
           placeholder="Enter your First Name"
           required
         />
 
-        <label for="lastname">Last Name:</label>
-        <input
+@@ -26,7 +57,7 @@ <h1>Create Account</h1>
           type="text"
           id="lastname"
           name="lastname"
+          placeholder="Enter your username or email"
           placeholder="Enter your Last Name"
           required
         />
-
-        <label for="email">Email:</label>
-        <input
-          type="text"
-          id="email"
-          name="email"
-          placeholder="Enter your email"
-          required
-        />
-
-        <label for="password">Password:</label>
-        <input
-          type="text"
-          id="password"
-          name="password"
-          placeholder="Enter your password"
-          required
-        />
-
-        <button type="submit" class="login-button">Login</button>
-      </form>
-      <div class="login-footer"></div>
-      <div class="admin-view">
-        <p>Have an account? <a href="login.html"> Click Here</a></p>
-      </div>
-    </section>
-  </body>
-</html>

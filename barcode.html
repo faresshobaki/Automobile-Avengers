@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barcode | Automobile Avengers</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: url('images/assets/background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #ffffff;
+            text-align: center;
+        }
+
+        .barcode-container {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .barcode-title {
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+
+        #barcode {
+            margin: 20px auto;
+        }
+
+        .back-button {
+            font-size: 1em;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-transform: uppercase;
+            margin-top: 20px;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+</head>
+<body>
+    <div class="barcode-container">
+        <h1 class="barcode-title">Your Promotion Code</h1>
+        <!-- Promotion code text -->
+        <div id="promotion-code" style="font-size: 1.5em; margin-bottom: 20px; color: #ffcc00;"></div>
+        <!-- SVG barcode -->
+        <svg id="barcode"></svg>
+    </div>
+
+    <script>
+        // Extract the 'code' parameter from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code') || "No code found!";
+
+        // Display the code in the promotion-code div
+        document.getElementById('promotion-code').innerText = code;
+
+        // Generate a barcode
+        JsBarcode("#barcode", code, {
+            format: "CODE128",
+            displayValue: false,
+            lineColor: "#ffffff",
+            background: "transparent",
+            height: 100,
+            width: 2
+        });
+
+        // Function to go back to the promotions page
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+</html>
