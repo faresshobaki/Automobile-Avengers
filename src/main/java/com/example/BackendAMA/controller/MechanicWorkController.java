@@ -33,10 +33,9 @@ public class MechanicWorkController {
     public ResponseEntity<String> clockIn(@PathVariable Long id) {
         try {
             boolean success = mechanicWorkService.clockIn(id, LocalDateTime.now());
-            if (success) {
-                return ResponseEntity.ok("Clock-in successful");
-            }
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Clock-in failed: Mechanic not found or already clocked in.");
+            return success
+                ? ResponseEntity.ok("Clock-in successful")
+                : ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Clock-in failed: Mechanic not found or already clocked in.");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred during clock-in: " + e.getMessage());
         }
@@ -46,22 +45,21 @@ public class MechanicWorkController {
     public ResponseEntity<String> clockOut(@PathVariable Long id) {
         try {
             boolean success = mechanicWorkService.clockOut(id);
-            if (success) {
-                return ResponseEntity.ok("Clock-out successful");
-            }
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Clock-out failed: Mechanic not found or already clocked out.");
+            return success
+                ? ResponseEntity.ok("Clock-out successful")
+                : ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Clock-out failed: Mechanic not found or already clocked out.");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred during clock-out: " + e.getMessage());
         }
     }
 
-
     @PutMapping("/{id}")
     public ResponseEntity<String> updateHourlyRate(@PathVariable Long id, @RequestBody MechanicWork updatedMechanic) {
         try {
             boolean success = mechanicWorkService.updateHourlyRate(id, updatedMechanic.getHourlyRate());
-            return success ? ResponseEntity.ok("Hourly rate updated successfully")
-                           : ResponseEntity.status(HttpStatus.NOT_FOUND).body("Mechanic not found");
+            return success
+                ? ResponseEntity.ok("Hourly rate updated successfully")
+                : ResponseEntity.status(HttpStatus.NOT_FOUND).body("Mechanic not found");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update hourly rate");
         }
@@ -78,14 +76,14 @@ public class MechanicWorkController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<MechanicWork> login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<MechanicWork> mechanicLogin(@RequestBody LoginRequest loginRequest) {
         try {
             MechanicWork mechanic = mechanicWorkService.verifyCredentials(loginRequest.getUsername(), loginRequest.getPassword());
             return mechanic != null
                 ? ResponseEntity.ok(mechanic)
                 : ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
@@ -116,7 +114,6 @@ public class MechanicWorkController {
         }
     }
 }
-
 
 
     
