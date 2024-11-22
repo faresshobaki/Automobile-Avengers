@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -51,9 +53,34 @@ public class UserController {
             User user = userService.verifyCredentials(loginRequest.getEmail(), loginRequest.getPassword());
             return user != null
                 ? ResponseEntity.ok(user)
-                : ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+                : ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    // Endpoint to request a password reset code
+    @PostMapping("/reset-password/request")
+    public ResponseEntity<String> requestResetCode(@RequestBody Map<String, String> request) {
+        String email = request.get("email");
+        if (userService.sendVerificationCode(email)) {
+            return ResponseEntity.ok("Verification code sent");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email not registered");
+        }
+    }
+
+    // Endpoint to reset the password
+    @PostMapping("/reset-password")
+    public ResponseEntity<String> resetPassword(@RequestBody Map<String, String> request) {
+        String email = request.get("email");
+        String verificationCode = request.get("verificationCode");
+        String newPassword = request.get("newPassword");
+
+        if (userService.resetPassword(email, verificationCode, newPassword)) {
+            return ResponseEntity.ok("Password reset successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid verification code or email");
         }
     }
 }
