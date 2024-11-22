@@ -3,197 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mechanic View</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
-
-        .navbar {
-            background-color: #333;
-            color: white;
-            padding: 1rem;
-            text-align: center;
-            font-size: 1.5rem;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .login-section {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .login-section input {
-            padding: 10px;
-            margin: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        .login-section button {
-            padding: 10px 15px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .mechanic-card {
-            max-width: 400px;
-            margin: 0 auto;
-            background: #fff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 15px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .mechanic-card h3 {
-            margin: 0 0 10px;
-            font-size: 1.25rem;
-            color: #333;
-        }
-
-        .mechanic-card p {
-            margin: 5px 0;
-            font-size: 0.9rem;
-            color: #666;
-        }
-
-        .actions button {
-            padding: 8px 12px;
-            margin: 5px 0;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .actions button.clock-out {
-            background-color: #dc3545;
-        }
-
-        .actions button:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-        }
-    </style>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Our Mechanics - Automobile Avengers</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="media-queries.css">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
 </head>
+<script src="auth.js"></script>
 <body>
-    <div class="navbar">
-        Mechanic View
-    </div>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <a href="index.html" class="nav_logo">AutomobileAvengers</a>
+            <ul class="nav_items">
+                <li class="nav_item">
+                    <a href="booking.html" class="nav_link">Booking</a>
+                    <a href="mechanics.html" class="nav_link">Mechanics</a>
+                    <a href="services.html" class="nav_link">Services</a>
+                    <a href="promotions.html" class="nav_link">Promotions</a>
+                    <a href="status.html" class="nav_link">Service Status</a>
+                </li>
+            </ul>
+            <div id="authButtons">
+                <button id="loginButton" class="login_button">Login</button>
+                <button id="logoutButton" class="login_button" style="display: none;">Logout</button>
+            </div>
+    </header>
+    <!-- Mechanics Section -->
+    <main class="mechanics-section">
+        <h1>Our Team</h1>
+        <p>Our team of skilled professionals is here to provide the best care for your vehicle.</p>
+        <div class="mechanics-container">
+            <!-- Mechanic Card 1 -->
+            <div class="mechanic-card">
+                <img src="images/assets/mechanic1.jpg" alt="Ibrahim Aljanabi" class="mechanic-photo">
+                <h3>John Doe</h3>
+                <p>Specialty: Engine Repair & Diagnostics</p>
+                <button class="contact-button">Contact</button>
+            </div>
+            <!-- Mechanic Card 2 -->
+            <div class="mechanic-card">
+                <img src="images/assets/mechanic2.jpg" alt="Randy Jackson" class="mechanic-photo">
+                <h3>Randy Jackson</h3>
+                <p>Specialty: Brake & Suspension Systems</p>
+                <button class="contact-button">Contact</button>
+            </div>
 
-    <div class="container">
-        <div class="login-section" id="loginSection">
-            <h2>Mechanic Login</h2>
-            <input type="text" id="username" placeholder="Username (e.g., JohnDoeM001)" />
-            <input type="password" id="password" placeholder="Password" />
-            <button onclick="loginMechanic()">Login</button>
-        </div>
+            <!-- Mechanic Card 3 -->
+            <div class="mechanic-card">
+                <img src="images/assets/mechanic3.jpg" alt="Mohammed Abdullah" class="mechanic-photo">
+                <h3>Jackson Davis</h3>
+                <p>Specialty: Electrical & AC Systems</p>
+                <button class="contact-button">Contact</button>
+            </div>
 
-        <div class="mechanic-card" id="mechanicCard" style="display: none;">
-            <h3 id="mechanicFullName"></h3>
-            <p><strong>Mechanic ID:</strong> <span id="mechanicId"></span></p>
-            <p><strong>Hourly Rate:</strong> $<span id="hourlyRate"></span></p>
-            <p><strong>Hours Worked:</strong> <span id="hoursWorked"></span></p>
-            <p><strong>Gross Salary:</strong> $<span id="grossSalary"></span></p>
-            <div class="actions">
-                <button onclick="clockIn()">Clock In</button>
-                <button class="clock-out" onclick="clockOut()">Clock Out</button>
+            <!-- Mechanic Card 4 -->
+            <div class="mechanic-card">
+                <img src="images/assets/mechanic4.jpg" alt="Ahmad Ahmad Ahmad" class="mechanic-photo">
+                <h3>Ryan Smith</h3>
+                <p>Specialty: Tire Services & Alignments</p>
+                <button class="contact-button">Contact</button>
             </div>
         </div>
-    </div>
+    </main>
 
-    <script>
-        let mechanicId;
-
-		async function loginMechanic() {
-		    const username = document.getElementById("username").value;
-		    const password = document.getElementById("password").value;
-
-		    try {
-		        const response = await fetch("http://localhost:8080/api/mechanics/login", {
-		            method: "POST",
-		            headers: { "Content-Type": "application/json" },
-		            body: JSON.stringify({ username, password })
-		        });
-
-		        // Properly handle unsuccessful response
-		        if (!response.ok) {
-		            if (response.status === 401) {
-		                alert("Login failed: Incorrect username or password.");
-		            } else {
-		                alert("Login failed: An error occurred. Please try again.");
-		            }
-		            return; // Stop execution if login fails
-		        }
-
-		        const mechanic = await response.json();
-
-		        // Ensure no false positives by clearing previous errors
-		        document.getElementById("loginSection").style.display = "none";
-		        document.getElementById("mechanicCard").style.display = "block";
-
-		        mechanicId = mechanic.id; // Set mechanic ID globally
-
-		        // Populate mechanic data
-		        document.getElementById("mechanicFullName").innerText = mechanic.mechanicName;
-		        document.getElementById("mechanicId").innerText = mechanic.mechanicId;
-		        document.getElementById("hourlyRate").innerText = mechanic.hourlyRate.toFixed(2);
-		        document.getElementById("hoursWorked").innerText = mechanic.hoursWorked.toFixed(2);
-		        document.getElementById("grossSalary").innerText = (mechanic.hourlyRate * mechanic.hoursWorked).toFixed(2);
-		    } catch (error) {
-		        console.error("Login error:", error);
-		        alert("Login failed: Unable to connect to the server.");
-		    }
-		}
-
-
-        async function clockIn() {
-            try {
-                const response = await fetch(`http://localhost:8080/api/mechanics/${mechanicId}/clock-in`, {
-                    method: "POST"
-                });
-
-                if (!response.ok) throw new Error("Clock-in failed");
-
-                alert("Clock-in successful!");
-                loginMechanic(); // Refresh mechanic data
-            } catch (error) {
-                alert("Clock-in failed. Please try again.");
-                console.error("Clock-in error:", error);
-            }
-        }
-
-        async function clockOut() {
-            try {
-                const response = await fetch(`http://localhost:8080/api/mechanics/${mechanicId}/clock-out`, {
-                    method: "POST"
-                });
-
-                if (!response.ok) throw new Error("Clock-out failed");
-
-                alert("Clock-out successful!");
-                loginMechanic(); // Refresh mechanic data
-            } catch (error) {
-                alert("Clock-out failed. Please try again.");
-                console.error("Clock-out error:", error);
-            }
-        }
-    </script>
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 Automobile Avengers. All rights reserved.</p>
+    </footer>
 </body>
 </html>
