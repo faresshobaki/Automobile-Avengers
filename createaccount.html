@@ -5,7 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login | Automobile Avengers</title>
     <link rel="stylesheet" href="style.css" />
-    <script src="auth.js" defer></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        document.getElementById("loginForm").addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const user = {
+            firstName: document.getElementById("firstname").value,
+            lastName: document.getElementById("lastname").value,
+            email: document.getElementById("email").value,
+            password: document.getElementById("password").value,
+          };
+
+          try {
+            const response = await fetch("http://localhost:8080/api/users", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(user),
+            });
+
+            if (response.ok) {
+              alert("Account created successfully!");
+              window.location.href = "login.html";
+            } else {
+              const errorText = await response.text();
+              alert("Error: " + errorText);
+            }
+          } catch (error) {
+            console.error("Error creating account:", error);
+            alert("An error occurred. Please try again.");
+          }
+        });
+      });
+    </script>
   </head>
   <body>
     <!-- Create Account -->
@@ -15,9 +46,9 @@
         <label for="username">First Name:</label>
         <input
           type="text"
-          id="fiestname"
+          id="firstname"
           name="firstname"
-          placeholder="Enter your email"
+          placeholder="Enter your First Name"
           required
         />
 
@@ -26,7 +57,7 @@
           type="text"
           id="lastname"
           name="lastname"
-          placeholder="Enter your username or email"
+          placeholder="Enter your Last Name"
           required
         />
 
