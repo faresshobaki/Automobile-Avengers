@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login | Automobile Avengers</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="auth.js" defer></script>
+  </head>
+  <body>
+    <!-- Create Account -->
+    <section class="login-section">
+      <h1>Create Account</h1>
+      <form id="loginForm" class="login-form">
+        <label for="username">First Name:</label>
+        <input
+          type="text"
+          id="fiestname"
+          name="firstname"
+          placeholder="Enter your email"
+          required
+        />
+
+        <label for="lastname">Last Name:</label>
+        <input
+          type="text"
+          id="lastname"
+          name="lastname"
+          placeholder="Enter your username or email"
+          required
+        />
+
+        <label for="email">Email:</label>
+        <input
+          type="text"
+          id="email"
+          name="email"
+          placeholder="Enter your email"
+          required
+        />
+
+        <label for="password">Password:</label>
+        <input
+          type="text"
+          id="password"
+          name="password"
+          placeholder="Enter your password"
+          required
+        />
+
+        <button type="submit" class="login-button">Login</button>
+      </form>
+      <div class="login-footer"></div>
+      <div class="admin-view">
+        <p>Have an account? <a href="login.html"> Click Here</a></p>
+      </div>
+    </section>
+  </body>
+</html>
