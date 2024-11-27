@@ -8,5 +8,6 @@ import java.util.Optional;
 public interface MechanicWorkRepository extends JpaRepository<MechanicWork, Long> {
 	Optional <MechanicWork> findByMechanicId(String mechanicId);
 	Optional<MechanicWork> findByUsernameAndPassword(String username, String password);
+	Optional<MechanicWork> findById(Long id);
 
 }
