@@ -23,7 +23,7 @@
                     if (response.ok) {
                         const user = await response.json();
                         alert(`Welcome back, ${user.firstName}!`);
-                        window.location.href = "dashboard.html"; // Redirect to dashboard
+                        window.location.href = "index.html"; // Redirect to dashboard
                     } else if (response.status === 401) {
                         alert("Invalid email or password. Please try again.");
                     } else {

@@ -50,7 +50,7 @@
             cursor: pointer;
         }
 
-        .mechanic-card {
+        .mechanic-card, .appointments-section {
             max-width: 400px;
             margin: 0 auto;
             background: #fff;
@@ -58,15 +58,16 @@
             border-radius: 8px;
             padding: 15px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
         }
 
-        .mechanic-card h3 {
+        .mechanic-card h3, .appointments-section h3 {
             margin: 0 0 10px;
             font-size: 1.25rem;
             color: #333;
         }
 
-        .mechanic-card p {
+        .mechanic-card p, .appointments-section p {
             margin: 5px 0;
             font-size: 0.9rem;
             color: #666;
@@ -89,6 +90,16 @@
         .actions button:disabled {
             background-color: #ccc;
             cursor: not-allowed;
+        }
+
+        .logout-button {
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -116,14 +127,34 @@
                 <button class="clock-out" onclick="clockOut()">Clock Out</button>
             </div>
         </div>
+
+        <div class="appointments-section" id="appointmentsSection" style="display: none;">
+            <h3>Upcoming Appointments</h3>
+            <ul id="appointmentsList">
+                <!-- Appointments will be dynamically populated here -->
+            </ul>
+        </div>
+
+        <button class="logout-button" id="logoutButton" style="display: none;" onclick="logoutMechanic()">Logout</button>
     </div>
 
     <script>
         let mechanicId;
 
-        async function loginMechanic() {
-            const username = document.getElementById("username").value;
-            const password = document.getElementById("password").value;
+        window.onload = () => {
+            const savedUsername = localStorage.getItem("mechanicUsername");
+            const savedPassword = localStorage.getItem("mechanicPassword");
+
+            if (savedUsername && savedPassword) {
+                loginMechanic(savedUsername, savedPassword);
+            }
+        };
+
+        async function loginMechanic(username, password) {
+            if (!username || !password) {
+                username = document.getElementById("username").value;
+                password = document.getElementById("password").value;
+            }
 
             try {
                 const response = await fetch("http://localhost:8080/api/mechanics/login", {
@@ -133,28 +164,51 @@
                 });
 
                 if (!response.ok) {
-                    if (response.status === 401) {
-                        alert("Login failed: Incorrect username or password.");
-                    } else {
-                        alert("Login failed: An error occurred. Please try again.");
-                    }
+                    alert("Login failed. Please check your credentials.");
                     return;
                 }
 
                 const mechanic = await response.json();
                 mechanicId = mechanic.id;
 
+                localStorage.setItem("mechanicUsername", username);
+                localStorage.setItem("mechanicPassword", password);
+
                 document.getElementById("loginSection").style.display = "none";
                 document.getElementById("mechanicCard").style.display = "block";
+                document.getElementById("appointmentsSection").style.display = "block";
+                document.getElementById("logoutButton").style.display = "block";
 
                 document.getElementById("mechanicFullName").innerText = mechanic.mechanicName;
                 document.getElementById("mechanicId").innerText = mechanic.mechanicId;
                 document.getElementById("hourlyRate").innerText = mechanic.hourlyRate.toFixed(2);
                 document.getElementById("hoursWorked").innerText = mechanic.hoursWorked.toFixed(2);
                 document.getElementById("grossSalary").innerText = (mechanic.hourlyRate * mechanic.hoursWorked).toFixed(2);
+
+                fetchAppointments();
             } catch (error) {
-                alert("Login failed: Unable to connect to the server.");
                 console.error("Login error:", error);
+                alert("An error occurred during login.");
+            }
+        }
+
+        async function fetchAppointments() {
+            try {
+                const response = await fetch(`http://localhost:8080/api/appointments/${mechanicId}`);
+                if (!response.ok) throw new Error("Failed to fetch appointments");
+
+                const appointments = await response.json();
+                const appointmentsList = document.getElementById("appointmentsList");
+                appointmentsList.innerHTML = ""; 
+
+                appointments.forEach(app => {
+                    const li = document.createElement("li");
+                    li.textContent = `Date: ${app.date}, Time: ${app.time}, Service: ${app.service}`;
+                    appointmentsList.appendChild(li);
+                });
+            } catch (error) {
+                console.error("Error loading appointments:", error);
+                alert("Failed to load appointments.");
             }
         }
 
@@ -167,10 +221,10 @@
                 if (!response.ok) throw new Error("Clock-in failed");
 
                 alert("Clock-in successful!");
-                loginMechanic(); // Refresh mechanic data
+                fetchAppointments();
             } catch (error) {
-                alert("Clock-in failed. Please try again.");
                 console.error("Clock-in error:", error);
+                alert("Clock-in failed.");
             }
         }
 
@@ -183,11 +237,23 @@
                 if (!response.ok) throw new Error("Clock-out failed");
 
                 alert("Clock-out successful!");
-                loginMechanic(); // Refresh mechanic data
+                fetchAppointments();
             } catch (error) {
-                alert("Clock-out failed. Please try again.");
                 console.error("Clock-out error:", error);
+                alert("Clock-out failed.");
             }
+        }
+
+        function logoutMechanic() {
+            localStorage.removeItem("mechanicUsername");
+            localStorage.removeItem("mechanicPassword");
+
+            document.getElementById("loginSection").style.display = "block";
+            document.getElementById("mechanicCard").style.display = "none";
+            document.getElementById("appointmentsSection").style.display = "none";
+            document.getElementById("logoutButton").style.display = "none";
+
+            alert("You have been logged out.");
         }
     </script>
 </body>

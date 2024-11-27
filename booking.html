@@ -6,9 +6,125 @@
     <title>Book Your Appointment | Automobile Avengers</title>
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="media-queries.css" />
+    <script>
+      async function fetchMechanics() {
+        try {
+          const response = await fetch("http://localhost:8080/api/mechanics");
+          if (!response.ok) throw new Error("Failed to fetch mechanics");
+
+          const mechanics = await response.json();
+          const mechanicDropdown = document.getElementById("mechanic");
+
+          mechanics.forEach((mechanic) => {
+            const option = document.createElement("option");
+            option.value = mechanic.id;
+            option.textContent = mechanic.mechanicName;
+            mechanicDropdown.appendChild(option);
+          });
+        } catch (error) {
+          console.error("Error fetching mechanics:", error);
+          alert("Failed to load mechanics");
+        }
+      }
+
+      async function populateAvailableTimes() {
+        const mechanicId = document.getElementById("mechanic").value;
+        const date = document.getElementById("date").value;
+
+        if (!mechanicId || !date) {
+          console.warn("Mechanic or date is not selected yet.");
+          return;
+        }
+
+        try {
+          const response = await fetch(
+            `http://localhost:8080/api/appointments/available-times?mechanicId=${mechanicId}&date=${date}`
+          );
+          if (!response.ok) throw new Error("Failed to fetch available times");
+
+          const availableTimes = await response.json();
+          const timeDropdown = document.getElementById("time");
+          timeDropdown.innerHTML = '<option value="" disabled selected>SELECT</option>';
+
+          availableTimes.forEach((time) => {
+            const option = document.createElement("option");
+            option.value = time;
+            option.textContent = time;
+            timeDropdown.appendChild(option);
+          });
+        } catch (error) {
+          console.error("Error fetching available times:", error);
+          alert("Failed to load available times");
+        }
+      }
+
+      function validateDate() {
+        const dateInput = document.getElementById("date");
+        const selectedDate = new Date(dateInput.value);
+        const day = selectedDate.getDay();
+
+        if (day === 0 || day === 6) {
+          alert("Weekends are not allowed. Please select a weekday.");
+          dateInput.value = "";
+        }
+      }
+
+      async function bookAppointment() {
+        const mechanicId = document.getElementById("mechanic").value;
+        const mechanicName = document.getElementById("mechanic").selectedOptions[0]?.textContent || "";
+        const time = document.getElementById("time").value;
+        const date = document.getElementById("date").value;
+        const make = document.getElementById("make").value;
+        const model = document.getElementById("model").value;
+        const service = document.getElementById("service").value;
+        const email = document.getElementById("email").value;
+
+        if (!mechanicId || !mechanicName || !time || !date || !make || !model || !service || !email) {
+          alert("Please fill out all fields");
+          return;
+        }
+
+        try {
+          const response = await fetch("http://localhost:8080/api/appointments", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              mechanicId,
+              mechanicName,
+              time,
+              date,
+              make,
+              model,
+              service,
+              customerEmail: email,
+            }),
+          });
+
+          if (!response.ok) throw new Error("Failed to book appointment");
+          alert("Appointment booked successfully");
+          window.location.href = "servicestatus.html";
+        } catch (error) {
+          console.error("Error booking appointment:", error);
+          alert("Failed to book appointment");
+        }
+      }
+
+      window.onload = () => {
+        fetchMechanics();
+        document.getElementById("mechanic").addEventListener("change", () => {
+          const date = document.getElementById("date").value;
+          if (date) populateAvailableTimes();
+        });
+
+        document.getElementById("date").addEventListener("change", () => {
+          validateDate();
+          const mechanic = document.getElementById("mechanic").value;
+          if (mechanic) populateAvailableTimes();
+        });
+      };
+    </script>
   </head>
-  <script src="auth.js"></script>
-  <body class="requires-auth">
+  <body>
     <!-- Header -->
     <header class="header">
       <nav class="nav">
@@ -22,12 +138,6 @@
             <a href="servicestatus.html" class="nav_link">Service Status</a>
           </li>
         </ul>
-        <div id="authButtons">
-          <button id="loginButton" class="login_button">Login</button>
-          <button id="logoutButton" class="login_button" style="display: none">
-            Logout
-          </button>
-        </div>
       </nav>
     </header>
 
@@ -35,79 +145,42 @@
     <section class="booking-section">
       <h1>Book your appointment:</h1>
       <form class="booking-form">
-        <label for="service">Service:</label>
-        <select id="service" name="service">
+        <label for="mechanic">Mechanic:</label>
+        <select id="mechanic" name="mechanic" required>
           <option value="" disabled selected>SELECT</option>
-          <option value="oil-change">Oil Change</option>
-          <option value="tire-replacement">Tire Replacement</option>
-          <option value="tire-rotation">Tire Rotation</option>
-          <option value="spark-plug">Spark plug</option>
-          <option value="engine-filter">Engine Filter</option>
-          <option value="brake-replacement">Brake Replacement</option>
         </select>
 
         <label for="date">Date:</label>
         <input type="date" id="date" name="date" required />
 
         <label for="time">Time:</label>
-        <select id="time" name="time">
+        <select id="time" name="time" required>
           <option value="" disabled selected>SELECT</option>
-          <option value="9am">9:00 AM</option>
-          <option value="11am">11:00 AM</option>
-          <option value="1pm">1:00 PM</option>
         </select>
 
-        <label for="mechanic">Mechanic:</label>
-        <select id="mechanic" name="mechanic">
+        <label for="service">Service:</label>
+        <select id="service" name="service" required>
           <option value="" disabled selected>SELECT</option>
-          <option value="john-doe">John Doe</option>
-          <option value="jane-smith">Jane Smith</option>
-        </select>
-
-        <label for="vin">VIN:</label>
-        <input
-          type="text"
-          id="vin"
-          name="vin"
-          placeholder="Enter VIN"
-          required
-        />
-
-        <label for="model">Model:</label>
-        <select id="model" name="model">
-          <option value="" disabled selected>SELECT</option>
-          <option value="sedan">Sedan</option>
-          <option value="suv">SUV</option>
-          <option value="truck">Truck</option>
-        </select>
-
-        <label for="year">Year:</label>
-        <select id="year" name="year">
-          <option value="" disabled selected>SELECT</option>
-          <option value="2023">2023</option>
-          <option value="2022">2022</option>
-          <option value="2021">2021</option>
+          <option value="oil-change">Oil Change</option>
+          <option value="tire-replacement">Tire Replacement</option>
+          <option value="tire-rotation">Tire Rotation</option>
+          <option value="spark-plug">Spark Plug</option>
+          <option value="engine-filter">Engine Filter</option>
+          <option value="brake-replacement">Brake Replacement</option>
         </select>
 
         <label for="make">Make:</label>
-        <select id="make" name="make">
-          <option value="" disabled selected>SELECT</option>
-          <option value="toyota">Toyota</option>
-          <option value="honda">Honda</option>
-          <option value="ford">Ford</option>
-        </select>
+        <input type="text" id="make" name="make" placeholder="Enter Make" required />
 
-        <label for="license">License Plate #:</label>
-        <input
-          type="text"
-          id="license"
-          name="license"
-          placeholder="Enter License Plate #"
-          required
-        />
+        <label for="model">Model:</label>
+        <input type="text" id="model" name="model" placeholder="Enter Model" required />
 
-        <button type="submit" class="submit-button">Submit</button>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" placeholder="Enter Email" required />
+
+        <button type="button" class="submit-button" onclick="bookAppointment()">Submit</button>
       </form>
     </section>
   </body>
 </html>
+

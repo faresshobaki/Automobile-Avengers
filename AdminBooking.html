@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Bookings</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .appointment-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .appointment-table th, .appointment-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .appointment-table th {
+            background-color: #333;
+            color: white;
+        }
+
+        .cancel-button {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .cancel-button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        Admin Booking Management
+    </div>
+
+    <div class="container">
+        <h2>Upcoming Appointments</h2>
+        <table class="appointment-table" id="appointmentTable">
+            <thead>
+                <tr>
+                    <th>Appointment ID</th>
+                    <th>Customer Email</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Service</th>
+                    <th>Mechanic</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Appointment rows will be dynamically populated -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        async function fetchAppointments() {
+            try {
+                const response = await fetch("http://localhost:8080/api/admin/appointments");
+                if (!response.ok) throw new Error("Failed to fetch appointments.");
+
+                const appointments = await response.json();
+                const tableBody = document.getElementById("appointmentTable").querySelector("tbody");
+
+                tableBody.innerHTML = ""; // Clear the table
+
+                appointments.forEach(appointment => {
+                    const row = document.createElement("tr");
+
+                    row.innerHTML = `
+                        <td>${appointment.id}</td>
+                        <td>${appointment.customerEmail}</td>
+                        <td>${appointment.date}</td>
+                        <td>${appointment.time}</td>
+                        <td>${appointment.service}</td>
+                        <td>${appointment.mechanicName}</td>
+                        <td>
+                            <button class="cancel-button" onclick="cancelAppointment(${appointment.id})">Cancel</button>
+                        </td>
+                    `;
+
+                    tableBody.appendChild(row);
+                });
+            } catch (error) {
+                console.error("Error fetching appointments:", error);
+                alert("Failed to load appointments.");
+            }
+        }
+
+        async function cancelAppointment(appointmentId) {
+            const reason = prompt("Please enter the reason for cancellation:");
+
+            if (!reason) {
+                alert("Cancellation reason is required.");
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://localhost:8080/api/admin/appointments/${appointmentId}/cancel`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ reason })
+                });
+
+                if (!response.ok) throw new Error("Failed to cancel appointment.");
+
+                alert("Appointment cancelled successfully.");
+                fetchAppointments(); // Refresh the table
+            } catch (error) {
+                console.error("Error cancelling appointment:", error);
+                alert("Failed to cancel the appointment.");
+            }
+        }
+
+        // Load appointments on page load
+        window.onload = fetchAppointments;
+    </script>
+</body>
+</html>
+
