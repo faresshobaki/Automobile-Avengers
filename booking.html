@@ -1,99 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Book Your Appointment | Automobile Avengers</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="media-queries.css">
-</head>
-<script src="auth.js"></script>
-<body class="requires-auth">
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="media-queries.css" />
+  </head>
+  <script src="auth.js"></script>
+  <body class="requires-auth">
     <!-- Header -->
     <header class="header">
-        <nav class="nav">
-            <a href="index.html" class="nav_logo">AutomobileAvengers</a>
-            <ul class="nav_items">
-                <li class="nav_item">
-                    <a href="booking.html" class="nav_link">Booking</a>
-                    <a href="mechanics.html" class="nav_link">Mechanics</a>
-                    <a href="services.html" class="nav_link">Services</a>
-                    <a href="promotions.html" class="nav_link">Promotions</a>
-                    <a href="servicestatus.html" class="nav_link">Service Status</a>
-                </li>
-            </ul>
-            <div id="authButtons">
-                <button id="loginButton" class="login_button">Login</button>
-                <button id="logoutButton" class="login_button" style="display: none;">Logout</button>
-            </div>
-        </nav>
+      <nav class="nav">
+        <a href="index.html" class="nav_logo">AutomobileAvengers</a>
+        <ul class="nav_items">
+          <li class="nav_item">
+            <a href="booking.html" class="nav_link">Booking</a>
+            <a href="mechanics.html" class="nav_link">Mechanics</a>
+            <a href="services.html" class="nav_link">Services</a>
+            <a href="promotions.html" class="nav_link">Promotions</a>
+            <a href="servicestatus.html" class="nav_link">Service Status</a>
+          </li>
+        </ul>
+        <div id="authButtons">
+          <button id="loginButton" class="login_button">Login</button>
+          <button id="logoutButton" class="login_button" style="display: none">
+            Logout
+          </button>
+        </div>
+      </nav>
     </header>
 
     <!-- Booking Section -->
     <section class="booking-section">
-        <h1>Book your appointment:</h1>
-        <form class="booking-form">
-            <label for="service">Service:</label>
-            <select id="service" name="service">
-                <option value="" disabled selected>SELECT</option>
-                <option value="oil-change">Oil Change</option>
-                <option value="tire-replacement">Tire Replacement</option>
-                <option value="tire-rotation">Tire Rotation</option>
-                <option value="spark-plug">Spark plug</option>
-                <option value="engine-filter">Engine Filter</option>
-                <option value="brake-replacement">Brake Replacement</option>
-            </select>
+      <h1>Book your appointment:</h1>
+      <form class="booking-form">
+        <label for="service">Service:</label>
+        <select id="service" name="service">
+          <option value="" disabled selected>SELECT</option>
+          <option value="oil-change">Oil Change</option>
+          <option value="tire-replacement">Tire Replacement</option>
+          <option value="tire-rotation">Tire Rotation</option>
+          <option value="spark-plug">Spark plug</option>
+          <option value="engine-filter">Engine Filter</option>
+          <option value="brake-replacement">Brake Replacement</option>
+        </select>
 
-            <label for="date">Date:</label>
-            <input type="date" id="date" name="date" required>
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" required />
 
-            <label for="time">Time:</label>
-            <select id="time" name="time">
-                <option value="" disabled selected>SELECT</option>
-                <option value="9am">9:00 AM</option>
-                <option value="11am">11:00 AM</option>
-                <option value="1pm">1:00 PM</option>
-            </select>
+        <label for="time">Time:</label>
+        <select id="time" name="time">
+          <option value="" disabled selected>SELECT</option>
+          <option value="9am">9:00 AM</option>
+          <option value="11am">11:00 AM</option>
+          <option value="1pm">1:00 PM</option>
+        </select>
 
-            <label for="mechanic">Mechanic:</label>
-            <select id="mechanic" name="mechanic">
-                <option value="" disabled selected>SELECT</option>
-                <option value="john-doe">John Doe</option>
-                <option value="jane-smith">Jane Smith</option>
-            </select>
+        <label for="mechanic">Mechanic:</label>
+        <select id="mechanic" name="mechanic">
+          <option value="" disabled selected>SELECT</option>
+          <option value="john-doe">John Doe</option>
+          <option value="jane-smith">Jane Smith</option>
+        </select>
 
-            <label for="vin">VIN:</label>
-            <input type="text" id="vin" name="vin" placeholder="Enter VIN" required>
+        <label for="vin">VIN:</label>
+        <input
+          type="text"
+          id="vin"
+          name="vin"
+          placeholder="Enter VIN"
+          required
+        />
 
-            <label for="model">Model:</label>
-            <select id="model" name="model">
-                <option value="" disabled selected>SELECT</option>
-                <option value="sedan">Sedan</option>
-                <option value="suv">SUV</option>
-                <option value="truck">Truck</option>
-            </select>
+        <label for="model">Model:</label>
+        <select id="model" name="model">
+          <option value="" disabled selected>SELECT</option>
+          <option value="sedan">Sedan</option>
+          <option value="suv">SUV</option>
+          <option value="truck">Truck</option>
+        </select>
 
-            <label for="year">Year:</label>
-            <select id="year" name="year">
-                <option value="" disabled selected>SELECT</option>
-                <option value="2023">2023</option>
-                <option value="2022">2022</option>
-                <option value="2021">2021</option>
-            </select>
+        <label for="year">Year:</label>
+        <select id="year" name="year">
+          <option value="" disabled selected>SELECT</option>
+          <option value="2023">2023</option>
+          <option value="2022">2022</option>
+          <option value="2021">2021</option>
+        </select>
 
-            <label for="make">Make:</label>
-            <select id="make" name="make">
-                <option value="" disabled selected>SELECT</option>
-                <option value="toyota">Toyota</option>
-                <option value="honda">Honda</option>
-                <option value="ford">Ford</option>
-            </select>
+        <label for="make">Make:</label>
+        <select id="make" name="make">
+          <option value="" disabled selected>SELECT</option>
+          <option value="toyota">Toyota</option>
+          <option value="honda">Honda</option>
+          <option value="ford">Ford</option>
+        </select>
 
-            <label for="license">License Plate #:</label>
-            <input type="text" id="license" name="license" placeholder="Enter License Plate #" required>
+        <label for="license">License Plate #:</label>
+        <input
+          type="text"
+          id="license"
+          name="license"
+          placeholder="Enter License Plate #"
+          required
+        />
 
-            <button type="submit" class="submit-button">Submit</button>
-        </form>
+        <button type="submit" class="submit-button">Submit</button>
+      </form>
     </section>
-</body>
+  </body>
 </html>

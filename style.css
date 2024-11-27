@@ -500,5 +500,10 @@ a {
     font-size: 25px;
 }
 
+.promotions-title {
+    margin-left: 300px; /* Centers the text horizontally */
+    margin-top: 50px; /* Adjust top margin for spacing */
+    margin-bottom: 20px; /* Adjust bottom margin for spacing */
+}
 
 
