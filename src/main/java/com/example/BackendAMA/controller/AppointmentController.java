@@ -48,7 +48,7 @@ public class AppointmentController {
             return ResponseEntity.internalServerError().build();
         }
     }
-    @GetMapping("/admin/appointment")
+    @GetMapping("/admin/appointments")
     public ResponseEntity<List<Appointment>> getAllAppointments() {
         List<Appointment> appointments = appointmentService.getAllAppointments();
         return ResponseEntity.ok(appointments);
