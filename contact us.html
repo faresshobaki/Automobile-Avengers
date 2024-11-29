@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | Automobile Avengers</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="media-queries.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+        }
+        header {
+            background-color: black;
+            padding: 10px 20px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        header .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        header nav a {
+            color: white;
+            margin-left: 15px;
+            text-decoration: none;
+            font-size: 1rem;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            margin-top: 120px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        .form-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .form {
+            flex: 1 1 45%;
+            margin-right: 20px;
+        }
+        .form input, .form textarea {
+            width: 100%;
+            margin-bottom: 15px;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .form textarea {
+            height: 100px;
+        }
+        .form button {
+            width: 100%;
+            padding: 10px;
+            background-color: black;
+            color: white;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .form button:hover {
+            background-color: #333;
+        }
+        .info-box {
+            flex: 1 1 45%;
+            margin-top: 20px;
+        }
+        .info-section {
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            color: black;
+        }
+        .info-section h2 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: black;
+        }
+        .info-section p {
+            margin: 5px 0;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <a href="index.html" class="nav_logo">AutomobileAvengers</a>
+            <ul class="nav_items">
+                <li class="nav_item">
+                    <a href="booking.html" class="nav_link">Booking</a>
+                    <a href="mechanics.html" class="nav_link">Mechanics</a>
+                    <a href="services.html" class="nav_link">Services</a>
+                    <a href="promotions.html" class="nav_link">Promotions</a>
+                    <a href="servicestatus.html" class="nav_link">Service Status</a>
+                </li>
+            </ul>
+            <div id="authButtons">
+                <button id="loginButton" class="login_button">Login</button>
+                <button id="logoutButton" class="login_button" style="display: none;">Logout</button>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <h1>Contact Us</h1>
+        <div class="form-container">
+            <!-- Left Form Section -->
+            <div class="form">
+                <form id="contactForm">
+                    <input type="text" name="first_name" id="firstName" placeholder="First name" required>
+                    <input type="text" name="last_name" id="lastName" placeholder="Last name" required>
+                    <input type="email" name="email" id="email" placeholder="Email" required>
+                    <textarea name="message" id="message" placeholder="Message"></textarea>
+                    <button type="submit">Send</button>
+                </form>
+            </div>
+
+            <!-- Right Info Section -->
+            <div class="info-box">
+                <div class="info-section">
+                    <h2>Hours Of Operation</h2>
+                    <p>Monday-Friday: 8AM - 5PM</p>
+                    <p>Saturday-Sunday: 9AM - 6PM</p>
+                </div>
+                <div class="info-section">
+                    <h2>Address</h2>
+                    <p>1111 Street Dr.</p>
+                    <p>Folsom, CA 95630</p>
+                    <p>916-916-9166</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("contactForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const contactData = {
+                first_name: document.getElementById("firstName").value,
+                last_name: document.getElementById("lastName").value,
+                email: document.getElementById("email").value,
+                message: document.getElementById("message").value,
+            };
+
+            try {
+                const response = await fetch("http://localhost:8080/api/contact", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(contactData),
+                });
+
+                if (response.ok) {
+                    alert("Your message has been sent successfully!");
+                    document.getElementById("contactForm").reset();
+                } else {
+                    alert("Failed to send your message. Please try again.");
+                }
+            } catch (error) {
+                console.error("Error sending contact message:", error);
+                alert("An error occurred. Please try again later.");
+            }
+        });
+    </script>
+</body>
+</html>
