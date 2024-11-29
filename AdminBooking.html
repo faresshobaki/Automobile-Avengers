@@ -1,153 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Bookings</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
+  <meta charset="UTF-8">
+  <title>Admin Bookings - Calendar View</title>
+  <script src="adminbooking.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .calendar-container {
+      margin: 40px auto;
+      max-width: 1200px;
+      display: flex;
+      gap: 20px;
+    }
 
-        .navbar {
-            background-color: #333;
-            color: white;
-            padding: 1rem;
-            text-align: center;
-            font-size: 1.5rem;
-        }
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: 100px repeat(7, 1fr);
+      gap: 1px;
+      background-color: #ddd;
+      flex: 3;
+    }
 
-        .container {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
+    .time-slot, .day-header {
+      background-color: #f4f4f4;
+      font-weight: bold;
+      text-align: center;
+      padding: 10px;
+      border: 1px solid #ddd;
+    }
 
-        .appointment-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
+    .booking-item {
+      background-color: #007bff;
+      color: white;
+      margin: 5px auto;
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 14px;
+      cursor: pointer;
+    }
 
-        .appointment-table th, .appointment-table td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
+    .booking-item:hover {
+      background-color: #0056b3;
+    }
 
-        .appointment-table th {
-            background-color: #333;
-            color: white;
-        }
+    .details-panel {
+      flex: 1;
+      background-color: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 20px;
+    }
 
-        .cancel-button {
-            background-color: #dc3545;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+    .details-panel h3 {
+      margin-top: 0;
+    }
 
-        .cancel-button:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-        }
-    </style>
+    .details-panel p {
+      margin: 10px 0;
+    }
+
+    .cancel-button {
+      background: red;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .cancel-button:hover {
+      background: darkred;
+    }
+  </style>
 </head>
 <body>
-    <div class="navbar">
-        Admin Booking Management
+  <div class="calendar-container">
+    <div class="calendar-grid" id="calendarGrid"></div>
+    <div class="details-panel" id="detailsPanel">
+      <h3>Appointment Details</h3>
+      <p id="detailsContent">Click on an appointment to see details.</p>
+      <button id="cancelButton" class="cancel-button" style="display: none;">Cancel Appointment</button>
     </div>
-
-    <div class="container">
-        <h2>Upcoming Appointments</h2>
-        <table class="appointment-table" id="appointmentTable">
-            <thead>
-                <tr>
-                    <th>Appointment ID</th>
-                    <th>Customer Email</th>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>Service</th>
-                    <th>Mechanic</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Appointment rows will be dynamically populated -->
-            </tbody>
-        </table>
-    </div>
-
-    <script>
-        async function fetchAppointments() {
-            try {
-                const response = await fetch("http://localhost:8080/api/appointments/admin/appointments");
-                if (!response.ok) throw new Error("Failed to fetch appointments.");
-
-                const appointments = await response.json();
-                const tableBody = document.getElementById("appointmentTable").querySelector("tbody");
-
-                tableBody.innerHTML = ""; // Clear the table
-
-                appointments.forEach(appointment => {
-                    const row = document.createElement("tr");
-
-                    row.innerHTML = `
-                        <td>${appointment.id}</td>
-                        <td>${appointment.customerEmail}</td>
-                        <td>${appointment.date}</td>
-                        <td>${appointment.time}</td>
-                        <td>${appointment.service}</td>
-                        <td>${appointment.mechanicName}</td>
-                        <td>
-                            <button class="cancel-button" onclick="cancelAppointment(${appointment.id})">Cancel</button>
-                        </td>
-                    `;
-
-                    tableBody.appendChild(row);
-                });
-            } catch (error) {
-                console.error("Error fetching appointments:", error);
-                alert("Failed to load appointments.");
-            }
-        }
-
-        async function cancelAppointment(appointmentId) {
-            const reason = prompt("Please enter the reason for cancellation:");
-
-            if (!reason) {
-                alert("Cancellation reason is required.");
-                return;
-            }
-
-            try {
-                const response = await fetch(`http://localhost:8080/api/admin/appointments/${appointmentId}/cancel`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ reason })
-                });
-
-                if (!response.ok) throw new Error("Failed to cancel appointment.");
-
-                alert("Appointment cancelled successfully.");
-                fetchAppointments(); // Refresh the table
-            } catch (error) {
-                console.error("Error cancelling appointment:", error);
-                alert("Failed to cancel the appointment.");
-            }
-        }
-
-        // Load appointments on page load
-        window.onload = fetchAppointments;
-    </script>
+  </div>  
 </body>
 </html>
-
