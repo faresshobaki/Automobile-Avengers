@@ -12,8 +12,8 @@
         <ul class="nav_items">
             <li class="nav_item">
                 <a href="Dashboard.html" class="nav_link">Dashboard</a>
-                <a href="mechanicsView.html" class="nav_link">Mechanics</a>
-                <a href="Bookings.html" class="nav_link">Bookings</a>
+                <a href="mechanicsadminview.html" class="nav_link">Mechanics</a>
+                <a href="AdminBooking.html" class="nav_link">Bookings</a>
             </li>
         </ul>
         <div id="authButtons">
@@ -23,18 +23,26 @@
     </nav>
   </header>
   <div class="calendar-container">
-    <h1>Current Bookings</h1>
-    <div class="calendar-navigation">
-      <button id="prevWeek">← Previous Week</button>
-      <button id="nextWeek">Next Week →</button>
+    <div>
+      <h1>Current Bookings</h1>
+      <div class="calendar-navigation">
+        <button id="prevWeek">← Previous Week</button>
+        <button id="nextWeek">Next Week →</button>
+      </div>
+      <!-- Calendar Section -->
+      <div class="calendar-grid" id="calendarGrid">
+        <!-- Calendar content will be dynamically loaded here -->
+      </div>
     </div>
-    <div class="calendar-grid" id="calendarGrid">
-      <!-- Calendar content will be rendered here -->
-    </div>
+  
+    <!-- Details Panel Section -->
     <div class="details-panel" id="detailsPanel">
       <h3>Appointment Details</h3>
       <p id="detailsContent">Click on an appointment to see details.</p>
       <button id="cancelBtn" class="cancel-button" style="display: none;">Cancel Appointment</button>
+    </div>
+  </div>
+  
   <script src="adminbooking.js"></script>
 </body>
 </html>

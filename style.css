@@ -538,7 +538,7 @@ a {
   }
   
   .calendar-navigation button {
-    background-color: #007bff;
+    background-color: #000000;
     color: white;
     border: none;
     padding: 10px 15px;
@@ -573,7 +573,7 @@ a {
   }
   
   .day-header {
-    background-color: #007bff;
+    background-color: #000000;
     color: white;
     text-align: center;
     font-weight: bold;
@@ -595,7 +595,7 @@ a {
   }
   
   .appointment {
-    background-color: #28a745;
+    background-color: #1636e7;
     color: white;
     text-align: center;
     padding: 5px 10px;
@@ -608,7 +608,7 @@ a {
   }
   
   .appointment:hover {
-    background-color: #218838;
+    background-color: #192f94;
     transform: scale(1.1); /* Slightly increase size on hover */
   }
   
