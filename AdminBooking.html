@@ -2,85 +2,39 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Admin Bookings - Calendar View</title>
-  <script src="adminbooking.js"></script>
+  <title>Admin Booking View</title>
   <link rel="stylesheet" href="style.css">
-  <style>
-    .calendar-container {
-      margin: 40px auto;
-      max-width: 1200px;
-      display: flex;
-      gap: 20px;
-    }
-
-    .calendar-grid {
-      display: grid;
-      grid-template-columns: 100px repeat(7, 1fr);
-      gap: 1px;
-      background-color: #ddd;
-      flex: 3;
-    }
-
-    .time-slot, .day-header {
-      background-color: #f4f4f4;
-      font-weight: bold;
-      text-align: center;
-      padding: 10px;
-      border: 1px solid #ddd;
-    }
-
-    .booking-item {
-      background-color: #007bff;
-      color: white;
-      margin: 5px auto;
-      padding: 10px;
-      border-radius: 5px;
-      font-size: 14px;
-      cursor: pointer;
-    }
-
-    .booking-item:hover {
-      background-color: #0056b3;
-    }
-
-    .details-panel {
-      flex: 1;
-      background-color: #f9f9f9;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      padding: 20px;
-    }
-
-    .details-panel h3 {
-      margin-top: 0;
-    }
-
-    .details-panel p {
-      margin: 10px 0;
-    }
-
-    .cancel-button {
-      background: red;
-      color: white;
-      border: none;
-      padding: 10px;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    .cancel-button:hover {
-      background: darkred;
-    }
-  </style>
 </head>
 <body>
+  <header class="header">
+    <nav class="nav">
+        <a href="adminpage.html" class="nav_logo">AutomobileAvengers</a>
+        <ul class="nav_items">
+            <li class="nav_item">
+                <a href="Dashboard.html" class="nav_link">Dashboard</a>
+                <a href="mechanicsView.html" class="nav_link">Mechanics</a>
+                <a href="Bookings.html" class="nav_link">Bookings</a>
+            </li>
+        </ul>
+        <div id="authButtons">
+            <button id="loginButton" class="login_button">Login</button>
+            <button id="logoutButton" class="login_button" style="display: none;">Logout</button>
+        </div>
+    </nav>
+  </header>
   <div class="calendar-container">
-    <div class="calendar-grid" id="calendarGrid"></div>
+    <h1>Current Bookings</h1>
+    <div class="calendar-navigation">
+      <button id="prevWeek">← Previous Week</button>
+      <button id="nextWeek">Next Week →</button>
+    </div>
+    <div class="calendar-grid" id="calendarGrid">
+      <!-- Calendar content will be rendered here -->
+    </div>
     <div class="details-panel" id="detailsPanel">
       <h3>Appointment Details</h3>
       <p id="detailsContent">Click on an appointment to see details.</p>
-      <button id="cancelButton" class="cancel-button" style="display: none;">Cancel Appointment</button>
-    </div>
-  </div>  
+      <button id="cancelBtn" class="cancel-button" style="display: none;">Cancel Appointment</button>
+  <script src="adminbooking.js"></script>
 </body>
 </html>
