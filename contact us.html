@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="media-queries.css">
     <style>
+        /* General styles */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -152,6 +153,7 @@
     </div>
 
     <script>
+        // Handle form submission
         document.getElementById("contactForm").addEventListener("submit", async (e) => {
             e.preventDefault();
 
@@ -179,6 +181,11 @@
                 console.error("Error sending contact message:", error);
                 alert("An error occurred. Please try again later.");
             }
+        });
+
+        // Make the login button functional
+        document.getElementById("loginButton").addEventListener("click", () => {
+            window.location.href = "login.html"; // Redirect to login page
         });
     </script>
 </body>
