@@ -5,37 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | Automobile Avengers</title>
     <link rel="stylesheet" href="style.css">
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            document.getElementById("loginForm").addEventListener("submit", async (e) => {
-                e.preventDefault();
-
-                const email = document.getElementById("username").value;
-                const password = document.getElementById("password").value;
-
-                try {
-                    const response = await fetch("http://localhost:8080/api/users/login", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ email, password }),
-                    });
-
-                    if (response.ok) {
-                        const user = await response.json();
-                        alert(`Welcome back, ${user.firstName}!`);
-                        window.location.href = "index.html"; // Redirect to dashboard
-                    } else if (response.status === 401) {
-                        alert("Invalid email or password. Please try again.");
-                    } else {
-                        alert("An error occurred. Please try again.");
-                    }
-                } catch (error) {
-                    console.error("Login error:", error);
-                    alert("Unable to connect to the server. Please try again later.");
-                }
-            });
-        });
-    </script>
 </head>
 <body>
     <section class="login-section">
@@ -61,7 +30,52 @@
         <div class="admin-view">
             <p>Admin? <a href="admin.html"> Click Here</a></p>
         </div>
-		<script src="login.js" defer></script>
     </section>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const loginForm = document.getElementById("loginForm");
+
+            // Ensure we intercept the form submission
+            loginForm.addEventListener("submit", async (e) => {
+                e.preventDefault(); // Prevent the default form submission
+
+                const email = document.getElementById("username").value.trim();
+                const password = document.getElementById("password").value.trim();
+
+                if (!email || !password) {
+                    alert("Please enter both email and password.");
+                    return;
+                }
+
+                try {
+                    const response = await fetch("http://localhost:8080/api/users/login", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ email, password }),
+                    });
+
+                    if (response.ok) {
+                        const user = await response.json();
+
+                        // Store user data in sessionStorage
+                        sessionStorage.setItem("authToken", user.token);
+                        sessionStorage.setItem("userName", user.firstName);
+
+                        alert(`Welcome back, ${user.firstName}!`);
+                        window.location.href = "index.html"; // Redirect to dashboard
+                    } else if (response.status === 401) {
+                        alert("Invalid email or password. Please try again.");
+                    } else {
+                        alert("An error occurred. Please try again.");
+                    }
+                } catch (error) {
+                    console.error("Login error:", error);
+                    alert("Unable to connect to the server. Please try again later.");
+                }
+            });
+        });
+    </script>
 </body>
 </html>
+
