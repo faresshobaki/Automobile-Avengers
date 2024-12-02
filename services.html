@@ -11,21 +11,59 @@
 </head>
 <script src="auth.js"></script>
 <style>
-  .services-container {
+   .services-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(3, 1fr); /* 3 cards per row */
     gap: 40px;
     max-width: 1100px;
     margin: 0 auto;
+    margin-bottom: 40px;
 }
 
-  .mechanic-card p {
-      color: #007bff;
-      font-weight: bold;
-  }
+.service-card p {
+    color: #007bff; /* Make the prices blue */
+    font-weight: bold;
+}
 
+.service-card {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+}
 
+.service-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
 
+.service-card h3 {
+    font-size: 20px;
+    margin-top: 15px;
+}
+
+.service-card p {
+    font-size: 16px;
+    margin: 10px 0 20px 0;
+}
+
+.service-card:hover {
+    transform: translateY(-5px); /* Hover effect */
+}
+
+.services-section {
+    margin-top: 60px; /* Gap from the top */
+    text-align: center; /* Center the heading */
+}
+
+h1 {
+    margin-top: 40px;
+    font-size: 32px;
+    margin-bottom: 40px;
+}
 </style>
 <body>
     <!-- Header -->
@@ -46,55 +84,58 @@
                 <button id="logoutButton" class="login_button" style="display: none;">Logout</button>
             </div>
     </header>
-    <!-- Services Section -->
-    <main class="mechanics-section">
-        <h1>Services</h1>
-        <div class="services-container">
-            <!-- Service Card 1 -->
-            <div class="mechanic-card">
-                <img src="images/assets/engine-oil.png" alt="Oil Change" style="height: 200px; width: 200px;">
-                <h3>Oil Change</h3>
-                <p>$70.99</p>
-                <a href="booking.html" class="contact-button">Book Now</a>
-            </div>
-            <!-- Service Card 2 -->
-            <div class="mechanic-card">
-                <img src="images/assets/tires.png" alt="tire-replacement" style="height: 200px; width: 200px;">
-                <h3>Tire Replacement</h3>
-                <p>$150.99 / per tire</p>
-                <a href="booking.html" class="contact-button">Book Now</a>
-            </div>
 
-            <!-- Service Card 3 -->
-            <div class="mechanic-card">
-                <img src="images/assets/tire.png" alt="Mohammed Abdullah" style="height: 200px; width: 200px;">
-                <h3>Tire Rotation</h3>
-                <p>$129.99</p>
-                <a href="booking.html" class="contact-button">Book Now</a>
-            </div>
+   <!-- Services Section -->
+   <main class="services-section">
+    <h1>Services</h1>
+    <div class="services-container">
+        <!-- Service Card 1 -->
+        <div class="service-card">
+            <img src="images/assets/engine-oil.png" alt="Oil Change" style="height: 200px; width: 200px;">
+            <h3>Oil Change</h3>
+            <p>$70.99</p>
+            <a href="booking.html" class="contact-button">Book Now</a>
+        </div>
+        <!-- Service Card 2 -->
+        <div class="service-card">
+            <img src="images/assets/tires.png" alt="tire-replacement" style="height: 200px; width: 200px;">
+            <h3>Tire Replacement</h3>
+            <p>$150.99 / per tire</p>
+            <a href="booking.html" class="contact-button">Book Now</a>
+        </div>
 
-            <!-- Service Card 4 -->
-            <div class="mechanic-card">
-                <img src="images/assets/spark-plug.png" alt="spark-plug" style="height: 200px; width: 200px;">
-                <h3>Spark Plug</h3>
-                <p>$349.99</p>
-                <a href="booking.html" class="contact-button">Book Now</a>
-            </div>
+        <!-- Service Card 3 -->
+        <div class="service-card">
+            <img src="images/assets/tire.png" alt="Tire Rotation" style="height: 200px; width: 200px;">
+            <h3>Tire Rotation</h3>
+            <p>$129.99</p>
+            <a href="booking.html" class="contact-button">Book Now</a>
+        </div>
 
-            <div class="mechanic-card">
-              <img src="images/assets/oil-filter.png" alt="Engine-filter" style="height: 200px; width: 200px;">
-              <h3>Engine Air Filter</h3>
-              <p>$4.99</p>
-              <a href="booking.html" class="contact-button">Book Now</a>
-          </div>
+        <!-- Service Card 4 -->
+        <div class="service-card">
+            <img src="images/assets/spark-plug.png" alt="Spark Plug" style="height: 200px; width: 200px;">
+            <h3>Spark Plug</h3>
+            <p>$349.99</p>
+            <a href="booking.html" class="contact-button">Book Now</a>
+        </div>
 
-          <div class="mechanic-card">
-            <img src="images/assets/disc-brake.png" alt="brake-replacement" style="height: 200px; width: 200px;">
+        <!-- Service Card 5 -->
+        <div class="service-card">
+            <img src="images/assets/oil-filter.png" alt="Engine Air Filter" style="height: 200px; width: 200px;">
+            <h3>Engine Air Filter</h3>
+            <p>$4.99</p>
+            <a href="booking.html" class="contact-button">Book Now</a>
+        </div>
+
+        <!-- Service Card 6 -->
+        <div class="service-card">
+            <img src="images/assets/disc-brake.png" alt="Brake Replacement" style="height: 200px; width: 200px;">
             <h3>Brake Replacement</h3>
             <p>$300-$500</p>
             <a href="booking.html" class="contact-button">Book Now</a>
         </div>
-        </div>
-    </main>
+    </div>
+</main>
 </body>
 </html>
