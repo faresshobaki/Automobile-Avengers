@@ -658,3 +658,53 @@ a {
       margin: 5px 0;
     }
   }
+
+  /* General Mechanics Section Styles */
+.mechanics-section {
+    padding: 2rem;
+    text-align: center;
+    background-color: #f9f9f9;
+    flex-grow: 1; /* Allow the section to grow and fill available space */
+}
+
+.mechanics-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+}
+
+.mechanic-card {
+    background: #fff;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 200px;
+}
+
+.mechanic-photo {
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+    margin-bottom: 0.5rem;
+}
+
+.mechanic-specialty {
+    font-size: 0.9rem;
+    color: #555;
+    margin-top: 0.5rem;
+}
+
+/* Ensure the page takes full height */
+body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Adjust main content to fill available space */
+main {
+    flex-grow: 1;
+}

@@ -35,29 +35,53 @@
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <p>&copy; 2024 Automobile Avengers. All rights reserved.</p>
-    </footer>
-
     <script>
         async function loadMechanics() {
+            const specialties = [
+                'Engine Repair',
+                'Brake Specialist',
+                'Transmission Expert',
+                'Electrical Systems',
+                'Oil and Lube',
+                'Suspension and Steering',
+                'Tire Specialist',
+                'Diagnostics'
+            ];
+    
+            const images = [
+                'images/assets/mechanic1.jpg',
+                'images/assets/mechanic2.jpg',
+                'images/assets/mechanic3.jpg',
+                'images/assets/mechanic4.jpg',
+            ];
+    
             try {
                 const response = await fetch('http://localhost:8080/api/mechanics');
                 const mechanics = await response.json();
                 const container = document.getElementById('mechanics-container');
-
-                container.innerHTML = ''; // Clear existing content
-
+                
+                // Clear existing content
+                container.innerHTML = '';
+    
+                // Add each mechanic's details to the page
                 mechanics.forEach(mechanic => {
+                    // Check if the specialty is already stored in localStorage
+                    let mechanicSpecialty = localStorage.getItem(mechanic.mechanicName);
+    
+                    // If not, assign a random specialty and store it
+                    if (!mechanicSpecialty) {
+                        mechanicSpecialty = specialties[Math.floor(Math.random() * specialties.length)];
+                        localStorage.setItem(mechanic.mechanicName, mechanicSpecialty);
+                    }
+    
+                    const randomImage = images[Math.floor(Math.random() * images.length)];
+    
                     const card = document.createElement('div');
                     card.className = 'mechanic-card';
                     card.innerHTML = `
-                        <img src="images/assets/mechanic_default.jpg" alt="${mechanic.mechanicName}" class="mechanic-photo">
+                        <img src="${randomImage}" alt="${mechanic.mechanicName}" class="mechanic-photo">
                         <h3>${mechanic.mechanicName}</h3>
-                        <p>Specialty: ${mechanic.specialty || 'General Services'}</p>
-                        <p>Hourly Rate: $${mechanic.hourlyRate.toFixed(2)}</p>
-                        <button class="contact-button">Contact</button>
+                        <p class="mechanic-specialty">${mechanicSpecialty}</p>
                     `;
                     container.appendChild(card);
                 });
@@ -65,9 +89,7 @@
                 console.error('Error loading mechanics:', error);
             }
         }
-
+    
         // Load mechanics on page load
         document.addEventListener('DOMContentLoaded', loadMechanics);
     </script>
-</body>
-</html>
