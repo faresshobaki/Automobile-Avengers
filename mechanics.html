@@ -8,8 +8,36 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="media-queries.css">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const authToken = sessionStorage.getItem("authToken");
+            const loginButton = document.getElementById("loginButton");
+            const logoutButton = document.getElementById("logoutButton");
+
+            // Toggle button visibility based on login state
+            if (authToken) {
+                loginButton.style.display = "none";
+                logoutButton.style.display = "inline-block";
+            } else {
+                loginButton.style.display = "inline-block";
+                logoutButton.style.display = "none";
+            }
+
+            // Handle logout
+            logoutButton.addEventListener("click", () => {
+                sessionStorage.removeItem("authToken");
+                sessionStorage.removeItem("userName");
+                alert("You have been logged out.");
+                window.location.href = "index.html"; // Redirect to homepage
+            });
+
+            // Redirect to login page
+            loginButton.addEventListener("click", () => {
+                window.location.href = "login.html";
+            });
+        });
+    </script>
 </head>
-<script src="auth.js"></script>
 <body>
     <!-- Header -->
     <header class="header">
@@ -28,7 +56,9 @@
                 <button id="loginButton" class="login_button">Login</button>
                 <button id="logoutButton" class="login_button" style="display: none;">Logout</button>
             </div>
+        </nav>
     </header>
+
     <!-- Mechanics Section -->
     <main class="mechanics-section">
         <h1>Our Team</h1>
@@ -36,7 +66,7 @@
         <div class="mechanics-container">
             <!-- Mechanic Card 1 -->
             <div class="mechanic-card">
-                <img src="images/assets/mechanic1.jpg" alt="Ibrahim Aljanabi" class="mechanic-photo">
+                <img src="images/assets/mechanic1.jpg" alt="John Doe" class="mechanic-photo">
                 <h3>John Doe</h3>
                 <p>Specialty: Engine Repair & Diagnostics</p>
                 <button class="contact-button">Contact</button>
@@ -48,18 +78,16 @@
                 <p>Specialty: Brake & Suspension Systems</p>
                 <button class="contact-button">Contact</button>
             </div>
-
             <!-- Mechanic Card 3 -->
             <div class="mechanic-card">
-                <img src="images/assets/mechanic3.jpg" alt="Mohammed Abdullah" class="mechanic-photo">
+                <img src="images/assets/mechanic3.jpg" alt="Jackson Davis" class="mechanic-photo">
                 <h3>Jackson Davis</h3>
                 <p>Specialty: Electrical & AC Systems</p>
                 <button class="contact-button">Contact</button>
             </div>
-
             <!-- Mechanic Card 4 -->
             <div class="mechanic-card">
-                <img src="images/assets/mechanic4.jpg" alt="Ahmad Ahmad Ahmad" class="mechanic-photo">
+                <img src="images/assets/mechanic4.jpg" alt="Ryan Smith" class="mechanic-photo">
                 <h3>Ryan Smith</h3>
                 <p>Specialty: Tire Services & Alignments</p>
                 <button class="contact-button">Contact</button>

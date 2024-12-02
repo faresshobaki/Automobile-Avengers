@@ -5,7 +5,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Service Status</title>
   <link rel="stylesheet" href="style.css" />
-  <script src="auth.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const authToken = sessionStorage.getItem("authToken");
+        const loginButton = document.getElementById("loginButton");
+        const logoutButton = document.getElementById("logoutButton");
+
+        // Toggle button visibility based on login state
+        if (authToken) {
+            loginButton.style.display = "none";
+            logoutButton.style.display = "inline-block";
+        } else {
+            loginButton.style.display = "inline-block";
+            logoutButton.style.display = "none";
+        }
+
+        // Handle logout
+        logoutButton.addEventListener("click", () => {
+            sessionStorage.removeItem("authToken");
+            sessionStorage.removeItem("userName");
+            alert("You have been logged out.");
+            window.location.href = "index.html"; // Redirect to homepage
+        });
+
+        // Redirect to login page
+        loginButton.addEventListener("click", () => {
+            window.location.href = "login.html";
+        });
+    });
+  </script>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -81,7 +109,7 @@
     }
   </style>
 </head>
-<body class="requires-auth">
+<body>
     <header class="header">
         <nav class="nav">
             <a href="index.html" class="nav_logo">AutomobileAvengers</a>

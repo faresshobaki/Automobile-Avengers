@@ -4,29 +4,95 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Our Mechanics - Automobile Avengers</title>
+    <title>Services - Automobile Avengers</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="media-queries.css">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <style>
+        .services-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 cards per row */
+            gap: 40px;
+            max-width: 1100px;
+            margin: 0 auto;
+            margin-bottom: 40px;
+        }
+
+        .service-card p {
+            color: #007bff; /* Make the prices blue */
+            font-weight: bold;
+        }
+
+        .service-card {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .service-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .service-card h3 {
+            font-size: 20px;
+            margin-top: 15px;
+        }
+
+        .service-card p {
+            font-size: 16px;
+            margin: 10px 0 20px 0;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px); /* Hover effect */
+        }
+
+        .services-section {
+            margin-top: 60px; /* Gap from the top */
+            text-align: center; /* Center the heading */
+        }
+
+        h1 {
+            margin-top: 40px;
+            font-size: 32px;
+            margin-bottom: 40px;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const authToken = sessionStorage.getItem("authToken");
+            const loginButton = document.getElementById("loginButton");
+            const logoutButton = document.getElementById("logoutButton");
+
+            // Toggle button visibility based on login state
+            if (authToken) {
+                loginButton.style.display = "none";
+                logoutButton.style.display = "inline-block";
+            } else {
+                loginButton.style.display = "inline-block";
+                logoutButton.style.display = "none";
+            }
+
+            // Handle logout
+            logoutButton.addEventListener("click", () => {
+                sessionStorage.removeItem("authToken");
+                sessionStorage.removeItem("userName");
+                alert("You have been logged out.");
+                window.location.href = "index.html"; // Redirect to homepage
+            });
+
+            // Redirect to login page
+            loginButton.addEventListener("click", () => {
+                window.location.href = "login.html";
+            });
+        });
+    </script>
 </head>
-<script src="auth.js"></script>
-<style>
-  .services-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 40px;
-    max-width: 1100px;
-    margin: 0 auto;
-}
-
-  .mechanic-card p {
-      color: #007bff;
-      font-weight: bold;
-  }
-
-
-
-</style>
 <body>
     <!-- Header -->
     <header class="header">
@@ -45,56 +111,60 @@
                 <button id="loginButton" class="login_button">Login</button>
                 <button id="logoutButton" class="login_button" style="display: none;">Logout</button>
             </div>
+        </nav>
     </header>
-    <!-- Services Section -->
-    <main class="mechanics-section">
-        <h1>Services</h1>
-        <div class="services-container">
-            <!-- Service Card 1 -->
-            <div class="mechanic-card">
-                <img src="images/assets/engine-oil.png" alt="Oil Change" style="height: 200px; width: 200px;">
-                <h3>Oil Change</h3>
-                <p>$70.99</p>
-                <a href="booking.html" class="contact-button">Book Now</a>
-            </div>
-            <!-- Service Card 2 -->
-            <div class="mechanic-card">
-                <img src="images/assets/tires.png" alt="tire-replacement" style="height: 200px; width: 200px;">
-                <h3>Tire Replacement</h3>
-                <p>$150.99 / per tire</p>
-                <a href="booking.html" class="contact-button">Book Now</a>
-            </div>
 
-            <!-- Service Card 3 -->
-            <div class="mechanic-card">
-                <img src="images/assets/tire.png" alt="Mohammed Abdullah" style="height: 200px; width: 200px;">
-                <h3>Tire Rotation</h3>
-                <p>$129.99</p>
-                <a href="booking.html" class="contact-button">Book Now</a>
-            </div>
+   <!-- Services Section -->
+   <main class="services-section">
+    <h1>Services</h1>
+    <div class="services-container">
+        <!-- Service Card 1 -->
+        <div class="service-card">
+            <img src="images/assets/engine-oil.png" alt="Oil Change" style="height: 200px; width: 200px;">
+            <h3>Oil Change</h3>
+            <p>$70.99</p>
+            <a href="booking.html" class="contact-button">Book Now</a>
+        </div>
+        <!-- Service Card 2 -->
+        <div class="service-card">
+            <img src="images/assets/tires.png" alt="Tire Replacement" style="height: 200px; width: 200px;">
+            <h3>Tire Replacement</h3>
+            <p>$150.99 / per tire</p>
+            <a href="booking.html" class="contact-button">Book Now</a>
+        </div>
 
-            <!-- Service Card 4 -->
-            <div class="mechanic-card">
-                <img src="images/assets/spark-plug.png" alt="spark-plug" style="height: 200px; width: 200px;">
-                <h3>Spark Plug</h3>
-                <p>$349.99</p>
-                <a href="booking.html" class="contact-button">Book Now</a>
-            </div>
+        <!-- Service Card 3 -->
+        <div class="service-card">
+            <img src="images/assets/tire.png" alt="Tire Rotation" style="height: 200px; width: 200px;">
+            <h3>Tire Rotation</h3>
+            <p>$129.99</p>
+            <a href="booking.html" class="contact-button">Book Now</a>
+        </div>
 
-            <div class="mechanic-card">
-              <img src="images/assets/oil-filter.png" alt="Engine-filter" style="height: 200px; width: 200px;">
-              <h3>Engine Air Filter</h3>
-              <p>$4.99</p>
-              <a href="booking.html" class="contact-button">Book Now</a>
-          </div>
+        <!-- Service Card 4 -->
+        <div class="service-card">
+            <img src="images/assets/spark-plug.png" alt="Spark Plug" style="height: 200px; width: 200px;">
+            <h3>Spark Plug</h3>
+            <p>$349.99</p>
+            <a href="booking.html" class="contact-button">Book Now</a>
+        </div>
 
-          <div class="mechanic-card">
-            <img src="images/assets/disc-brake.png" alt="brake-replacement" style="height: 200px; width: 200px;">
+        <!-- Service Card 5 -->
+        <div class="service-card">
+            <img src="images/assets/oil-filter.png" alt="Engine Air Filter" style="height: 200px; width: 200px;">
+            <h3>Engine Air Filter</h3>
+            <p>$4.99</p>
+            <a href="booking.html" class="contact-button">Book Now</a>
+        </div>
+
+        <!-- Service Card 6 -->
+        <div class="service-card">
+            <img src="images/assets/disc-brake.png" alt="Brake Replacement" style="height: 200px; width: 200px;">
             <h3>Brake Replacement</h3>
             <p>$300-$500</p>
             <a href="booking.html" class="contact-button">Book Now</a>
         </div>
-        </div>
-    </main>
+    </div>
+</main>
 </body>
 </html>
