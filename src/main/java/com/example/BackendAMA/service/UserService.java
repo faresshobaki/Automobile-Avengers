@@ -2,6 +2,8 @@ package com.example.BackendAMA.service;
 
 import com.example.BackendAMA.model.User;
 import com.example.BackendAMA.repository.UserRepository;
+import com.example.BackendAMA.util.JwtUtil;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -94,6 +96,11 @@ public class UserService {
         Random random = new Random();
         int code = 100000 + random.nextInt(900000); // Generates a 6-digit number
         return String.valueOf(code);
+    }
+
+    // Validates the session using JWT
+    public boolean validateSession(String token) {
+        return JwtUtil.validateToken(token);
     }
 }
 
