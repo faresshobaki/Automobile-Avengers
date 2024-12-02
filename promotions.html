@@ -1,118 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Promotions | Automobile Avengers</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <!-- Header -->
-    <header class="header">
-      <nav class="nav">
-        <a href="index.html" class="nav_logo">AutomobileAvengers</a>
-        <ul class="nav_items">
-          <li class="nav_item">
-            <a href="booking.html" class="nav_link">Booking</a>
-            <a href="mechanics.html" class="nav_link">Mechanics</a>
-            <a href="services.html" class="nav_link">Services</a>
-            <a href="promotions.html" class="nav_link">Promotions</a>
-            <a href="servicestatus.html" class="nav_link">Service Status</a>
-          </li>
-        </ul>
-        <div id="authButtons">
-          <button id="loginButton" class="login_button">Login</button>
-          <button id="logoutButton" class="login_button" style="display: none">
-            Logout
-          </button>
-        </div>
-      </nav>
-    </header>
+ <head>
+   <meta charset="UTF-8" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <title>Promotions | Automobile Avengers</title>
+   <link rel="stylesheet" href="style.css" />
+ </head>
+ <body>
+   <!-- Header -->
+   <header class="header">
+     <nav class="nav">
+       <a href="index.html" class="nav_logo">AutomobileAvengers</a>
+       <ul class="nav_items">
+         <li class="nav_item">
+           <a href="booking.html" class="nav_link">Booking</a>
+           <a href="mechanics.html" class="nav_link">Mechanics</a>
+           <a href="services.html" class="nav_link">Services</a>
+           <a href="promotions.html" class="nav_link">Promotions</a>
+           <a href="servicestatus.html" class="nav_link">Service Status</a>
+         </li>
+       </ul>
+       <div id="authButtons">
+         <button id="loginButton" class="login_button">Login</button>
+         <button id="logoutButton" class="login_button" style="display: none">
+           Logout
+         </button>
+       </div>
+     </nav>
+   </header>
 
-    <!-- Promotions Section -->
-    <section class="promotions">
-        <h1 class="promotions-title">Promotions:</h1>
-        <div class="promotions-container">
-            <!-- Promotion 1 -->
-            <div class="promotion-card">
-                <img src="images/assets/oil-change.jpg" alt="Oil Change" class="promotion-image">
-                <div class="promotion-info">
-                    <h2>Oil Change</h2>
-                    <p class="promotion-price">$10 Off</p>
-                    <p class="promotion-details">Cannot be combined with other offers</p>
-                    <button class="claim-button" onclick="redirectToBarcode()">Claim</button>
-                </div>
-            </div>
 
-            <!-- Promotion 2 -->
-            <div class="promotion-card">
-                <img src="images/assets/synthetic-oil.jpg" alt="Synthetic Oil Change" class="promotion-image">
-                <div class="promotion-info">
-                    <h2>Synthetic Oil Change</h2>
-                    <p class="promotion-price">$30 Off</p>
-                    <p class="promotion-details">Cannot be combined with other offers</p>
-                    <button class="claim-button" onclick="redirectToBarcode()">Claim</button>
-                </div>
-            </div>
+   <!-- Promotions Section -->
+   <section class="promotions">
+     <h1 class="promotions-title">Promotions:</h1>
+     <div class="promotions-container">
+       <!-- Promotion 1 -->
+       <div class="promotion-card">
+         <img src="images/assets/oil-change.jpg" alt="Oil Change" class="promotion-image" />
+         <div class="promotion-info">
+           <h2>Oil Change</h2>
+           <p class="promotion-price">$10 Off</p>
+           <p class="promotion-details">Cannot be combined with other offers</p>
+           <button class="claim-button" onclick="redirectToBarcode()">Claim</button>
+         </div>
+       </div>
 
-            <!-- Promotion 3 -->
-            <div class="promotion-card">
-                <img src="images/assets/tire-rotation.jpg" alt="Tire Rotation" class="promotion-image">
-                <div class="promotion-info">
-                    <h2>Tire Rotation</h2>
-                    <p class="promotion-price">$25 Off</p>
-                    <p class="promotion-details">Cannot be combined with other offers</p>
-                    <button class="claim-button" onclick="redirectToBarcode()">Claim</button>
-                </div>
-            </div>
-        </div>
 
-        <!-- Promotion 2 -->
-        <div class="promotion-card">
-          <img
-            src="images/assets/synthetic-oil.jpg"
-            alt="Synthetic Oil Change"
-            class="promotion-image"
-          />
-          <div class="promotion-info">
-            <h2>Synthetic Oil Change</h2>
-            <p class="promotion-price">$30 Off</p>
-            <p class="promotion-details">
-              Cannot be combined with other offers
-            </p>
-            <button class="claim-button">Claim</button>
-          </div>
-        </div>
+       <!-- Promotion 2 -->
+       <div class="promotion-card">
+         <img src="images/assets/synthetic-oil.jpg" alt="Synthetic Oil Change" class="promotion-image" />
+         <div class="promotion-info">
+           <h2>Synthetic Oil Change</h2>
+           <p class="promotion-price">$30 Off</p>
+           <p class="promotion-details">Cannot be combined with other offers</p>
+           <button class="claim-button" onclick="redirectToBarcode()">Claim</button>
+         </div>
+       </div>
 
-        <!-- Promotion 3 -->
-        <div class="promotion-card">
-          <img
-            src="images/assets/tire-rotation.jpg"
-            alt="Tire Rotation"
-            class="promotion-image"
-          />
-          <div class="promotion-info">
-            <h2>Tire Rotation</h2>
-            <p class="promotion-price">$25 Off</p>
-            <p class="promotion-details">
-              Cannot be combined with other offers
-            </p>
-            <button class="claim-button">Claim</button>
-          </div>
-        </div>
-      </div>
-    </section>
-<<<<<<< HEAD
-  </body>
+
+       <!-- Promotion 3 -->
+       <div class="promotion-card">
+         <img src="images/assets/tire-rotation.jpg" alt="Tire Rotation" class="promotion-image" />
+         <div class="promotion-info">
+           <h2>Tire Rotation</h2>
+           <p class="promotion-price">$25 Off</p>
+           <p class="promotion-details">Cannot be combined with other offers</p>
+           <button class="claim-button" onclick="redirectToBarcode()">Claim</button>
+         </div>
+       </div>
+     </div>
+   </section>
+
+
+   <script>
+     function redirectToBarcode() {
+       const randomCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+       window.location.href = `barcode.html?code=${randomCode}`;
+     }
+   </script>
+ </body>
 </html>
-=======
-
-    <script>
-        function redirectToBarcode() {
-            const randomCode = Math.random().toString(36).substring(2, 8).toUpperCase();
-            window.location.href = `barcode.html?code=${randomCode}`;
-        }
-    </script>
-</body>
-</html>
->>>>>>> 417f189975df925d1227e595c9696b4b958e1619
