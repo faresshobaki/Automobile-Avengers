@@ -48,6 +48,14 @@ public class AppointmentService {
         }
 
         appointmentRepository.save(appointment);
+        String emailContent = "Dear Customer,\n\nYour appointment has been confirmed.\n\n" +
+            "Details:\n" +
+            "Mechanic: " + appointment.getMechanicName() + "\n" +
+            "Date: " + appointment.getDate() + "\n" +
+            "Time: " + appointment.getTime() + "\n" +
+            "Service: " + appointment.getService() + "\n\n" +
+            "Thank you for choosing Automobile Avengers!";
+    emailService.sendEmail(appointment.getCustomerEmail(), "Appointment Confirmation", emailContent);
         return true;
     }
 

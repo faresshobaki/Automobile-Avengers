@@ -34,10 +34,16 @@ public class AppointmentController {
     }
 
     @PostMapping
-    public ResponseEntity<String> bookAppointment(@RequestBody Appointment appointment) {
-        appointmentService.bookAppointment(appointment);
-        return ResponseEntity.ok("Appointment booked successfully");
+public ResponseEntity<String> bookAppointment(@RequestBody Appointment appointment) {
+    boolean success = appointmentService.bookAppointment(appointment);
+
+    if (success) {
+        return ResponseEntity.ok("Appointment booked successfully. Confirmation email sent.");
+    } else {
+        return ResponseEntity.badRequest().body("Appointment slot is already booked.");
     }
+}
+
 
     @GetMapping("/{mechanicId}")
     public ResponseEntity<List<Appointment>> getAppointmentsByMechanic(@PathVariable Long mechanicId) {
