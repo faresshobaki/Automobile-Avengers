@@ -52,10 +52,13 @@
                     <a href="servicestatus.html" class="nav_link">Service Status</a>
                 </li>
             </ul>
+<<<<<<< HEAD
             <div id="authButtons">
                 <button id="loginButton" class="login_button">Login</button>
                 <button id="logoutButton" class="login_button" style="display: none;">Logout</button>
             </div>
+=======
+>>>>>>> b6cdb2ca72b98f762fa440815011685bef708729
         </nav>
     </header>
 
@@ -63,6 +66,7 @@
     <main class="mechanics-section">
         <h1>Our Team</h1>
         <p>Our team of skilled professionals is here to provide the best care for your vehicle.</p>
+<<<<<<< HEAD
         <div class="mechanics-container">
             <!-- Mechanic Card 1 -->
             <div class="mechanic-card">
@@ -101,3 +105,68 @@
     </footer>
 </body>
 </html>
+=======
+        <div class="mechanics-container" id="mechanics-container">
+            <!-- Mechanics will be dynamically loaded here -->
+        </div>
+    </main>
+
+    <script>
+        async function loadMechanics() {
+            const specialties = [
+                'Engine Repair',
+                'Brake Specialist',
+                'Transmission Expert',
+                'Electrical Systems',
+                'Oil and Lube',
+                'Suspension and Steering',
+                'Tire Specialist',
+                'Diagnostics'
+            ];
+    
+            const images = [
+                'images/assets/mechanic1.jpg',
+                'images/assets/mechanic2.jpg',
+                'images/assets/mechanic3.jpg',
+                'images/assets/mechanic4.jpg',
+            ];
+    
+            try {
+                const response = await fetch('http://localhost:8080/api/mechanics');
+                const mechanics = await response.json();
+                const container = document.getElementById('mechanics-container');
+                
+                // Clear existing content
+                container.innerHTML = '';
+    
+                // Add each mechanic's details to the page
+                mechanics.forEach(mechanic => {
+                    // Check if the specialty is already stored in localStorage
+                    let mechanicSpecialty = localStorage.getItem(mechanic.mechanicName);
+    
+                    // If not, assign a random specialty and store it
+                    if (!mechanicSpecialty) {
+                        mechanicSpecialty = specialties[Math.floor(Math.random() * specialties.length)];
+                        localStorage.setItem(mechanic.mechanicName, mechanicSpecialty);
+                    }
+    
+                    const randomImage = images[Math.floor(Math.random() * images.length)];
+    
+                    const card = document.createElement('div');
+                    card.className = 'mechanic-card';
+                    card.innerHTML = `
+                        <img src="${randomImage}" alt="${mechanic.mechanicName}" class="mechanic-photo">
+                        <h3>${mechanic.mechanicName}</h3>
+                        <p class="mechanic-specialty">${mechanicSpecialty}</p>
+                    `;
+                    container.appendChild(card);
+                });
+            } catch (error) {
+                console.error('Error loading mechanics:', error);
+            }
+        }
+    
+        // Load mechanics on page load
+        document.addEventListener('DOMContentLoaded', loadMechanics);
+    </script>
+>>>>>>> b6cdb2ca72b98f762fa440815011685bef708729
