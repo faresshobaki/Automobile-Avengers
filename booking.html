@@ -6,6 +6,7 @@
     <title>Book Your Appointment | Automobile Avengers</title>
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="media-queries.css" />
+    <script src="auth.js"></script>
     <script>
       async function fetchMechanics() {
         try {
@@ -124,22 +125,25 @@
       };
     </script>
   </head>
-  <body>
+  <body class="requires-auth">
     <!-- Header -->
     <header class="header">
       <nav class="nav">
-        <a href="index.html" class="nav_logo">AutomobileAvengers</a>
-        <ul class="nav_items">
-          <li class="nav_item">
-            <a href="booking.html" class="nav_link">Booking</a>
-            <a href="mechanics.html" class="nav_link">Mechanics</a>
-            <a href="services.html" class="nav_link">Services</a>
-            <a href="promotions.html" class="nav_link">Promotions</a>
-            <a href="servicestatus.html" class="nav_link">Service Status</a>
-          </li>
-        </ul>
-      </nav>
-    </header>
+          <a href="index.html" class="nav_logo">AutomobileAvengers</a>
+          <ul class="nav_items">
+              <li class="nav_item">
+                  <a href="booking.html" class="nav_link">Booking</a>
+                  <a href="mechanics.html" class="nav_link">Mechanics</a>
+                  <a href="services.html" class="nav_link">Services</a>
+                  <a href="promotions.html" class="nav_link">Promotions</a>
+                  <a href="servicestatus.html" class="nav_link">Service Status</a>
+              </li>
+          </ul>
+          <div id="authButtons">
+              <button id="loginButton" class="login_button">Login</button>
+              <button id="logoutButton" class="login_button" style="display: none;">Logout</button>
+          </div>
+  </header>
 
     <!-- Booking Section -->
     <section class="booking-section">

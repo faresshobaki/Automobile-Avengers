@@ -1,67 +1,66 @@
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login | Automobile Avengers</title>
-    <link rel="stylesheet" href="style.css" />
-    <script src="auth.js" defer></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account | Automobile Avengers</title>
+    <link rel="stylesheet" href="style.css">
     <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        document.getElementById("loginForm").addEventListener("submit", async (e) => {
-          e.preventDefault();
-          const user = {
-            firstName: document.getElementById("firstname").value,
-            lastName: document.getElementById("lastname").value,
-            email: document.getElementById("email").value,
-            password: document.getElementById("password").value,
-          };
-          try {
-            const response = await fetch("http://localhost:8080/api/users", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(user),
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById("createAccountForm").addEventListener("submit", async (e) => {
+                e.preventDefault();
+
+                const firstName = document.getElementById("firstname").value;
+                const lastName = document.getElementById("lastname").value;
+                const email = document.getElementById("email").value;
+                const password = document.getElementById("password").value;
+
+                try {
+                    const response = await fetch("http://localhost:8080/api/users", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ firstName, lastName, email, password }),
+                    });
+
+                    if (response.ok) {
+                        alert("Account created successfully! Redirecting to login...");
+                        window.location.href = "login.html"; // Redirect to login page
+                    } else {
+                        const errorText = await response.text();
+                        alert(`Error: ${errorText}`);
+                    }
+                } catch (error) {
+                    console.error("Error creating account:", error);
+                    alert("Unable to connect to the server. Please try again later.");
+                }
             });
-            if (response.ok) {
-              alert("Account created successfully!");
-              window.location.href = "login.html";
-            } else {
-              const errorText = await response.text();
-              alert("Error: " + errorText);
-            }
-          } catch (error) {
-            console.error("Error creating account:", error);
-            alert("An error occurred. Please try again.");
-          }
         });
-      });
     </script>
-  </head>
-  <body>
-    <!-- Create Account -->
-@@ -15,9 +46,9 @@ <h1>Create Account</h1>
-        <label for="username">First Name:</label>
-        <input
-          type="text"
-          id="fiestname"
-          id="firstname"
-          name="firstname"
-          placeholder="Enter your email"
-          placeholder="Enter your First Name"
-          required
-        />
+</head>
+<body>
+    <section class="login-section">
+        <h1>Create Your Account</h1>
+        <a href="index.html" class="back-button">
+            <img src="images/assets/turn-back.png" alt="Back" class="back-arrow">
+        </a>
+        <form id="createAccountForm" class="login-form">
+            <label for="firstname">First Name:</label>
+            <input type="text" id="firstname" name="firstname" placeholder="Enter your first name" required>
 
-@@ -26,7 +57,7 @@ <h1>Create Account</h1>
-          type="text"
-          id="lastname"
-          name="lastname"
-          placeholder="Enter your username or email"
-          placeholder="Enter your Last Name"
-          required
-        />
-
-        <button type="submit" class="login-button">Login</button>
-      </form>
-      <div class="login-footer"></div>
-      <div class="admin-view">
-        <p>Have an account? <a href="login.html"> Click Here</a></p>
-      </div>
+            <label for="lastname">Last Name:</label>
+            <input type="text" id="lastname" name="lastname" placeholder="Enter your last name" required>
+            
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            
+            <button type="submit" class="login-button">Create Account</button>
+        </form>
+        <div class="login-footer">
+            <p>Already have an account? <a href="login.html">Login here</a></p>
+        </div>
     </section>
-  </body>
+</body>
 </html>
