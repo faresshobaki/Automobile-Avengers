@@ -19,7 +19,8 @@ public class Appointment {
     private String mechanicName;
     private Long mechanicId;
     private String customerEmail;
-    // Getters and setters
+    private String serviceStatusNumber; // New field
+
     public Long getId() {
         return id;
     }
@@ -83,11 +84,20 @@ public class Appointment {
     public void setMechanicId(Long mechanicId) {
         this.mechanicId = mechanicId;
     }
+
     public String getCustomerEmail() {
         return customerEmail;
     }
 
     public void setCustomerEmail(String customerEmail) {
         this.customerEmail = customerEmail;
+    }
+
+    public String getServiceStatusNumber() {
+        return serviceStatusNumber;
+    }
+
+    public void setServiceStatusNumber(String serviceStatusNumber) {
+        this.serviceStatusNumber = serviceStatusNumber;
     }
 }

@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/appointments")
@@ -34,15 +36,35 @@ public class AppointmentController {
     }
 
     @PostMapping
-public ResponseEntity<String> bookAppointment(@RequestBody Appointment appointment) {
-    boolean success = appointmentService.bookAppointment(appointment);
+    public ResponseEntity<Map<String, String>> bookAppointment(@RequestBody Appointment appointment) {
+        String serviceStatusNumber = UUID.randomUUID().toString(); // Generate unique status number
+        appointment.setServiceStatusNumber(serviceStatusNumber);
+        boolean success = appointmentService.bookAppointment(appointment);
 
-    if (success) {
-        return ResponseEntity.ok("Appointment booked successfully. Confirmation email sent.");
-    } else {
-        return ResponseEntity.badRequest().body("Appointment slot is already booked.");
+        Map<String, String> response = new HashMap<>();
+        if (success) {
+            response.put("serviceStatusNumber", serviceStatusNumber);
+            response.put("message", "Appointment booked successfully.");
+            return ResponseEntity.ok(response);
+        } else {
+            response.put("message", "Appointment slot is already booked.");
+            return ResponseEntity.badRequest().body(response);
+        }
     }
-}
+
+    @GetMapping("/service-status/{serviceStatusNumber}")
+    public ResponseEntity<Appointment> getServiceStatus(@PathVariable String serviceStatusNumber) {
+        System.out.println("Received Service Status Number: " + serviceStatusNumber);
+
+        Appointment appointment = appointmentService.getAppointmentByServiceStatusNumber(serviceStatusNumber);
+        if (appointment != null) {
+            return ResponseEntity.ok(appointment);
+        } else {
+            System.out.println("No appointment found for Service Status Number: " + serviceStatusNumber);
+            return ResponseEntity.status(404).build();
+        }
+    }
+
 
 
     @GetMapping("/{mechanicId}")

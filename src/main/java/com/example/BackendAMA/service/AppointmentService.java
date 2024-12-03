@@ -19,45 +19,54 @@ public class AppointmentService {
     private EmailService emailService;
 
     // Get available times for a mechanic on a specific date
-    public List<String> getAvailableTimes(Long mechanicId, String date) {
-        List<Appointment> existingAppointments = appointmentRepository.findByMechanicIdAndDate(mechanicId, date);
-
-        // Define all possible times (9:00 AM to 5:00 PM in 1-hour intervals)
-        List<String> allTimes = new ArrayList<>();
-        LocalTime startTime = LocalTime.of(9, 0); // 9:00 AM
-        LocalTime endTime = LocalTime.of(17, 0); // 5:00 PM
-        while (startTime.isBefore(endTime)) {
-            allTimes.add(startTime.toString());
-            startTime = startTime.plusHours(1); // Increment by 1 hour
-        }
-
-        // Remove already booked times
-        for (Appointment appointment : existingAppointments) {
-            allTimes.remove(appointment.getTime());
-        }
-
-        return allTimes;
-    }
-
-    // Book an appointment
     public boolean bookAppointment(Appointment appointment) {
-        // Check for double booking
         if (appointmentRepository.existsByMechanicIdAndDateAndTime(
                 appointment.getMechanicId(), appointment.getDate(), appointment.getTime())) {
             return false; // Prevent double booking
         }
 
         appointmentRepository.save(appointment);
+
         String emailContent = "Dear Customer,\n\nYour appointment has been confirmed.\n\n" +
             "Details:\n" +
+            "Service Status Number: " + appointment.getServiceStatusNumber() + "\n" +
             "Mechanic: " + appointment.getMechanicName() + "\n" +
             "Date: " + appointment.getDate() + "\n" +
             "Time: " + appointment.getTime() + "\n" +
             "Service: " + appointment.getService() + "\n\n" +
             "Thank you for choosing Automobile Avengers!";
-    emailService.sendEmail(appointment.getCustomerEmail(), "Appointment Confirmation", emailContent);
+        emailService.sendEmail(appointment.getCustomerEmail(), "Appointment Confirmation", emailContent);
         return true;
     }
+
+    public Appointment getAppointmentByServiceStatusNumber(String serviceStatusNumber) {
+        Appointment appointment = appointmentRepository.findByServiceStatusNumber(serviceStatusNumber);
+        if (appointment == null) {
+            System.out.println("Service Status Number not found: " + serviceStatusNumber);
+        } else {
+            System.out.println("Found Appointment: " + appointment);
+        }
+        return appointment;
+    }
+
+
+    public List<String> getAvailableTimes(Long mechanicId, String date) {
+        List<Appointment> existingAppointments = appointmentRepository.findByMechanicIdAndDate(mechanicId, date);
+
+        List<String> allTimes = new ArrayList<>();
+        LocalTime startTime = LocalTime.of(9, 0);
+        LocalTime endTime = LocalTime.of(17, 0);
+        while (startTime.isBefore(endTime)) {
+            allTimes.add(startTime.toString());
+            startTime = startTime.plusHours(1);
+        }
+
+        for (Appointment appointment : existingAppointments) {
+            allTimes.remove(appointment.getTime());
+        }
+        return allTimes;
+    }
+
 
     // Get appointments for a specific mechanic
     public List<Appointment> getAppointmentsByMechanicId(Long mechanicId) {
