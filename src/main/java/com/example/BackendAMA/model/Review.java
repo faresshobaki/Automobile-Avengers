@@ -18,7 +18,7 @@ public class Review {
     @Column(length = 1000)
     private String comment;
 
-    // Getters and Setters
+    
     public Long getId() {
         return id;
     }

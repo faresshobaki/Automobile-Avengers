@@ -8,5 +8,5 @@ import com.example.BackendAMA.model.Review;
 
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
-    // No additional methods needed for now
+    
 }

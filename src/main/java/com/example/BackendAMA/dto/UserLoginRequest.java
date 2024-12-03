@@ -4,10 +4,10 @@ public class UserLoginRequest {
     private String email;
     private String password;
 
-    // No-argument constructor 
+    
     public UserLoginRequest() {}
 
-    // Getters and Setters
+    
     public String getEmail() {
         return email;
     }

@@ -14,7 +14,7 @@ public class ClockLog {
     private LocalDateTime clockIn;
     private LocalDateTime clockOut;
 
-    // Getters and Setters
+    
     public Long getId() {
         return id;
     }

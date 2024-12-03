@@ -20,7 +20,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    // Endpoint to create a new user
+    
     @PostMapping
     public ResponseEntity<String> createUser(@RequestBody User user) {
         try {
@@ -31,7 +31,7 @@ public class UserController {
         }
     }
 
-    // Endpoint to get a user by email
+    
     @GetMapping("/{email}")
     public ResponseEntity<User> getUser(@PathVariable String email) {
         User user = userService.getUserByEmail(email);
@@ -40,13 +40,13 @@ public class UserController {
                 : ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
-    // Endpoint for user login using UserLoginRequest
+    
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> loginUser(@RequestBody UserLoginRequest loginRequest) {
         System.out.println("Login request received for: " + loginRequest.getEmail());
         User user = userService.verifyCredentials(loginRequest.getEmail(), loginRequest.getPassword());
         if (user != null) {
-            String token = JwtUtil.generateToken(user.getEmail()); // Generate JWT
+            String token = JwtUtil.generateToken(user.getEmail()); 
             Map<String, String> response = new HashMap<>();
             response.put("token", token);
             response.put("firstName", user.getFirstName());
@@ -58,7 +58,7 @@ public class UserController {
         }
     }
 
-    // Endpoint to validate session
+    
     @GetMapping("/validate-session")
     public ResponseEntity<String> validateSession(@RequestHeader("Authorization") String token) {
         boolean isValid = userService.validateSession(token);

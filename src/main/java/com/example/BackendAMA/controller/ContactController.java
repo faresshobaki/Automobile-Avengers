@@ -29,7 +29,7 @@ public class ContactController {
                 + "Email: " + customerEmail + "\n"
                 + "Message: " + message;
 
-        // Send the email to the admin's email, but also include the sender's email in the body
+       
         emailService.sendEmail("oark296@gmail.com", "Contact Us Form Submission", fullMessage);
 
         return ResponseEntity.ok("Message sent successfully!");

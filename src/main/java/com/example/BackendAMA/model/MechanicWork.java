@@ -3,7 +3,7 @@ package com.example.BackendAMA.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "mechanics") // Ensures table name consistency
+@Table(name = "mechanics") 
 public class MechanicWork {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,15 +22,15 @@ public class MechanicWork {
     private Double hoursWorked = 0.00;
 
     @Column(name = "taxRate")
-    private Double taxRate = 0.08; // Default value
+    private Double taxRate = 0.08; 
 
     @Column(name = "username", unique = true, nullable = false)
-    private String username; // New field for login username
+    private String username; 
 
     @Column(name = "password", nullable = false)
-    private String password; // New field for login password
+    private String password; 
 
-    // Default Constructor
+    
     public MechanicWork() {}
 
     // Getters and Setters
@@ -98,7 +98,7 @@ public class MechanicWork {
         this.password = password;
     }
 
-    // Utility Methods
+    
     public Double calculateGrossSalary() {
         return hourlyRate * hoursWorked;
     }

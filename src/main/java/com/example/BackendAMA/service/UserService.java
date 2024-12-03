@@ -25,22 +25,20 @@ public class UserService {
 
     private final Map<String, String> verificationCodes = new HashMap<>();
 
-    // Verifies user credentials
+    
     public User verifyCredentials(String email, String password) {
         return userRepository.findByEmailAndPassword(email, password).orElse(null);
     }
 
-    // Creates a new user
+    
     public User createUser(User user) {
         return userRepository.save(user);
     }
 
-    // Retrieves a user by email
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email).orElse(null);
     }
 
-    // Deletes a user by ID
     public boolean deleteUser(Long id) {
         Optional<User> user = userRepository.findById(id);
         if (user.isPresent()) {
@@ -50,14 +48,12 @@ public class UserService {
         return false;
     }
 
-    // Sends a verification code to the user's email
     public boolean sendVerificationCode(String email) {
         Optional<User> user = userRepository.findByEmail(email);
         if (user.isPresent()) {
             String verificationCode = generateVerificationCode();
             verificationCodes.put(email, verificationCode);
 
-            // Send the verification code via email
             sendEmail(email, "Password Reset Verification Code", "Your verification code is: " + verificationCode);
 
             return true;
@@ -65,7 +61,6 @@ public class UserService {
         return false;
     }
 
-    // Resets the user's password after verifying the code
     public boolean resetPassword(String email, String verificationCode, String newPassword) {
         if (verificationCodes.containsKey(email) && verificationCodes.get(email).equals(verificationCode)) {
             Optional<User> userOptional = userRepository.findByEmail(email);
@@ -74,7 +69,6 @@ public class UserService {
                 user.setPassword(newPassword);
                 userRepository.save(user);
 
-                // Remove the verification code after successful reset
                 verificationCodes.remove(email);
                 return true;
             }
@@ -82,7 +76,6 @@ public class UserService {
         return false;
     }
 
-    // Helper method to send an email
     private void sendEmail(String to, String subject, String body) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
@@ -91,14 +84,12 @@ public class UserService {
         mailSender.send(message);
     }
 
-    // Generates a random 6-digit verification code
     private String generateVerificationCode() {
         Random random = new Random();
-        int code = 100000 + random.nextInt(900000); // Generates a 6-digit number
+        int code = 100000 + random.nextInt(900000); 
         return String.valueOf(code);
     }
 
-    // Validates the session using JWT
     public boolean validateSession(String token) {
         return JwtUtil.validateToken(token);
     }

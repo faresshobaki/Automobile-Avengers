@@ -19,7 +19,7 @@ public class Appointment {
     private String mechanicName;
     private Long mechanicId;
     private String customerEmail;
-    private String serviceStatusNumber; // New field
+    private String serviceStatusNumber; 
 
     public Long getId() {
         return id;

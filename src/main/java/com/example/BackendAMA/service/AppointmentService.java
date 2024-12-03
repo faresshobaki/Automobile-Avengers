@@ -18,11 +18,11 @@ public class AppointmentService {
     @Autowired
     private EmailService emailService;
 
-    // Get available times for a mechanic on a specific date
+    
     public boolean bookAppointment(Appointment appointment) {
         if (appointmentRepository.existsByMechanicIdAndDateAndTime(
                 appointment.getMechanicId(), appointment.getDate(), appointment.getTime())) {
-            return false; // Prevent double booking
+            return false; 
         }
 
         appointmentRepository.save(appointment);
@@ -68,29 +68,29 @@ public class AppointmentService {
     }
 
 
-    // Get appointments for a specific mechanic
+    
     public List<Appointment> getAppointmentsByMechanicId(Long mechanicId) {
         return appointmentRepository.findByMechanicId(mechanicId);
     }
 
-    // Get all appointments for admin
+   
     public List<Appointment> getAllAppointments() {
         return appointmentRepository.findAll();
     }
 
-    // Cancel an appointment and send a cancellation email
+   
     public void cancelAppointment(Long appointmentId, String reason) {
         Appointment appointment = appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new RuntimeException("Appointment not found"));
 
-        // Prepare cancellation email
+       
         String emailContent = "Dear Customer,\n\nYour appointment scheduled on " + appointment.getDate() +
                 " at " + appointment.getTime() + " has been cancelled. Reason: " + reason +
                 ".\n\nThank you,\nAutomobile Avengers";
 
         emailService.sendEmail(appointment.getCustomerEmail(), "Appointment Cancellation", emailContent);
 
-        // Delete the appointment from the database
+        
         appointmentRepository.delete(appointment);
     }
 }
