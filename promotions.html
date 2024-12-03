@@ -1,109 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
- <head>
-   <meta charset="UTF-8" />
-   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-   <title>Promotions | Automobile Avengers</title>
-   <link rel="stylesheet" href="style.css">
-   <link rel="stylesheet" href="media-queries.css">
-   <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
-   <script>
-     document.addEventListener("DOMContentLoaded", () => {
-         const authToken = sessionStorage.getItem("authToken");
-         const loginButton = document.getElementById("loginButton");
-         const logoutButton = document.getElementById("logoutButton");
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promotions | Automobile Avengers</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="media-queries.css">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const authToken = sessionStorage.getItem("authToken");
+            const loginButton = document.getElementById("loginButton");
+            const logoutButton = document.getElementById("logoutButton");
 
-         
-         if (authToken) {
-             loginButton.style.display = "none";
-             logoutButton.style.display = "inline-block";
-         } else {
-             loginButton.style.display = "inline-block";
-             logoutButton.style.display = "none";
-         }
+            if (authToken) {
+                loginButton.style.display = "none";
+                logoutButton.style.display = "inline-block";
+            } else {
+                loginButton.style.display = "inline-block";
+                logoutButton.style.display = "none";
+            }
 
-        
-         logoutButton.addEventListener("click", () => {
-             sessionStorage.removeItem("authToken");
-             sessionStorage.removeItem("userName");
-             alert("You have been logged out.");
-             window.location.href = "index.html";
-         });
+            logoutButton.addEventListener("click", () => {
+                sessionStorage.removeItem("authToken");
+                sessionStorage.removeItem("userName");
+                alert("You have been logged out.");
+                window.location.href = "index.html";
+            });
 
-         
-         loginButton.addEventListener("click", () => {
-             window.location.href = "login.html";
-         });
-     });
-   </script>
- </head>
- <body>
-  
-   <header class="header">
-     <nav class="nav">
-       <a href="index.html" class="nav_logo">AutomobileAvengers</a>
-       <ul class="nav_items">
-         <li class="nav_item">
-           <a href="booking.html" class="nav_link">Booking</a>
-           <a href="mechanics.html" class="nav_link">Mechanics</a>
-           <a href="services.html" class="nav_link">Services</a>
-           <a href="promotions.html" class="nav_link">Promotions</a>
-           <a href="servicestatus.html" class="nav_link">Service Status</a>
-         </li>
-       </ul>
-       <div id="authButtons">
-         <button id="loginButton" class="login_button">Login</button>
-         <button id="logoutButton" class="login_button" style="display: none">
-           Logout
-         </button>
-       </div>
-     </nav>
-   </header>
+            loginButton.addEventListener("click", () => {
+                window.location.href = "login.html";
+            });
 
-   
-   <section class="promotions">
-     <h1 class="promotions-title">Promotions:</h1>
-     <div class="promotions-container">
-       
-       <div class="promotion-card">
-         <img src="images/assets/oil-change.jpg" alt="Oil Change" class="promotion-image" />
-         <div class="promotion-info">
-           <h2>Oil Change</h2>
-           <p class="promotion-price">$10 Off</p>
-           <p class="promotion-details">Cannot be combined with other offers</p>
-           <button class="claim-button" onclick="redirectToBarcode()">Claim</button>
-         </div>
-       </div>
+            fetchPromotions();
+        });
 
-      
-       <div class="promotion-card">
-         <img src="images/assets/synthetic-oil.jpg" alt="Synthetic Oil Change" class="promotion-image" />
-         <div class="promotion-info">
-           <h2>Synthetic Oil Change</h2>
-           <p class="promotion-price">$30 Off</p>
-           <p class="promotion-details">Cannot be combined with other offers</p>
-           <button class="claim-button" onclick="redirectToBarcode()">Claim</button>
-         </div>
-       </div>
+        async function fetchPromotions() {
+            const promotionsContainer = document.querySelector(".promotions-container");
+            try {
+                const response = await fetch("http://localhost:8080/api/promotions");
+                if (!response.ok) throw new Error("Failed to fetch promotions");
 
-      
-       <div class="promotion-card">
-         <img src="images/assets/tire-rotation.jpg" alt="Tire Rotation" class="promotion-image" />
-         <div class="promotion-info">
-           <h2>Tire Rotation</h2>
-           <p class="promotion-price">$25 Off</p>
-           <p class="promotion-details">Cannot be combined with other offers</p>
-           <button class="claim-button" onclick="redirectToBarcode()">Claim</button>
-         </div>
-       </div>
-     </div>
-   </section>
+                const promotions = await response.json();
+                promotionsContainer.innerHTML = ""; 
 
-   <script>
-     function redirectToBarcode() {
-       const randomCode = Math.random().toString(36).substring(2, 8).toUpperCase();
-       window.location.href = `barcode.html?code=${randomCode}`;
-     }
-   </script>
- </body>
+                promotions.forEach((promotion) => {
+                    const card = document.createElement("div");
+                    card.classList.add("promotion-card");
+                    card.innerHTML = `
+                        <img src="${promotion.imageUrl}" alt="${promotion.name}" class="promotion-image">
+                        <div class="promotion-info">
+                            <h2>${promotion.name}</h2>
+                            <p class="promotion-price">${promotion.price}</p>
+                            <p class="promotion-details">${promotion.details}</p>
+                            <button class="claim-button" onclick="redirectToBarcode()">Claim</button>
+                        </div>
+                    `;
+                    promotionsContainer.appendChild(card);
+                });
+            } catch (error) {
+                console.error("Error loading promotions:", error);
+                promotionsContainer.innerHTML = `<p class="error-message">Unable to load promotions at this time. Please try again later.</p>`;
+            }
+        }
+
+        function redirectToBarcode() {
+            const randomCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+            window.location.href = `barcode.html?code=${randomCode}`;
+        }
+    </script>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <a href="index.html" class="nav_logo">AutomobileAvengers</a>
+            <ul class="nav_items">
+                <li class="nav_item">
+                    <a href="booking.html" class="nav_link">Booking</a>
+                    <a href="mechanics.html" class="nav_link">Mechanics</a>
+                    <a href="services.html" class="nav_link">Services</a>
+                    <a href="promotions.html" class="nav_link">Promotions</a>
+                    <a href="servicestatus.html" class="nav_link">Service Status</a>
+                </li>
+            </ul>
+            <div id="authButtons">
+                <button id="loginButton" class="login_button">Login</button>
+                <button id="logoutButton" class="login_button" style="display: none">Logout</button>
+            </div>
+        </nav>
+    </header>
+
+    <section class="promotions">
+        <h1 class="promotions-title">Promotions:</h1>
+        <div class="promotions-container">
+           
+        </div>
+    </section>
+</body>
 </html>
