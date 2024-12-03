@@ -77,10 +77,14 @@ public class AppointmentController {
         }
     }
     @GetMapping("/admin/appointments")
-    public ResponseEntity<List<Appointment>> getAllAppointments() {
+    public ResponseEntity<Map<String, Object>> getAllAppointments() {
         List<Appointment> appointments = appointmentService.getAllAppointments();
-        return ResponseEntity.ok(appointments);
+        Map<String, Object> response = new HashMap<>();
+        response.put("appointments", appointments);
+        response.put("count", appointments.size());  // Add the count of appointments to the response
+        return ResponseEntity.ok(response);
     }
+
 
         
 
