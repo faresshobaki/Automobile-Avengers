@@ -6,7 +6,7 @@
     <title>Mechanics Admin View</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Styling specific to this page */
+        
         .admin-container {
             max-width: 1200px;
             margin: 20px auto;
@@ -117,7 +117,7 @@
     </style>
 </head>
 <body>
-    <!-- Include header -->
+    
     <header class="header">
         <nav class="nav">
             <a href="adminpage.html" class="nav_logo">AutomobileAvengers</a>
@@ -135,7 +135,7 @@
         </nav>
     </header>
 
-    <!-- Admin Mechanics Management -->
+   
     <div class="admin-container">
         <h2>Manage Mechanics</h2>
         <table>
@@ -150,7 +150,7 @@
                 </tr>
             </thead>
             <tbody id="mechanics-table">
-                <!-- Rows dynamically loaded here -->
+               
             </tbody>
         </table>
 
@@ -186,7 +186,7 @@
                         hourlyRate,
                         username,
                         password,
-                        taxRate: 0.08 // Default tax rate
+                        taxRate: 0.08 
                     })
                 });
                 if (response.ok) {
@@ -207,7 +207,7 @@
                 const mechanics = await response.json();
                 const table = document.getElementById("mechanics-table");
 
-                table.innerHTML = ""; // Clear the table before adding rows
+                table.innerHTML = ""; 
 
                 mechanics.forEach(mechanic => {
                     const row = document.createElement("tr");
@@ -243,10 +243,10 @@
 
             if (passwordInput.type === "password") {
                 passwordInput.type = "text";
-                icon.src = "images/assets/hidepassword.png"; // Swap to "hide" image
+                icon.src = "images/assets/hidepassword.png"; 
             } else {
                 passwordInput.type = "password";
-                icon.src = "images/assets/showpassword.png"; // Swap to "show" image
+                icon.src = "images/assets/showpassword.png"; 
             }
         }
 
@@ -286,7 +286,7 @@
 
                 if (response.ok) {
                     alert("Mechanic deleted successfully!");
-                    fetchMechanics(); // Refresh the list
+                    fetchMechanics(); 
                 } else {
                     alert("Failed to delete mechanic");
                 }
@@ -296,7 +296,7 @@
             }
         }
 
-        // Load mechanics on page load
+      
         fetchMechanics();
     </script>
 </body>

@@ -17,10 +17,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 if (response.ok) {
                     const data = await response.json();
-                    sessionStorage.setItem("authToken", data.token); // Store the token
-                    sessionStorage.setItem("userName", data.firstName); // Store user's name
+                    sessionStorage.setItem("authToken", data.token); 
+                    sessionStorage.setItem("userName", data.firstName); 
                     alert(`Welcome back, ${data.firstName}!`);
-                    window.location.href = "index.html"; // Redirect to homepage
+                    window.location.href = "index.html"; 
                 } else if (response.status === 401) {
                     alert("Invalid email or password. Please try again.");
                 } else {

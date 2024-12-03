@@ -1,12 +1,12 @@
 let appointments = [];
-let currentDate = new Date(); // Today's date
+let currentDate = new Date(); 
 let selectedAppointment = null;
 
 const calendarGrid = document.getElementById("calendarGrid");
 const detailsContent = document.getElementById("detailsContent");
 const cancelBtn = document.getElementById("cancelBtn");
 
-// Fetch appointments from API
+
 async function fetchAppointments() {
   try {
     const response = await fetch("http://localhost:8080/api/appointments/admin/appointments");
@@ -24,13 +24,13 @@ function formatServiceName(service) {
     "oil-change": "Oil Change",
     "tire-replacement": "Tire Replacement",
     "brake-check": "Brake Check",
-    // Add more mappings as needed
+    
   };
 
   return serviceMap[service] || service.charAt(0).toUpperCase() + service.slice(1).toLowerCase();
 }
 
-// Render calendar view
+
 function renderCalendar() {
   console.log("Rendering calendar...");
   calendarGrid.innerHTML = "";
@@ -41,7 +41,7 @@ function renderCalendar() {
   const endOfWeek = new Date(startOfWeek);
   endOfWeek.setDate(startOfWeek.getDate() + 6);
 
-  // Add days headers with dates
+  
   calendarGrid.innerHTML += `<div class="time-slot"></div>`;
   for (let day = 0; day < 7; day++) {
     const dayDate = new Date(startOfWeek);
@@ -64,7 +64,7 @@ function renderCalendar() {
       dayDate.setDate(startOfWeek.getDate() + day);
 
       const cellDiv = document.createElement("div");
-      cellDiv.className = "day-column empty"; // Default class for empty cells
+      cellDiv.className = "day-column empty"; 
 
       appointments.forEach(appointment => {
         if (
@@ -72,7 +72,7 @@ function renderCalendar() {
           appointment.time === timeLabel
         ) {
           cellDiv.classList.remove("empty");
-          cellDiv.classList.add("filled"); // Optional to style filled cells differently
+          cellDiv.classList.add("filled"); 
 
           const appointmentDiv = document.createElement("div");
           appointmentDiv.className = "appointment";
@@ -91,7 +91,7 @@ function renderCalendar() {
 
 
 
-// Open appointment details
+
 function openAppointmentDetails(appointment) {
   if (!appointment) {
     console.error("No appointment data provided.");
@@ -115,7 +115,7 @@ function openAppointmentDetails(appointment) {
   cancelBtn.style.display = "inline-block";
 }
 
-// Event delegation for clicks
+
 calendarGrid.addEventListener("click", (event) => {
   const clickedElement = event.target;
 
@@ -132,7 +132,7 @@ calendarGrid.addEventListener("click", (event) => {
     }
   }
 });
-// Cancel appointment functionality
+
 cancelBtn.addEventListener("click", async () => {
   if (!selectedAppointment) {
     alert("No appointment selected for cancellation.");
@@ -143,7 +143,7 @@ cancelBtn.addEventListener("click", async () => {
   if (!confirmation) return;
 
   try {
-    // Send a DELETE request to cancel the appointment
+    
     const response = await fetch(`http://localhost:8080/api/appointments/admin/appointments/${selectedAppointment.id}`, {
       method: "DELETE",
     });
@@ -152,11 +152,11 @@ cancelBtn.addEventListener("click", async () => {
 
     alert("Appointment canceled successfully.");
 
-    // Remove the canceled appointment from the list
+    
     appointments = appointments.filter(app => app.id !== selectedAppointment.id);
     selectedAppointment = null;
 
-    // Update the UI
+    
     renderCalendar();
     detailsContent.innerHTML = "No appointment selected.";
     cancelBtn.style.display = "none";
@@ -166,7 +166,7 @@ cancelBtn.addEventListener("click", async () => {
   }
 });
 
-// Add event listeners for navigation buttons
+
 document.getElementById("prevWeek").addEventListener("click", () => {
   console.log("Navigating to previous week...");
   currentDate.setDate(currentDate.getDate() - 7);
@@ -179,5 +179,5 @@ document.getElementById("nextWeek").addEventListener("click", () => {
   renderCalendar();
 });
 
-// Initial load
+
 fetchAppointments();

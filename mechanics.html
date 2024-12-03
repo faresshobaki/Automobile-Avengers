@@ -14,7 +14,7 @@
             const loginButton = document.getElementById("loginButton");
             const logoutButton = document.getElementById("logoutButton");
 
-            // Toggle button visibility based on login state
+            
             if (authToken) {
                 loginButton.style.display = "none";
                 logoutButton.style.display = "inline-block";
@@ -23,15 +23,15 @@
                 logoutButton.style.display = "none";
             }
 
-            // Handle logout
+           
             logoutButton.addEventListener("click", () => {
                 sessionStorage.removeItem("authToken");
                 sessionStorage.removeItem("userName");
                 alert("You have been logged out.");
-                window.location.href = "index.html"; // Redirect to homepage
+                window.location.href = "index.html"; 
             });
 
-            // Redirect to login page
+           
             loginButton.addEventListener("click", () => {
                 window.location.href = "login.html";
             });
@@ -61,15 +61,15 @@
                 const mechanics = await response.json();
                 const container = document.getElementById('mechanics-container');
                 
-                // Clear existing content
+                
                 container.innerHTML = '';
 
-                // Add each mechanic's details to the page
+                
                 mechanics.forEach(mechanic => {
-                    // Check if the specialty is already stored in localStorage
+                    
                     let mechanicSpecialty = localStorage.getItem(mechanic.mechanicName);
 
-                    // If not, assign a random specialty and store it
+                    
                     if (!mechanicSpecialty) {
                         mechanicSpecialty = specialties[Math.floor(Math.random() * specialties.length)];
                         localStorage.setItem(mechanic.mechanicName, mechanicSpecialty);
@@ -91,12 +91,12 @@
             }
         }
 
-        // Load mechanics on page load
+       
         document.addEventListener('DOMContentLoaded', loadMechanics);
     </script>
 </head>
 <body>
-    <!-- Header -->
+   
     <header class="header">
         <nav class="nav">
             <a href="index.html" class="nav_logo">AutomobileAvengers</a>
@@ -116,16 +116,16 @@
         </nav>
     </header>
 
-    <!-- Mechanics Section -->
+   
     <main class="mechanics-section">
         <h1>Our Team</h1>
         <p>Our team of skilled professionals is here to provide the best care for your vehicle.</p>
         <div class="mechanics-container" id="mechanics-container">
-            <!-- Mechanics will be dynamically loaded here -->
+           
         </div>
     </main>
 
-    <!-- Footer -->
+   
     <footer class="footer">
         <p>&copy; 2024 Automobile Avengers. All rights reserved.</p>
     </footer>

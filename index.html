@@ -11,27 +11,29 @@
     </head>
     <script src="auth.js" defer></script>
     <body>
-		<!-- Header -->
-		   <header class="header">
-		       <nav class="nav">
-		           <a href="index.html" class="nav_logo">AutomobileAvengers</a>
-		           <ul class="nav_items">
-		               <li class="nav_item">
-		                   <a href="booking.html" class="nav_link">Booking</a>
-		                   <a href="mechanics.html" class="nav_link">Mechanics</a>
-		                   <a href="services.html" class="nav_link">Services</a>
-		                   <a href="promotions.html" class="nav_link">Promotions</a>
-		                   <a href="status.html" class="nav_link">Service Status</a>
-		               </li>
-		           </ul>
-		           <div id="authButtons">
-		               <button id="loginButton" class="login_button">Login</button>
-		               <button id="logoutButton" class="login_button" style="display: none;">Logout</button>
-		           </div>
-		       </nav>
+		
+		<header class="header">
+		     <nav class="nav">
+		       <a href="index.html" class="nav_logo">AutomobileAvengers</a>
+		       <ul class="nav_items">
+		         <li class="nav_item">
+		           <a href="booking.html" class="nav_link">Booking</a>
+		           <a href="mechanics.html" class="nav_link">Mechanics</a>
+		           <a href="services.html" class="nav_link">Services</a>
+		           <a href="promotions.html" class="nav_link">Promotions</a>
+		           <a href="servicestatus.html" class="nav_link">Service Status</a>
+		         </li>
+		       </ul>
+		       <div id="authButtons">
+		         <button id="loginButton" class="login_button">Login</button>
+		         <button id="logoutButton" class="login_button" style="display: none">
+		           Logout
+		         </button>
+		       </div>
+		     </nav>
 		   </header>
 
-        <!-- Simple Section with Get Started Button -->
+      
         <section class="simple-section">
             <div class="text-content">
                 <h1>Your Trusted Partner in Automotive Solutions</h1>
@@ -45,17 +47,17 @@
                 <img class="section-image" src="images/assets/Automobile Avengers.png" alt="Automobile Avengers Image">
             </div>
         </section>
-        <!-- Contact Us Button -->
+        
         <a href="contact us.html" class="contact-us-button">Contact Us</a>
 
         <script>
             document.addEventListener("DOMContentLoaded", () => {
-                // Check if the user is logged in
+                
                 const authToken = sessionStorage.getItem("authToken");
                 const loginButton = document.getElementById("loginButton");
                 const logoutButton = document.getElementById("logoutButton");
 
-                // Toggle visibility based on login state
+                
                 if (authToken) {
                     loginButton.style.display = "none";
                     logoutButton.style.display = "inline-block";
@@ -64,15 +66,15 @@
                     logoutButton.style.display = "none";
                 }
 
-                // Logout functionality
+                
                 logoutButton.addEventListener("click", () => {
-                    sessionStorage.removeItem("authToken"); // Remove token
-                    sessionStorage.removeItem("userName");  // Optional: Clear username
+                    sessionStorage.removeItem("authToken"); 
+                    sessionStorage.removeItem("userName");  
                     alert("You have been logged out.");
-                    window.location.href = "index.html"; // Redirect to homepage
+                    window.location.href = "index.html"; 
                 });
 
-                // Redirect login button to login page
+                
                 loginButton.addEventListener("click", () => {
                     window.location.href = "login.html";
                 });

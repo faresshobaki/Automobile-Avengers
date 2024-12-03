@@ -7,12 +7,12 @@
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="media-queries.css" />
     <script>
-      // Redirect to login if the user is not logged in
+      
       document.addEventListener("DOMContentLoaded", () => {
         const authToken = sessionStorage.getItem("authToken");
         if (!authToken) {
           alert("You must be logged in to access this page.");
-          window.location.href = "login.html"; // Redirect to login page
+          window.location.href = "login.html"; 
         }
       });
     </script>
@@ -133,7 +133,7 @@
           if (mechanic) populateAvailableTimes();
         });
 
-        // Handle login/logout button visibility
+        
         const authToken = sessionStorage.getItem("authToken");
         const loginButton = document.getElementById("loginButton");
         const logoutButton = document.getElementById("logoutButton");
@@ -150,7 +150,7 @@
           sessionStorage.removeItem("authToken");
           sessionStorage.removeItem("userName");
           alert("You have been logged out.");
-          window.location.href = "index.html"; // Redirect to homepage
+          window.location.href = "index.html"; 
         });
 
         loginButton.addEventListener("click", () => {
@@ -160,7 +160,7 @@
     </script>
   </head>
   <body class="requires-auth">
-    <!-- Header -->
+    
     <header class="header">
       <nav class="nav">
         <a href="index.html" class="nav_logo">AutomobileAvengers</a>
@@ -180,7 +180,7 @@
       </nav>
     </header>
 
-    <!-- Booking Section -->
+    
     <section class="booking-section">
       <h1>Book your appointment:</h1>
       <form class="booking-form">

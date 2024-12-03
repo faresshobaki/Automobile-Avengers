@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", async () => {
     try {
-        const token = sessionStorage.getItem("authToken"); // Store the token securely
+        const token = sessionStorage.getItem("authToken"); 
 
         if (!token) {
             throw new Error("No session token found. Redirecting to login...");
@@ -19,8 +19,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                 authLink.textContent = `Logout (${userName})`;
                 authLink.href = "#";
                 authLink.addEventListener("click", () => {
-                    sessionStorage.clear(); // Clear session
-                    window.location.href = "login.html"; // Redirect to login
+                    sessionStorage.clear(); 
+                    window.location.href = "login.html"; 
                 });
             }
         } else {

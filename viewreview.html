@@ -3,74 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Reviews</title>
+    <title>View Reviews | Automobile Avengers</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const authToken = sessionStorage.getItem("authToken");
+            const loginButton = document.getElementById("loginButton");
+            const logoutButton = document.getElementById("logoutButton");
+
+            if (authToken) {
+                loginButton.style.display = "none";
+                logoutButton.style.display = "inline-block";
+            } else {
+                loginButton.style.display = "inline-block";
+                logoutButton.style.display = "none";
+            }
+
+            logoutButton.addEventListener("click", () => {
+                sessionStorage.clear();
+                alert("You have been logged out.");
+                window.location.href = "index.html";
+            });
+
+            loginButton.addEventListener("click", () => {
+                window.location.href = "login.html";
+            });
+
+            loadReviews(); 
+        });
+
+        async function loadReviews() {
+            try {
+                const response = await fetch('http://localhost:8080/api/reviews');
+                if (!response.ok) throw new Error('Failed to load reviews.');
+
+                const reviews = await response.json();
+                const reviewsContainer = document.getElementById('reviews');
+                reviewsContainer.innerHTML = '';
+
+                reviews.forEach(review => {
+                    const reviewDiv = document.createElement('div');
+                    reviewDiv.classList.add('review');
+                    reviewDiv.innerHTML = `
+                        <h3>Mechanic: ${review.mechanicName || 'Anonymous'}</h3>
+                        <p><strong>Rating:</strong> ${review.rating}/5</p>
+                        <p>${review.comment}</p>
+                    `;
+                    reviewsContainer.appendChild(reviewDiv);
+                });
+            } catch (error) {
+                console.error(error);
+                document.getElementById('reviews').innerHTML = '<p>Failed to load reviews. Please try again later.</p>';
+            }
+        }
+    </script>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            background-color: #f9f9f9;
         }
-
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #fff;
+            border-bottom: 1px solid #ddd;
+        }
+        header img {
+            height: 40px;
+        }
+        header .menu {
+            display: flex;
+            gap: 20px;
+        }
+        header .menu a {
+            text-decoration: none;
+            color: black;
+            font-size: 14px;
+        }
         .container {
             max-width: 800px;
-            margin: 0 auto;
-        }
-
-        h2 {
+            margin: 110px auto;
             text-align: center;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .container h1 {
+            font-size: 28px;
+            margin-top: 30px;
             margin-bottom: 20px;
         }
-
+        .reviews-container {
+            margin-top: 20px;
+            text-align: left;
+        }
         .review {
-            border: 1px solid #ccc;
-            border-radius: 8px;
+            border: 1px solid #ddd;
             padding: 15px;
-            margin-bottom: 15px;
-            background: #f9f9f9;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            background-color: #f4f4f4;
         }
-
         .review h3 {
-            margin: 0 0 10px;
-            font-size: 18px;
-            color: #007bff;
+            margin: 0 0 5px;
         }
-
         .review p {
             margin: 5px 0;
-        }
-
-        .review .rating {
-            font-weight: bold;
         }
     </style>
 </head>
 <body>
+    <header class="header">
+        <nav class="nav">
+            <a href="index.html" class="nav_logo">AutomobileAvengers</a>
+            <ul class="nav_items">
+                <li class="nav_item">
+                    <a href="booking.html" class="nav_link">Booking</a>
+                    <a href="mechanics.html" class="nav_link">Mechanics</a>
+                    <a href="services.html" class="nav_link">Services</a>
+                    <a href="promotions.html" class="nav_link">Promotions</a>
+                    <a href="servicestatus.html" class="nav_link">Service Status</a>
+                </li>
+            </ul>
+            <div id="authButtons">
+                <button id="loginButton" class="login_button">Login</button>
+                <button id="logoutButton" class="login_button" style="display: none;">Logout</button>
+            </div>
+        </nav>
+    </header>
     <div class="container">
-        <h2>Customer Reviews</h2>
-        <div id="reviews">
-            <!-- Reviews will be displayed here -->
+        <h1>Customer Reviews</h1>
+        <div id="reviews" class="reviews-container">
+            
         </div>
     </div>
-
-    <script>
-        async function loadReviews() {
-            const response = await fetch('/api/reviews');
-            const reviews = await response.json();
-            const reviewsContainer = document.getElementById('reviews');
-
-            reviews.forEach(review => {
-                const reviewDiv = document.createElement('div');
-                reviewDiv.classList.add('review');
-                reviewDiv.innerHTML = `
-                    <h3>${review.mechanicName}</h3>
-                    <p class="rating">Rating: ${review.rating}/5</p>
-                    <p>${review.comment}</p>
-                `;
-                reviewsContainer.appendChild(reviewDiv);
-            });
-        }
-
-        loadReviews();
-    </script>
 </body>
 </html>

@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="media-queries.css">
     <style>
-        /* General styles */
+
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -105,7 +105,7 @@
 <body>
     <header class="header">
         <nav class="nav">
-            <a href="index.html" class="nav_logo">AutomobileAvengers</a>
+            <a href="index.html" class="nav_logo">Automobile Avengers</a>
             <ul class="nav_items">
                 <li class="nav_item">
                     <a href="booking.html" class="nav_link">Booking</a>
@@ -124,7 +124,7 @@
     <div class="container">
         <h1>Contact Us</h1>
         <div class="form-container">
-            <!-- Left Form Section -->
+            
             <div class="form">
                 <form id="contactForm">
                     <input type="text" name="first_name" id="firstName" placeholder="First name" required>
@@ -135,7 +135,7 @@
                 </form>
             </div>
 
-            <!-- Right Info Section -->
+           
             <div class="info-box">
                 <div class="info-section">
                     <h2>Hours Of Operation</h2>
@@ -153,7 +153,7 @@
     </div>
 
     <script>
-        // Handle form submission
+        
         document.getElementById("contactForm").addEventListener("submit", async (e) => {
             e.preventDefault();
 
@@ -183,10 +183,31 @@
             }
         });
 
-        // Make the login button functional
-        document.getElementById("loginButton").addEventListener("click", () => {
-            window.location.href = "login.html"; // Redirect to login page
+        
+        document.addEventListener("DOMContentLoaded", () => {
+            const authToken = sessionStorage.getItem("authToken");
+            const loginButton = document.getElementById("loginButton");
+            const logoutButton = document.getElementById("logoutButton");
+
+            if (authToken) {
+                loginButton.style.display = "none";
+                logoutButton.style.display = "inline-block";
+            } else {
+                loginButton.style.display = "inline-block";
+                logoutButton.style.display = "none";
+            }
+
+            logoutButton.addEventListener("click", () => {
+                sessionStorage.clear();
+                alert("You have been logged out.");
+                window.location.href = "index.html";
+            });
+
+            loginButton.addEventListener("click", () => {
+                window.location.href = "login.html";
+            });
         });
     </script>
 </body>
 </html>
+

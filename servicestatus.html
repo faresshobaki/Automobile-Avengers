@@ -11,7 +11,7 @@
         const loginButton = document.getElementById("loginButton");
         const logoutButton = document.getElementById("logoutButton");
 
-        // Toggle button visibility based on login state
+      
         if (authToken) {
             loginButton.style.display = "none";
             logoutButton.style.display = "inline-block";
@@ -20,21 +20,58 @@
             logoutButton.style.display = "none";
         }
 
-        // Handle logout
+      
         logoutButton.addEventListener("click", () => {
-            sessionStorage.removeItem("authToken");
-            sessionStorage.removeItem("userName");
+            sessionStorage.clear(); 
             alert("You have been logged out.");
-            window.location.href = "index.html"; // Redirect to homepage
+            window.location.href = "index.html"; 
         });
 
-        // Redirect to login page
+        
         loginButton.addEventListener("click", () => {
             window.location.href = "login.html";
         });
+
+        
+        const savedServiceNumber = sessionStorage.getItem("serviceStatusNumber");
+        if (savedServiceNumber) {
+            document.getElementById("service-number").value = savedServiceNumber;
+        }
     });
+
+    async function fetchServiceStatus() {
+        const serviceNumber = document.getElementById("service-number").value;
+
+        if (!serviceNumber) {
+            alert("Please enter a valid Service Status Number.");
+            return;
+        }
+
+        try {
+            const response = await fetch(`http://localhost:8080/api/appointments/service-status/${serviceNumber}`, {
+                method: "GET",
+                headers: { "Content-Type": "application/json" },
+            });
+
+            if (response.ok) {
+                const serviceStatus = await response.json();
+                alert(
+                    `Service Status: ${serviceStatus.status}\n` +
+                    `Service Date: ${serviceStatus.date}\n` +
+                    `Mechanic Name: ${serviceStatus.mechanicName}\n` +
+                    `Details: ${serviceStatus.details}`
+                );
+            } else {
+                alert("Service status not found. Please check your Service Status Number.");
+            }
+        } catch (error) {
+            console.error("Error fetching service status:", error);
+            alert("An error occurred while retrieving your service status. Please try again later.");
+        }
+    }
   </script>
   <style>
+    
     body {
       font-family: Arial, sans-serif;
       margin: 0;
@@ -128,19 +165,20 @@
             </div>
         </nav>
     </header>
-  <div class="container">
-    <h1>Service Status:</h1>
-    <div class="form-group">
-      <label for="service-number" style="font-weight: bold; font-size: 18px;">Enter your Service number:</label>
-      <br>
-      <input type="text" id="service-number" placeholder="Enter">
-      <br><br>
-      <button>Find</button>
+    <div class="container">
+        <h1>Service Status</h1>
+        <div class="form-group">
+            <label for="service-number" style="font-weight: bold; font-size: 18px;">Enter your Service Status Number:</label>
+            <br>
+            <input type="text" id="service-number" placeholder="Enter Service Status Number">
+            <br><br>
+            <button onclick="fetchServiceStatus()">Find</button>
+        </div>
+        <div class="image-content">
+            <img class="section-image" src="images/assets/Automobile Avengers.png" alt="Automobile Avengers Image">
+        </div>
     </div>
-    <div class="image-content">
-      <img class="section-image" src="images/assets/Automobile Avengers.png" alt="Automobile Avengers Image" >
-    </div>
-  </div>
 </body>
 </html>
+
 

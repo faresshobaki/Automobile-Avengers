@@ -1,124 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
- <head>
-   <meta charset="UTF-8" />
-   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-   <title>Barcode | Automobile Avengers</title>
-   <link rel="stylesheet" href="style.css" />
-   <style>
-     body {
-       font-family: Poppins, sans-serif;
-       margin: 0;
-       padding: 0;
-       height: 100vh;
-       background: url("images/assets/background.jpg") no-repeat center center fixed;
-       background-size: cover;
-       color: white;
-       display: flex;
-       flex-direction: column;
-       align-items: center;
-     }
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Barcode | Automobile Avengers</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        body {
+            font-family: Poppins, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background: url("images/assets/background.jpg") no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
+        .barcode-container {
+            margin-top: 200px;
+            background: rgb(0, 0, 0);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+        }
 
-     .barcode-container {
-   margin-top: 200px; /* Increased space from the header */
-   background: rgb(0, 0, 0);
-   padding: 30px;
-   border-radius: 10px;
-   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-   text-align: center;
-   width: 90%;
-   max-width: 400px;
-   }
+        .barcode-title {
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
 
+        #barcode {
+            margin: 20px auto;
+        }
 
+        .back-button {
+            font-size: 1em;
+            padding: 10px 20px;
+            background-color: #007aff;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-transform: uppercase;
+            margin-top: 20px;
+        }
 
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+</head>
+<body>
+    
+    <header class="header">
+        <nav class="nav">
+            <a href="index.html" class="nav_logo">AutomobileAvengers</a>
+            <ul class="nav_items">
+                <li class="nav_item">
+                    <a href="booking.html" class="nav_link">Booking</a>
+                    <a href="mechanics.html" class="nav_link">Mechanics</a>
+                    <a href="services.html" class="nav_link">Services</a>
+                    <a href="promotions.html" class="nav_link">Promotions</a>
+                    <a href="servicestatus.html" class="nav_link">Service Status</a>
+                </li>
+            </ul>
+            <div id="authButtons">
+                <button id="loginButton" class="login_button">Login</button>
+                <button id="logoutButton" class="login_button" style="display: none">Logout</button>
+            </div>
+        </nav>
+    </header>
 
-     .barcode-title {
-       font-size: 2em;
-       margin-bottom: 15px;
-     }
+   
+    <div class="barcode-container">
+        <h1 class="barcode-title">Your Promotion Code</h1>
+       
+        <div id="promotion-code" style="font-size: 1.5em; margin-bottom: 20px; color: white;"></div>
+        
+        <svg id="barcode"></svg>
+    </div>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const authToken = sessionStorage.getItem("authToken");
+            const loginButton = document.getElementById("loginButton");
+            const logoutButton = document.getElementById("logoutButton");
 
-     #barcode {
-       margin: 20px auto;
-     }
+            
+            if (authToken) {
+                loginButton.style.display = "none";
+                logoutButton.style.display = "inline-block";
+            } else {
+                loginButton.style.display = "inline-block";
+                logoutButton.style.display = "none";
+            }
 
+            
+            logoutButton.addEventListener("click", () => {
+                sessionStorage.clear(); 
+                alert("You have been logged out.");
+                window.location.href = "index.html"; 
+            });
 
-     .back-button {
-       font-size: 1em;
-       padding: 10px 20px;
-       background-color: #007Aff;
-       color: black;
-       border: none;
-       border-radius: 5px;
-       cursor: pointer;
-       text-transform: uppercase;
-       margin-top: 20px;
-     }
+            
+            loginButton.addEventListener("click", () => {
+                window.location.href = "login.html";
+            });
+        });
 
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get("code") || "No code found!";
 
-     .back-button:hover {
-       background-color: #0056b3;
-     }
-   </style>
-   <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
- </head>
- <body>
-   <!-- Header -->
-   <header class="header">
-     <nav class="nav">
-       <a href="index.html" class="nav_logo">AutomobileAvengers</a>
-       <ul class="nav_items">
-         <li class="nav_item">
-           <a href="booking.html" class="nav_link">Booking</a>
-           <a href="mechanics.html" class="nav_link">Mechanics</a>
-           <a href="services.html" class="nav_link">Services</a>
-           <a href="promotions.html" class="nav_link">Promotions</a>
-           <a href="servicestatus.html" class="nav_link">Service Status</a>
-         </li>
-       </ul>
-       <div id="authButtons">
-         <button id="loginButton" class="login_button">Login</button>
-         <button id="logoutButton" class="login_button" style="display: none">
-           Logout
-         </button>
-       </div>
-     </nav>
-   </header>
+        
+        document.getElementById("promotion-code").innerText = code;
 
-
-   <!-- Barcode Container -->
-   <div class="barcode-container">
-     <h1 class="barcode-title">Your Promotion Code</h1>
-     <!-- Promotion code text -->
-     <div id="promotion-code" style="font-size: 1.5em; margin-bottom: 20px; color: white;"></div>
-     <!-- SVG barcode -->
-     <svg id="barcode"></svg>
-   </div>
-
-
-   <script>
-     // Extract the 'code' parameter from the URL
-     const urlParams = new URLSearchParams(window.location.search);
-     const code = urlParams.get("code") || "No code found!";
-
-
-     // Display the code in the promotion-code div
-     document.getElementById("promotion-code").innerText = code;
-
-
-     // Generate a barcode
-     JsBarcode("#barcode", code, {
-       format: "CODE128",
-       displayValue: false,
-       lineColor: "white",
-       background: "transparent",
-       height: 100,
-       width: 2,
-     });
-   </script>
- </body>
+        
+        JsBarcode("#barcode", code, {
+            format: "CODE128",
+            displayValue: false,
+            lineColor: "white",
+            background: "transparent",
+            height: 100,
+            width: 2,
+        });
+    </script>
+</body>
 </html>
 
 

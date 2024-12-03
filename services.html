@@ -11,7 +11,7 @@
     <style>
         .services-container {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 3 cards per row */
+            grid-template-columns: repeat(3, 1fr); 
             gap: 40px;
             max-width: 1100px;
             margin: 0 auto;
@@ -19,7 +19,7 @@
         }
 
         .service-card p {
-            color: #007bff; /* Make the prices blue */
+            color: #007bff; 
             font-weight: bold;
         }
 
@@ -49,12 +49,12 @@
         }
 
         .service-card:hover {
-            transform: translateY(-5px); /* Hover effect */
+            transform: translateY(-5px); 
         }
 
         .services-section {
-            margin-top: 60px; /* Gap from the top */
-            text-align: center; /* Center the heading */
+            margin-top: 60px; 
+            text-align: center; 
         }
 
         h1 {
@@ -69,7 +69,7 @@
             const loginButton = document.getElementById("loginButton");
             const logoutButton = document.getElementById("logoutButton");
 
-            // Toggle button visibility based on login state
+            
             if (authToken) {
                 loginButton.style.display = "none";
                 logoutButton.style.display = "inline-block";
@@ -78,28 +78,28 @@
                 logoutButton.style.display = "none";
             }
 
-            // Handle logout
+            
             logoutButton.addEventListener("click", () => {
                 sessionStorage.removeItem("authToken");
                 sessionStorage.removeItem("userName");
                 alert("You have been logged out.");
-                window.location.href = "index.html"; // Redirect to homepage
+                window.location.href = "index.html"; 
             });
 
-            // Redirect to login page
+            
             loginButton.addEventListener("click", () => {
                 window.location.href = "login.html";
             });
         });
     </script>
 </head>
-<<<<<<< HEAD
-=======
+
+
 <script src="auth.js"></script>
 <style>
    .services-container {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 cards per row */
+    grid-template-columns: repeat(3, 1fr); 
     gap: 40px;
     max-width: 1100px;
     margin: 0 auto;
@@ -107,7 +107,7 @@
 }
 
 .service-card p {
-    color: #007bff; /* Make the prices blue */
+    color: #007bff; 
     font-weight: bold;
 }
 
@@ -137,12 +137,12 @@
 }
 
 .service-card:hover {
-    transform: translateY(-5px); /* Hover effect */
+    transform: translateY(-5px); 
 }
 
 .services-section {
-    margin-top: 60px; /* Gap from the top */
-    text-align: center; /* Center the heading */
+    margin-top: 60px; 
+    text-align: center; 
 }
 
 h1 {
@@ -151,9 +151,9 @@ h1 {
     margin-bottom: 40px;
 }
 </style>
->>>>>>> b6cdb2ca72b98f762fa440815011685bef708729
+
 <body>
-    <!-- Header -->
+    
     <header class="header">
         <nav class="nav">
             <a href="index.html" class="nav_logo">AutomobileAvengers</a>
@@ -173,18 +173,18 @@ h1 {
         </nav>
     </header>
 
-   <!-- Services Section -->
+
    <main class="services-section">
     <h1>Services</h1>
     <div class="services-container">
-        <!-- Service Card 1 -->
+       
         <div class="service-card">
             <img src="images/assets/engine-oil.png" alt="Oil Change" style="height: 200px; width: 200px;">
             <h3>Oil Change</h3>
             <p>$70.99</p>
             <a href="booking.html" class="contact-button">Book Now</a>
         </div>
-        <!-- Service Card 2 -->
+        
         <div class="service-card">
 
             <img src="images/assets/tires.png" alt="tire-replacement" style="height: 200px; width: 200px;">
@@ -194,7 +194,7 @@ h1 {
             <a href="booking.html" class="contact-button">Book Now</a>
         </div>
 
-        <!-- Service Card 3 -->
+        
         <div class="service-card">
             <img src="images/assets/tire.png" alt="Tire Rotation" style="height: 200px; width: 200px;">
             <h3>Tire Rotation</h3>
@@ -202,7 +202,7 @@ h1 {
             <a href="booking.html" class="contact-button">Book Now</a>
         </div>
 
-        <!-- Service Card 4 -->
+       
         <div class="service-card">
             <img src="images/assets/spark-plug.png" alt="Spark Plug" style="height: 200px; width: 200px;">
             <h3>Spark Plug</h3>
@@ -210,7 +210,7 @@ h1 {
             <a href="booking.html" class="contact-button">Book Now</a>
         </div>
 
-        <!-- Service Card 5 -->
+        
         <div class="service-card">
             <img src="images/assets/oil-filter.png" alt="Engine Air Filter" style="height: 200px; width: 200px;">
             <h3>Engine Air Filter</h3>
@@ -218,7 +218,7 @@ h1 {
             <a href="booking.html" class="contact-button">Book Now</a>
         </div>
 
-        <!-- Service Card 6 -->
+        
         <div class="service-card">
             <img src="images/assets/disc-brake.png" alt="Brake Replacement" style="height: 200px; width: 200px;">
             <h3>Brake Replacement</h3>

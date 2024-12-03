@@ -24,7 +24,7 @@
 
                     if (response.ok) {
                         alert("Account created successfully! Redirecting to login...");
-                        window.location.href = "login.html"; // Redirect to login page
+                        window.location.href = "login.html"; 
                     } else {
                         const errorText = await response.text();
                         alert(`Error: ${errorText}`);
