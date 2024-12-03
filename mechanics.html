@@ -8,39 +8,35 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="media-queries.css">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
-</head>
-<body>
-    <!-- Header -->
-    <header class="header">
-        <nav class="nav">
-            <a href="index.html" class="nav_logo">AutomobileAvengers</a>
-            <ul class="nav_items">
-                <li class="nav_item">
-                    <a href="booking.html" class="nav_link">Booking</a>
-                    <a href="mechanics.html" class="nav_link">Mechanics</a>
-                    <a href="services.html" class="nav_link">Services</a>
-                    <a href="promotions.html" class="nav_link">Promotions</a>
-                    <a href="servicestatus.html" class="nav_link">Service Status</a>
-                </li>
-            </ul>
-        </nav>
-    </header>
-
-    <!-- Mechanics Section -->
-    <main class="mechanics-section">
-        <h1>Our Team</h1>
-        <p>Our team of skilled professionals is here to provide the best care for your vehicle.</p>
-        <div class="mechanics-container" id="mechanics-container">
-            <!-- Mechanics will be dynamically loaded here -->
-        </div>
-    </main>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <p>&copy; 2024 Automobile Avengers. All rights reserved.</p>
-    </footer>
-
     <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const authToken = sessionStorage.getItem("authToken");
+            const loginButton = document.getElementById("loginButton");
+            const logoutButton = document.getElementById("logoutButton");
+
+            // Toggle button visibility based on login state
+            if (authToken) {
+                loginButton.style.display = "none";
+                logoutButton.style.display = "inline-block";
+            } else {
+                loginButton.style.display = "inline-block";
+                logoutButton.style.display = "none";
+            }
+
+            // Handle logout
+            logoutButton.addEventListener("click", () => {
+                sessionStorage.removeItem("authToken");
+                sessionStorage.removeItem("userName");
+                alert("You have been logged out.");
+                window.location.href = "index.html"; // Redirect to homepage
+            });
+
+            // Redirect to login page
+            loginButton.addEventListener("click", () => {
+                window.location.href = "login.html";
+            });
+        });
+
         async function loadMechanics() {
             const specialties = [
                 'Engine Repair',
@@ -57,46 +53,36 @@
                 'images/assets/mechanic1.jpg',
                 'images/assets/mechanic2.jpg',
                 'images/assets/mechanic3.jpg',
-                'images/assets/mechanic4.jpg',
+                'images/assets/mechanic4.jpg'
             ];
 
             try {
                 const response = await fetch('http://localhost:8080/api/mechanics');
                 const mechanics = await response.json();
-
-                // Check if mechanic data is already stored in localStorage
-                let mechanicData = JSON.parse(localStorage.getItem('mechanicData'));
-
-                if (!mechanicData) {
-                    // If no data in localStorage, assign specialties and images
-                    mechanicData = mechanics.map(mechanic => {
-                        const randomSpecialty = specialties[Math.floor(Math.random() * specialties.length)];
-                        const randomImage = images[Math.floor(Math.random() * images.length)];
-
-                        return {
-                            ...mechanic,
-                            specialty: randomSpecialty,
-                            image: randomImage
-                        };
-                    });
-
-                    // Store the data in localStorage for future use
-                    localStorage.setItem('mechanicData', JSON.stringify(mechanicData));
-                }
-
                 const container = document.getElementById('mechanics-container');
-
+                
                 // Clear existing content
                 container.innerHTML = '';
 
-                // Display each mechanic with their specialty and image
-                mechanicData.forEach(mechanic => {
+                // Add each mechanic's details to the page
+                mechanics.forEach(mechanic => {
+                    // Check if the specialty is already stored in localStorage
+                    let mechanicSpecialty = localStorage.getItem(mechanic.mechanicName);
+
+                    // If not, assign a random specialty and store it
+                    if (!mechanicSpecialty) {
+                        mechanicSpecialty = specialties[Math.floor(Math.random() * specialties.length)];
+                        localStorage.setItem(mechanic.mechanicName, mechanicSpecialty);
+                    }
+
+                    const randomImage = images[Math.floor(Math.random() * images.length)];
+
                     const card = document.createElement('div');
                     card.className = 'mechanic-card';
                     card.innerHTML = `
-                        <img src="${mechanic.image}" alt="${mechanic.mechanicName}" class="mechanic-photo">
+                        <img src="${randomImage}" alt="${mechanic.mechanicName}" class="mechanic-photo">
                         <h3>${mechanic.mechanicName}</h3>
-                        <p class="mechanic-specialty">${mechanic.specialty}</p>
+                        <p class="mechanic-specialty">${mechanicSpecialty}</p>
                     `;
                     container.appendChild(card);
                 });
@@ -108,5 +94,41 @@
         // Load mechanics on page load
         document.addEventListener('DOMContentLoaded', loadMechanics);
     </script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <a href="index.html" class="nav_logo">AutomobileAvengers</a>
+            <ul class="nav_items">
+                <li class="nav_item">
+                    <a href="booking.html" class="nav_link">Booking</a>
+                    <a href="mechanics.html" class="nav_link">Mechanics</a>
+                    <a href="services.html" class="nav_link">Services</a>
+                    <a href="promotions.html" class="nav_link">Promotions</a>
+                    <a href="servicestatus.html" class="nav_link">Service Status</a>
+                </li>
+            </ul>
+            <div id="authButtons">
+                <button id="loginButton" class="login_button">Login</button>
+                <button id="logoutButton" class="login_button" style="display: none;">Logout</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Mechanics Section -->
+    <main class="mechanics-section">
+        <h1>Our Team</h1>
+        <p>Our team of skilled professionals is here to provide the best care for your vehicle.</p>
+        <div class="mechanics-container" id="mechanics-container">
+            <!-- Mechanics will be dynamically loaded here -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 Automobile Avengers. All rights reserved.</p>
+    </footer>
 </body>
 </html>
+
