@@ -7,12 +7,13 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="media-queries.css">
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
+        document.addEventListener("DOMContentLoaded", async () => {
             const adminToken = sessionStorage.getItem("adminToken");
 
             if (!adminToken) {
                 alert("You must be logged in as an admin to access this page.");
                 window.location.href = "admin.html";
+                return;
             }
 
             const logoutButton = document.getElementById("logoutButton");
@@ -23,19 +24,56 @@
                 alert("You have been logged out.");
                 window.location.href = "admin.html";
             });
+
+            // Fetch live data
+            try {
+                const appointmentsCount = await fetchAppointmentsCount();
+                const promotionsCount = await fetchPromotionsCount();
+
+                // Update the dashboard cards
+                document.getElementById("appointmentsCount").textContent = appointmentsCount;
+                document.getElementById("promotionsCount").textContent = promotionsCount;
+            } catch (error) {
+                console.error("Error fetching dashboard data:", error);
+                alert("Failed to load dashboard data.");
+            }
         });
+
+        async function fetchAppointmentsCount() {
+            try {
+                const response = await fetch("http://localhost:8080/api/appointments/admin/appointments");
+                if (!response.ok) throw new Error("Failed to fetch appointments count");
+                const data = await response.json();
+                return data.count || 0;
+            } catch (error) {
+                console.error("Error fetching appointments count:", error);
+                return 0;
+            }
+        }
+
+        async function fetchPromotionsCount() {
+            try {
+                const response = await fetch("http://localhost:8080/api/promotions/claimed-count");
+                if (!response.ok) throw new Error("Failed to fetch promotions count");
+                const data = await response.json();
+                return data.count || 0;
+            } catch (error) {
+                console.error("Error fetching promotions count:", error);
+                return 0;
+            }
+        }
     </script>
 </head>
 <body>
     <header class="header">
         <nav class="nav">
-            <a href="adminpage.html" class="nav_logo">AutomobileAvengers</a>
+            <a href="adminpage.html" class="nav_logo">Automobile Avengers</a>
             <ul class="nav_items">
                 <li class="nav_item">
                     <a href="Dashboard.html" class="nav_link">Dashboard</a>
                     <a href="mechanicsadminview.html" class="nav_link">Mechanics</a>
                     <a href="AdminBooking.html" class="nav_link">Bookings</a>
-					<a href="adminpromotions.html" class ="nav_link">Promotions</a>
+                    <a href="adminpromotions.html" class="nav_link">Promotions</a>
                 </li>
             </ul>
             <button id="logoutButton" class="login_button" style="display: none;">Logout</button>
@@ -46,30 +84,17 @@
         <div class="dashboard-cards">
             <div class="card">
                 <h2>
-                    <i class="material-icons card-icon">attach_money</i>
-                    New Net Income
-                </h2>
-                <p class="value">$8,245.00</p>
-                <p class="trend">▼ -0.85% from last week</p>
-                <i class="material-icons card-icon-right">bar_chart</i>
-            </div>
-            <div class="card">
-                <h2>
                     <i class="material-icons card-icon">event_note</i>
-                    Total Bookings
+                    Total Appointments
                 </h2>
-                <p class="value">256</p>
-                <p class="trend">▲ +3.01% from last week</p>
-                <i class="material-icons card-icon-right">trending_up</i>
+                <p class="value" id="appointmentsCount">Loading...</p>
             </div>
             <div class="card">
                 <h2>
-                    <i class="material-icons card-icon">build</i>
-                    Services Provided
+                    <i class="material-icons card-icon">local_offer</i>
+                    Promotions Claimed
                 </h2>
-                <p class="value">1,256</p>
-                <p class="trend">▲ +1.0% from last week</p>
-                <i class="material-icons card-icon-right">trending_up</i>
+                <p class="value" id="promotionsCount">Loading...</p>
             </div>
         </div>
     </div>
