@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your Status</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f9f9f9;
+      }
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+        background-color: #fff;
+        border-bottom: 1px solid #ddd;
+      }
+      header img {
+        height: 40px;
+      }
+      header .menu {
+        display: flex;
+        gap: 20px;
+      }
+      header .menu a {
+        text-decoration: none;
+        color: black;
+        font-size: 14px;
+      }
+      .container {
+        max-width: 800px;
+        margin: 110px auto;
+        text-align: center;
+        background-color: white;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+      }
+      .container h1 {
+        font-size: 28px;
+        margin-top: 30px;
+        margin-bottom: 20px;
+      }
+      .form-group {
+        margin-bottom: 20px;
+        margin-top: 20px;
+      }
+      .form-group input {
+        margin-top: 10px;
+        padding: 10px;
+        font-size: 16px;
+        width: 300px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      .form-group button {
+        padding: 10px 20px;
+        font-size: 16px;
+        color: white;
+        background-color: black;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .image-content {
+        display: flex;
+        justify-content: center;
+        margin: 20px auto;
+        align-items: center;
+        margin-top: 20px;
+      }
+      .image-content img {
+        height: 150px;
+        width: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <nav class="nav">
+        <a href="index.html" class="nav_logo">AutomobileAvengers</a>
+        <ul class="nav_items">
+          <li class="nav_item">
+            <a href="booking.html" class="nav_link">Booking</a>
+            <a href="mechanics.html" class="nav_link">Mechanics</a>
+            <a href="services.html" class="nav_link">Services</a>
+            <a href="promotions.html" class="nav_link">Promotions</a>
+            <a href="servicestatus.html" class="nav_link">Service Status</a>
+          </li>
+        </ul>
+        <div id="authButtons">
+          <button id="loginButton" class="login_button">Logout</button>
+          <button id="logoutButton" class="login_button" style="display: none">
+            Logout
+          </button>
+        </div>
+      </nav>
+    </header>
+  </body>
+</html>
+<div class="container">
+  <div class="status">
+    <div class="checked-in">
+      Checked in
+      <span></span>
+    </div>
+    <div class="in-progress">
+      In progress
+      <span></span>
+    </div>
+    <div class="ready-for-pickup">
+      Ready for pick up
+      <span></span>
+    </div>
+  </div>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      background-color: #fff;
+      border-bottom: 1px solid #ddd;
+    }
+    header img {
+      height: 40px;
+    }
+    header .menu {
+      display: flex;
+      gap: 20px;
+    }
+    header .menu a {
+      text-decoration: none;
+      color: black;
+      font-size: 14px;
+    }
+    .container {
+      max-width: 800px;
+      margin: 110px auto;
+      text-align: center;
+      background-color: white;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+    }
+    .status {
+      margin: 50px auto;
+      text-align: center;
+    }
+    .status div {
+      font-size: 20px;
+      font-weight: bold;
+      margin: 10px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .status div span {
+      margin-left: 10px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .checked-in span {
+      background-color: gray;
+    }
+    .in-progress span {
+      background-color: green;
+    }
+    .ready-for-pickup span {
+      background-color: gray;
+    }
+  </style>
+</div>
