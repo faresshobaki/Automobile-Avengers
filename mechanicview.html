@@ -104,7 +104,6 @@
     <div class="navbar">Mechanic Dashboard</div>
 
     <div class="container">
-        
         <div class="login-section" id="loginSection">
             <h2>Mechanic Login</h2>
             <input type="text" id="username" placeholder="Username (e.g., JohnDoeM001)" />
@@ -112,7 +111,6 @@
             <button onclick="loginMechanic()">Login</button>
         </div>
 
-       
         <div class="mechanic-card" id="mechanicCard">
             <h2>Welcome, <span id="mechanicFullName"></span></h2>
             <p><strong>Mechanic ID:</strong> <span id="mechanicId"></span></p>
@@ -125,15 +123,27 @@
             </div>
         </div>
 
-       
         <div class="appointments-section" id="appointmentsSection">
             <h3>Upcoming Appointments</h3>
             <ul id="appointmentsList"></ul>
         </div>
 
-        
-        <div class="logout-button" id="logoutButton">
+        <div class="logout-button" style="display: none;" id="logoutButton">
             <button onclick="logoutMechanic()">Logout</button>
+        </div>
+
+        <div id="updateStatusSection" style="display: none;">
+            <h3>Update Service Status</h3>
+            <input type="text" id="serviceId" placeholder="Enter Service ID">
+            <select id="serviceStatus">
+                <option value="Checked In">Checked In</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Ready for Pick Up">Ready for Pick Up</option>
+            </select>
+            <button onclick="updateServiceStatus(
+                document.getElementById('serviceId').value, 
+                document.getElementById('serviceStatus').value
+            )">Update Status</button>
         </div>
     </div>
 
@@ -159,16 +169,13 @@
                 const mechanic = await response.json();
                 mechanicId = mechanic.id;
 
-                localStorage.setItem("mechanicUsername", username);
-                localStorage.setItem("mechanicPassword", password);
-
                 document.getElementById("loginSection").style.display = "none";
                 document.getElementById("mechanicCard").style.display = "block";
                 document.getElementById("appointmentsSection").style.display = "block";
                 document.getElementById("logoutButton").style.display = "block";
-
+                document.getElementById("updateStatusSection").style.display = "block";
                 document.getElementById("mechanicFullName").innerText = mechanic.mechanicName;
-                document.getElementById("mechanicId").innerText = mechanic.mechanicId;
+                document.getElementById("mechanicId").innerText = mechanic.id;
                 document.getElementById("hourlyRate").innerText = mechanic.hourlyRate.toFixed(2);
                 document.getElementById("hoursWorked").innerText = mechanic.hoursWorked.toFixed(2);
                 document.getElementById("grossSalary").innerText = (mechanic.hourlyRate * mechanic.hoursWorked).toFixed(2);
@@ -180,67 +187,62 @@
             }
         }
 
-        async function clockIn() {
+        async function updateServiceStatus(serviceId, newStatus) {
             try {
-                const response = await fetch(`http://localhost:8080/api/mechanics/${mechanicId}/clock-in`, {
-                    method: "POST"
+                const response = await fetch(`http://localhost:8080/api/appointments/service-status`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ serviceStatusNumber: serviceId, status: newStatus }),
                 });
 
-                if (!response.ok) throw new Error("Clock-in failed");
-
-                alert("Clock-in successful!");
-                fetchAppointments();
+                if (response.ok) {
+                    alert("Service status updated successfully.");
+                    fetchAppointments(); // Refresh appointments
+                } else {
+                    const error = await response.text();
+                    alert(`Failed to update service status: ${error}`);
+                }
             } catch (error) {
-                console.error("Clock-in error:", error);
-                alert("Clock-in failed.");
+                console.error("Error updating service status:", error);
             }
         }
 
-        async function clockOut() {
-            try {
-                const response = await fetch(`http://localhost:8080/api/mechanics/${mechanicId}/clock-out`, {
-                    method: "POST"
-                });
+		async function fetchAppointments() {
+		        try {
+		            const response = await fetch(`http://localhost:8080/api/appointments/${mechanicId}`);
+		            if (!response.ok) throw new Error("Failed to fetch appointments");
 
-                if (!response.ok) throw new Error("Clock-out failed");
+		            const appointments = await response.json();
+		            const appointmentsList = document.getElementById("appointmentsList");
+		            appointmentsList.innerHTML = "";
 
-                alert("Clock-out successful!");
-                fetchAppointments();
-            } catch (error) {
-                console.error("Clock-out error:", error);
-                alert("Clock-out failed.");
-            }
-        }
+		            appointments.forEach(app => {
+		                const li = document.createElement("li");
 
-        async function fetchAppointments() {
-            try {
-                const response = await fetch(`http://localhost:8080/api/appointments/${mechanicId}`);
-                if (!response.ok) throw new Error("Failed to fetch appointments");
+		                // Append serviceStatusNumber to the appointment details
+		                li.innerHTML = `
+		                    <strong>Date:</strong> ${app.date} <br>
+		                    <strong>Time:</strong> ${app.time} <br>
+		                    <strong>Service:</strong> ${app.service} <br>
+		                    <strong>Status:</strong> ${app.status} <br>
+		                    <strong>Service Status Number:</strong> ${app.serviceStatusNumber}
+		                `;
 
-                const appointments = await response.json();
-                const appointmentsList = document.getElementById("appointmentsList");
-                appointmentsList.innerHTML = "";
-
-                appointments.forEach(app => {
-                    const li = document.createElement("li");
-                    li.textContent = `Date: ${app.date}, Time: ${app.time}, Service: ${app.service}`;
-                    appointmentsList.appendChild(li);
-                });
-            } catch (error) {
-                console.error("Error loading appointments:", error);
-                alert("Failed to load appointments.");
-            }
-        }
+		                appointmentsList.appendChild(li);
+		            });
+		        } catch (error) {
+		            console.error("Error loading appointments:", error);
+		            alert("Failed to load appointments.");
+		        }
+		    }
 
         function logoutMechanic() {
-            localStorage.removeItem("mechanicUsername");
-            localStorage.removeItem("mechanicPassword");
-
+            mechanicId = null;
             document.getElementById("loginSection").style.display = "block";
             document.getElementById("mechanicCard").style.display = "none";
             document.getElementById("appointmentsSection").style.display = "none";
             document.getElementById("logoutButton").style.display = "none";
-
+            document.getElementById("updateStatusSection").style.display = "none";
             alert("You have been logged out.");
         }
     </script>

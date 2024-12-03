@@ -328,7 +328,7 @@ a {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 100vh; /* Makes it take full viewport height */
+    min-height: 67vh; /* Makes it take full viewport height */
 }
 
 
@@ -715,7 +715,6 @@ a {
 body, html {
     height: 100%;
     margin: 0;
-    display: flex;
     flex-direction: column;
 }
 
@@ -865,7 +864,7 @@ main {
 }
 
 .login-section .forgot-password a {
-    color: #007bff;
+    color: #007AFF;
     text-decoration: none;
 }
 
@@ -880,7 +879,7 @@ main {
 }
 
 .login-section .login-footer a {
-    color: #007bff;
+    color: #007AFF;
     text-decoration: none;
 }
 
@@ -903,3 +902,13 @@ main {
         font-size: 14px;
     }
 }
+.login-section .not-mechanic a {
+    color: #007AFF; /* Change this to any color you prefer */
+    text-decoration: none;
+}
+
+.login-section .admin-view a, .login-section .mechanic-view a {
+    color: #007AFF; /* Change to your desired color */
+    text-decoration: none;
+}
+
