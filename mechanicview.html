@@ -197,7 +197,7 @@
 
                 if (response.ok) {
                     alert("Service status updated successfully.");
-                    fetchAppointments(); // Refresh appointments
+                    fetchAppointments(); 
                 } else {
                     const error = await response.text();
                     alert(`Failed to update service status: ${error}`);
@@ -219,7 +219,7 @@
 		            appointments.forEach(app => {
 		                const li = document.createElement("li");
 
-		                // Append serviceStatusNumber to the appointment details
+		              
 		                li.innerHTML = `
 		                    <strong>Date:</strong> ${app.date} <br>
 		                    <strong>Time:</strong> ${app.time} <br>
