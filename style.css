@@ -788,3 +788,118 @@ main {
 .submit-button:hover {
     background: darkgray;
 }
+
+
+/* Style the login section container */
+.login-section {
+    max-width: 400px;
+    margin: 100px auto;
+    background-color: white;
+    padding: 40px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+/* Header inside the login section */
+.login-section h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+/* Back button inside the login section */
+.login-section .back-button {
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.login-section .back-arrow {
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+}
+
+/* Form styling inside the login section */
+.login-section .login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.login-section .login-form label {
+    font-weight: bold;
+}
+
+.login-section .login-form input {
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+.login-section .login-form input:focus {
+    border-color: #007AFF;
+    outline: none;
+}
+
+/* Submit button inside the login section */
+.login-section .login-button {
+    background-color: black;
+    color: white;
+    padding: 12px;
+    border-radius: 6px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.login-section .login-button:hover {
+    background-color: black;
+}
+
+/* Forgot password link inside the login section */
+.login-section .forgot-password {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.login-section .forgot-password a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.login-section .forgot-password a:hover {
+    text-decoration: underline;
+}
+
+/* Footer text inside the login section */
+.login-section .login-footer {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.login-section .login-footer a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.login-section .login-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .login-section {
+        padding: 20px;
+        max-width: 100%;
+    }
+
+    .login-section .login-form input {
+        font-size: 14px;
+    }
+
+    .login-section .login-button {
+        font-size: 14px;
+    }
+}
