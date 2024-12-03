@@ -186,7 +186,32 @@
                 alert("An error occurred during login.");
             }
         }
-
+		async function clockIn() {
+		    try {
+		        const response = await fetch(`http://localhost:8080/api/mechanics/${mechanicId}/clock-in`, {
+		            method: "POST"
+		        });
+		        if (!response.ok) throw new Error("Clock-in failed");
+		        alert("Clock-in successful!");
+		        fetchAppointments();
+		    } catch (error) {
+		        console.error("Clock-in error:", error);
+		        alert("Clock-in failed.");
+		    }
+		}
+		async function clockOut() {
+		    try {
+		        const response = await fetch(`http://localhost:8080/api/mechanics/${mechanicId}/clock-out`, {
+		            method: "POST"
+		        });
+		        if (!response.ok) throw new Error("Clock-out failed");
+		        alert("Clock-out successful!");
+		        fetchAppointments();
+		    } catch (error) {
+		        console.error("Clock-out error:", error);
+		        alert("Clock-out failed.");
+		    }
+		}
         async function updateServiceStatus(serviceId, newStatus) {
             try {
                 const response = await fetch(`http://localhost:8080/api/appointments/service-status`, {
