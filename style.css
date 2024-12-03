@@ -443,7 +443,7 @@ a {
 }
 
 .dashboard-cards {
-    display: grid;
+    display: flex;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 20px;
     justify-content: center;
@@ -568,6 +568,8 @@ a {
     background-color: #ccc;
     border-radius: 10px;
     overflow: hidden;
+    min-width: 1000px;
+    max-width: 1000px;
   }
   
   .time-slot {
@@ -596,6 +598,13 @@ a {
     min-height: 60px;
     transition: background-color 0.2s;
   }
+  .day-column.empty {
+    background-color: #f8f9fa; /* Subtle gray for empty slots */
+    color: #999; /* Light text color to indicate no appointments */
+    font-style: italic;
+    border: 1px solid #ddd;
+}
+
   .day-column:hover {
     background-color: #f0f8ff;
   }
@@ -610,7 +619,7 @@ a {
     cursor: pointer;
     transition: background-color 0.3s, transform 0.2s;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-    margin: 0; /* Remove unnecessary margin */
+    margin: 2px auto; /* Remove unnecessary margin */
   }
   
   .appointment:hover {

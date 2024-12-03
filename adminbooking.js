@@ -64,26 +64,31 @@ function renderCalendar() {
       dayDate.setDate(startOfWeek.getDate() + day);
 
       const cellDiv = document.createElement("div");
-      cellDiv.className = "day-column";
+      cellDiv.className = "day-column empty"; // Default class for empty cells
 
       appointments.forEach(appointment => {
-  if (
-    new Date(appointment.date).toDateString() === dayDate.toDateString() &&
-    appointment.time === timeLabel
-  ) {
-    const appointmentDiv = document.createElement("div");
-    appointmentDiv.className = "appointment";
-    appointmentDiv.textContent = formatServiceName(appointment.service); // Use the formatted name
-    appointmentDiv.dataset.appointmentId = appointment.id;
+        if (
+          new Date(appointment.date).toDateString() === dayDate.toDateString() &&
+          appointment.time === timeLabel
+        ) {
+          cellDiv.classList.remove("empty");
+          cellDiv.classList.add("filled"); // Optional to style filled cells differently
 
-    cellDiv.appendChild(appointmentDiv);
-  }
-});
+          const appointmentDiv = document.createElement("div");
+          appointmentDiv.className = "appointment";
+          appointmentDiv.textContent = formatServiceName(appointment.service);
+          appointmentDiv.dataset.appointmentId = appointment.id;
+
+          cellDiv.appendChild(appointmentDiv);
+        }
+      });
 
       calendarGrid.appendChild(cellDiv);
     }
   }
 }
+
+
 
 
 // Open appointment details
