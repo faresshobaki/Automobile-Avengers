@@ -3,67 +3,248 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mechanic Dashboard | Login</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Mechanic Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        .navbar {
+            background-color: #16181b;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            background: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        input {
+            width: calc(100% - 2rem);
+            padding: 0.8rem;
+            margin: 0.5rem 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        button {
+            background-color: #181a1d;
+            color: #fff;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #292f3d;
+        }
+
+        .actions {
+            margin-top: 1rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .mechanic-card, .appointments-section, .logout-button {
+            margin-top: 2rem;
+            display: none;
+        }
+
+        .mechanic-card {
+            background-color: #f9f9f9;
+            padding: 1.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .appointments-section ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .appointments-section ul li {
+            background: #f4f4f9;
+            margin: 0.5rem 0;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .logout-button {
+            display: block;
+            margin: 2rem auto;
+            text-align: center;
+        }
+
+        .logout-button button {
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
-    <section class="login-section">
-        <h1>Mechanic Login</h1>
-        <a href="javascript:history.back()" class="back-button">
-            <img src="images/assets/turn-back.png" alt="Back" class="back-arrow">
-        </a>
-        <form id="loginForm" class="login-form">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" placeholder="Enter your username" required>
-            
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" placeholder="Enter your password" required>
-            
-            <button type="submit" class="login-button">Login</button>
-        </form>
-        <!-- Not a mechanic? section -->
-        <div class="not-mechanic">
-            <p>Not a mechanic? <a href="login.html">Login as a User</a></p>
+    <div class="navbar">Mechanic Dashboard</div>
+
+    <div class="container">
+        <div class="login-section" id="loginSection">
+            <h2>Mechanic Login</h2>
+            <input type="text" id="username" placeholder="Username (e.g., JohnDoeM001)" />
+            <input type="password" id="password" placeholder="Password" />
+            <button onclick="loginMechanic()">Login</button>
         </div>
-    </section>
+
+        <div class="mechanic-card" id="mechanicCard">
+            <h2>Welcome, <span id="mechanicFullName"></span></h2>
+            <p><strong>Mechanic ID:</strong> <span id="mechanicId"></span></p>
+            <p><strong>Hourly Rate:</strong> $<span id="hourlyRate"></span></p>
+            <p><strong>Hours Worked:</strong> <span id="hoursWorked"></span></p>
+            <p><strong>Gross Salary:</strong> $<span id="grossSalary"></span></p>
+            <div class="actions">
+                <button onclick="clockIn()">Clock In</button>
+                <button onclick="clockOut()">Clock Out</button>
+            </div>
+        </div>
+
+        <div class="appointments-section" id="appointmentsSection">
+            <h3>Upcoming Appointments</h3>
+            <ul id="appointmentsList"></ul>
+        </div>
+
+        <div class="logout-button" style="display: none;" id="logoutButton">
+            <button onclick="logoutMechanic()">Logout</button>
+        </div>
+
+        <div id="updateStatusSection" style="display: none;">
+            <h3>Update Service Status</h3>
+            <input type="text" id="serviceId" placeholder="Enter Service ID">
+            <select id="serviceStatus">
+                <option value="Checked In">Checked In</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Ready for Pick Up">Ready for Pick Up</option>
+            </select>
+            <button onclick="updateServiceStatus(
+                document.getElementById('serviceId').value, 
+                document.getElementById('serviceStatus').value
+            )">Update Status</button>
+        </div>
+    </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const loginForm = document.getElementById("loginForm");
+        let mechanicId;
 
-            loginForm.addEventListener("submit", async (e) => {
-                e.preventDefault(); 
+        async function loginMechanic(username, password) {
+            username = username || document.getElementById("username").value;
+            password = password || document.getElementById("password").value;
 
-                const username = document.getElementById("username").value.trim();
-                const password = document.getElementById("password").value.trim();
+            try {
+                const response = await fetch("http://localhost:8080/api/mechanics/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ username, password })
+                });
 
-                if (!username || !password) {
-                    alert("Please enter both username and password.");
+                if (!response.ok) {
+                    alert("Login failed. Please check your credentials.");
                     return;
                 }
 
-                try {
-                    const response = await fetch("http://localhost:8080/api/mechanics/login", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ username, password }),
-                    });
+                const mechanic = await response.json();
+                mechanicId = mechanic.id;
 
-                    if (response.ok) {
-                        const mechanic = await response.json();
-                        alert(`Welcome back, ${mechanic.mechanicName}!`);
-                        window.location.href = "mechanic-dashboard.html"; 
-                    } else if (response.status === 401) {
-                        alert("Invalid username or password. Please try again.");
-                    } else {
-                        alert("An error occurred. Please try again.");
-                    }
-                } catch (error) {
-                    console.error("Login error:", error);
-                    alert("Unable to connect to the server. Please try again later.");
+                document.getElementById("loginSection").style.display = "none";
+                document.getElementById("mechanicCard").style.display = "block";
+                document.getElementById("appointmentsSection").style.display = "block";
+                document.getElementById("logoutButton").style.display = "block";
+                document.getElementById("updateStatusSection").style.display = "block";
+                document.getElementById("mechanicFullName").innerText = mechanic.mechanicName;
+                document.getElementById("mechanicId").innerText = mechanic.id;
+                document.getElementById("hourlyRate").innerText = mechanic.hourlyRate.toFixed(2);
+                document.getElementById("hoursWorked").innerText = mechanic.hoursWorked.toFixed(2);
+                document.getElementById("grossSalary").innerText = (mechanic.hourlyRate * mechanic.hoursWorked).toFixed(2);
+
+                fetchAppointments();
+            } catch (error) {
+                console.error("Login error:", error);
+                alert("An error occurred during login.");
+            }
+        }
+
+        async function updateServiceStatus(serviceId, newStatus) {
+            try {
+                const response = await fetch(`http://localhost:8080/api/appointments/service-status`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ serviceStatusNumber: serviceId, status: newStatus }),
+                });
+
+                if (response.ok) {
+                    alert("Service status updated successfully.");
+                    fetchAppointments(); // Refresh appointments
+                } else {
+                    const error = await response.text();
+                    alert(`Failed to update service status: ${error}`);
                 }
-            });
-        });
+            } catch (error) {
+                console.error("Error updating service status:", error);
+            }
+        }
+
+		async function fetchAppointments() {
+		        try {
+		            const response = await fetch(`http://localhost:8080/api/appointments/${mechanicId}`);
+		            if (!response.ok) throw new Error("Failed to fetch appointments");
+
+		            const appointments = await response.json();
+		            const appointmentsList = document.getElementById("appointmentsList");
+		            appointmentsList.innerHTML = "";
+
+		            appointments.forEach(app => {
+		                const li = document.createElement("li");
+
+		                // Append serviceStatusNumber to the appointment details
+		                li.innerHTML = `
+		                    <strong>Date:</strong> ${app.date} <br>
+		                    <strong>Time:</strong> ${app.time} <br>
+		                    <strong>Service:</strong> ${app.service} <br>
+		                    <strong>Status:</strong> ${app.status} <br>
+		                    <strong>Service Status Number:</strong> ${app.serviceStatusNumber}
+		                `;
+
+		                appointmentsList.appendChild(li);
+		            });
+		        } catch (error) {
+		            console.error("Error loading appointments:", error);
+		            alert("Failed to load appointments.");
+		        }
+		    }
+
+        function logoutMechanic() {
+            mechanicId = null;
+            document.getElementById("loginSection").style.display = "block";
+            document.getElementById("mechanicCard").style.display = "none";
+            document.getElementById("appointmentsSection").style.display = "none";
+            document.getElementById("logoutButton").style.display = "none";
+            document.getElementById("updateStatusSection").style.display = "none";
+            alert("You have been logged out.");
+        }
     </script>
 </body>
 </html>
