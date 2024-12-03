@@ -20,6 +20,7 @@ public class Appointment {
     private Long mechanicId;
     private String customerEmail;
     private String serviceStatusNumber; 
+    private String status;
 
     public Long getId() {
         return id;
@@ -99,5 +100,12 @@ public class Appointment {
 
     public void setServiceStatusNumber(String serviceStatusNumber) {
         this.serviceStatusNumber = serviceStatusNumber;
+    }
+    public String getStatus() { 
+        return status;
+    }
+
+    public void setStatus(String status) { 
+        this.status = status;
     }
 }

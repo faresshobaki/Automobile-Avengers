@@ -93,4 +93,16 @@ public class AppointmentService {
         
         appointmentRepository.delete(appointment);
     }
+    public void updateServiceStatus(String serviceStatusNumber, String status) throws Exception {
+        Appointment appointment = appointmentRepository.findByServiceStatusNumber(serviceStatusNumber);
+
+        if (appointment == null) {
+            throw new Exception("Appointment with Service Status Number not found.");
+        }
+
+        appointment.setStatus(status);
+
+        appointmentRepository.save(appointment);
+    }
+
 }

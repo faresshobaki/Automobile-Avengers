@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.UUID;
 
 @RestController
@@ -37,8 +38,10 @@ public class AppointmentController {
 
     @PostMapping
     public ResponseEntity<Map<String, String>> bookAppointment(@RequestBody Appointment appointment) {
-        String serviceStatusNumber = UUID.randomUUID().toString(); // Generate unique status number
+        // Generate a shorter numeric service status number
+        String serviceStatusNumber = generateServiceStatusNumber();
         appointment.setServiceStatusNumber(serviceStatusNumber);
+
         boolean success = appointmentService.bookAppointment(appointment);
 
         Map<String, String> response = new HashMap<>();
@@ -50,6 +53,13 @@ public class AppointmentController {
             response.put("message", "Appointment slot is already booked.");
             return ResponseEntity.badRequest().body(response);
         }
+    }
+
+    // Helper method to generate a shorter numeric service status number
+    private String generateServiceStatusNumber() {
+        Random random = new Random();
+        int number = random.nextInt(900000) + 100000; // Generate a 6-digit number between 100000 and 999999
+        return String.valueOf(number);
     }
 
     @GetMapping("/service-status/{serviceStatusNumber}")
@@ -101,5 +111,35 @@ public class AppointmentController {
 
             appointmentService.cancelAppointment(appointmentId, reason);
             return ResponseEntity.ok().build();
+        }
+        @PutMapping("/service-status")
+        public ResponseEntity<String> updateServiceStatus(@RequestBody UpdateStatusRequest request) {
+            try {
+                appointmentService.updateServiceStatus(request.getServiceStatusNumber(), request.getStatus());
+                return ResponseEntity.ok("Service status updated successfully.");
+            } catch (Exception e) {
+                return ResponseEntity.status(400).body("Failed to update service status: " + e.getMessage());
+            }
+        }
+
+        public static class UpdateStatusRequest {
+            private String serviceStatusNumber;
+            private String status;
+
+            public String getServiceStatusNumber() {
+                return serviceStatusNumber;
+            }
+
+            public void setServiceStatusNumber(String serviceStatusNumber) {
+                this.serviceStatusNumber = serviceStatusNumber;
+            }
+
+            public String getStatus() {
+                return status;
+            }
+
+            public void setStatus(String status) {
+                this.status = status;
+            }
         }
     }
