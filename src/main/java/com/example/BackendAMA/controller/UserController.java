@@ -69,8 +69,32 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid session");
         }
     }
-}
+    
+    @PostMapping("/reset-password/request")
+    public ResponseEntity<String> requestResetPassword(@RequestBody Map<String, String> request) {
+        String email = request.get("email");
 
+        boolean success = userService.sendVerificationCode(email);
+        if (success) {
+            return ResponseEntity.ok("Verification code sent to your email.");
+        } else {
+            return ResponseEntity.status(400).body("User not found with the provided email.");
+        }
+    }
+        @PostMapping("/reset-password")
+        public ResponseEntity<String> resetPassword(@RequestBody Map<String, String> request) {
+            String email = request.get("email");
+            String verificationCode = request.get("verificationCode");
+            String newPassword = request.get("newPassword");
+
+            boolean success = userService.resetPassword(email, verificationCode, newPassword);
+            if (success) {
+                return ResponseEntity.ok("Password reset successfully.");
+            } else {
+                return ResponseEntity.status(400).body("Invalid verification code or email.");
+            }
+        }
+}
 
 
 
