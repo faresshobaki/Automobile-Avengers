@@ -3,26 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | Automobile Avengers</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="auth.js" defer></script>
+    <title>Admin Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .login-container h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .login-container form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .login-container input {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .login-container button {
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .login-container button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-    
-    <section class="login-section">
-        <h1>Login to your Admin Account</h1>
-        <form id="loginForm" class="login-form" onsubmit="handleLogin(event, true)">
-            <label for="username">Email:</label>
-            <input type="text" id="adminusername" name="username" placeholder="Enter your username or email" required>
-            
-            <label for="password">Password:</label>
-            <input type="password" id="adminpassword" name="password" placeholder="Enter your password" required>
-            
-            <button type="submit" class="login-button">Login</button>
+    <div class="login-container">
+        <h1>Admin Login</h1>
+        <form onsubmit="handleLogin(event)">
+            <input type="email" id="adminusername" placeholder="Email" required>
+            <input type="password" id="adminpassword" placeholder="Password" required>
+            <button type="submit">Login</button>
         </form>
-        <div class="forgot-passord">
-            <a href="signup.html">Forgot Password?</a>
-        </div>
-    </section>
+    </div>
+
+    <script>
+        async function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById("adminusername").value;
+            const password = document.getElementById("adminpassword").value;
+
+            try {
+                const response = await fetch("http://localhost:8080/api/admin/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email, password }),
+                });
+
+                if (response.ok) {
+                    const { token } = await response.json();
+                    sessionStorage.setItem("adminToken", token);
+                    alert("Login successful!");
+                    window.location.href = "adminpage.html";
+                } else {
+                    alert("Invalid email or password.");
+                }
+            } catch (error) {
+                console.error("Login error:", error);
+                alert("Login failed. Please try again later.");
+            }
+        }
+    </script>
 </body>
 </html>
+

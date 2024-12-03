@@ -6,62 +6,71 @@
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="media-queries.css">
-    <script src="auth.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const adminToken = sessionStorage.getItem("adminToken");
+
+            if (!adminToken) {
+                alert("You must be logged in as an admin to access this page.");
+                window.location.href = "admin.html";
+            }
+
+            const logoutButton = document.getElementById("logoutButton");
+            logoutButton.style.display = "inline-block";
+
+            logoutButton.addEventListener("click", () => {
+                sessionStorage.removeItem("adminToken");
+                alert("You have been logged out.");
+                window.location.href = "admin.html";
+            });
+        });
+    </script>
 </head>
 <body>
-
-<header class="header">
-    <nav class="nav">
-        <a href="adminpage.html" class="nav_logo">AutomobileAvengers</a>
-        <ul class="nav_items">
-            <li class="nav_item">
-                <a href="Dashboard.html" class="nav_link">Dashboard</a>
-                <a href="mechanicsadminview.html" class="nav_link">Mechanics</a>
-                <a href="AdminBooking.html" class="nav_link">Bookings</a>
-            </li>
-        </ul>
-        <div id="authButtons">
-            <button id="loginButton" class="login_button">Login</button>
+    <header class="header">
+        <nav class="nav">
+            <a href="adminpage.html" class="nav_logo">AutomobileAvengers</a>
+            <ul class="nav_items">
+                <li class="nav_item">
+                    <a href="Dashboard.html" class="nav_link">Dashboard</a>
+                    <a href="mechanicsadminview.html" class="nav_link">Mechanics</a>
+                    <a href="AdminBooking.html" class="nav_link">Bookings</a>
+                </li>
+            </ul>
             <button id="logoutButton" class="login_button" style="display: none;">Logout</button>
-        </div>
-    </nav>
-</header>
-<script src="login.js"></script>
-<div class="dashboard-container">
-    <h1>Admin Dashboard:</h1>
-    <div class="dashboard-cards">
-        <div class="card">
-            <h2>
-                <i class="material-icons card-icon">attach_money</i>
-                New Net Income
-            </h2>
-            <p class="value">$8,245.00</p>
-            <p class="trend">▼ -0.85% from last week</p>
-           >
-            <i class="material-icons card-icon-right">bar_chart</i>
-        </div>
-        <div class="card">
-            <h2>
-                <i class="material-icons card-icon">event_note</i>
-                Total Bookings
-            </h2>
-            <p class="value">256</p>
-            <p class="trend">▲ +3.01% from last week</p>
-            
-            <i class="material-icons card-icon-right">trending_up</i>
-        </div>
-        <div class="card">
-            <h2>
-                <i class="material-icons card-icon">build</i>
-                Services Provided
-            </h2>
-            <p class="value">1,256</p>
-            <p class="trend">▲ +1.0% from last week</p>
-            
-            <i class="material-icons card-icon-right">trending_up</i>
+        </nav>
+    </header>
+    <div class="dashboard-container">
+        <h1>Admin Dashboard:</h1>
+        <div class="dashboard-cards">
+            <div class="card">
+                <h2>
+                    <i class="material-icons card-icon">attach_money</i>
+                    New Net Income
+                </h2>
+                <p class="value">$8,245.00</p>
+                <p class="trend">▼ -0.85% from last week</p>
+                <i class="material-icons card-icon-right">bar_chart</i>
+            </div>
+            <div class="card">
+                <h2>
+                    <i class="material-icons card-icon">event_note</i>
+                    Total Bookings
+                </h2>
+                <p class="value">256</p>
+                <p class="trend">▲ +3.01% from last week</p>
+                <i class="material-icons card-icon-right">trending_up</i>
+            </div>
+            <div class="card">
+                <h2>
+                    <i class="material-icons card-icon">build</i>
+                    Services Provided
+                </h2>
+                <p class="value">1,256</p>
+                <p class="trend">▲ +1.0% from last week</p>
+                <i class="material-icons card-icon-right">trending_up</i>
+            </div>
         </div>
     </div>
-</div>
-
 </body>
 </html>

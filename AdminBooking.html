@@ -1,48 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Admin Booking View</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Booking</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const adminToken = sessionStorage.getItem("adminToken");
+
+            if (!adminToken) {
+                alert("You must be logged in as an admin to access this page.");
+                window.location.href = "admin.html";
+            }
+
+            const logoutButton = document.getElementById("logoutButton");
+            logoutButton.style.display = "inline-block";
+
+            logoutButton.addEventListener("click", () => {
+                sessionStorage.removeItem("adminToken");
+                alert("You have been logged out.");
+                window.location.href = "admin.html";
+            });
+        });
+    </script>
 </head>
 <body>
-  <header class="header">
-    <nav class="nav">
-        <a href="adminpage.html" class="nav_logo">AutomobileAvengers</a>
-        <ul class="nav_items">
-            <li class="nav_item">
-                <a href="Dashboard.html" class="nav_link">Dashboard</a>
-                <a href="mechanicsadminview.html" class="nav_link">Mechanics</a>
-                <a href="AdminBooking.html" class="nav_link">Bookings</a>
-            </li>
-        </ul>
-        <div id="authButtons">
-            <button id="loginButton" class="login_button">Login</button>
+    <header class="header">
+        <nav class="nav">
+            <a href="adminpage.html" class="nav_logo">Automobile Avengers</a>
+            <ul class="nav_items">
+                <li class="nav_item">
+                    <a href="Dashboard.html" class="nav_link">Dashboard</a>
+                    <a href="mechanicsadminview.html" class="nav_link">Mechanics</a>
+                    <a href="AdminBooking.html" class="nav_link">Bookings</a>
+                </li>
+            </ul>
             <button id="logoutButton" class="login_button" style="display: none;">Logout</button>
+        </nav>
+    </header>
+    <div class="calendar-container">
+        <h1>Current Bookings</h1>
+        <div class="calendar-navigation">
+            <button id="prevWeek">← Previous Week</button>
+            <button id="nextWeek">Next Week →</button>
         </div>
-    </nav>
-  </header>
-  <div class="calendar-container">
-    <div>
-      <h1>Current Bookings</h1>
-      <div class="calendar-navigation">
-        <button id="prevWeek">← Previous Week</button>
-        <button id="nextWeek">Next Week →</button>
-      </div>
-      
-      <div class="calendar-grid" id="calendarGrid">
-        
-      </div>
+        <div class="calendar-grid" id="calendarGrid">
+          
+        </div>
+        <div class="details-panel" id="detailsPanel">
+            <h3>Appointment Details</h3>
+            <p id="detailsContent">Click on an appointment to see details.</p>
+            <button id="cancelBtn" class="cancel-button" style="display: none;">Cancel Appointment</button>
+        </div>
     </div>
-  
-    
-    <div class="details-panel" id="detailsPanel">
-      <h3>Appointment Details</h3>
-      <p id="detailsContent">Click on an appointment to see details.</p>
-      <button id="cancelBtn" class="cancel-button" style="display: none;">Cancel Appointment</button>
-    </div>
-  </div>
-  
-  <script src="adminbooking.js"></script>
+    <script src="adminbooking.js"></script>
 </body>
 </html>
+
