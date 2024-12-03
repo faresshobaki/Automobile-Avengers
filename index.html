@@ -41,7 +41,7 @@
                     At Automobile Avengers, we connect you with top-notch mechanics and unbeatable service. 
                     Experience hassle-free automotive care tailored to your needs.
                 </p>
-                <button class="get_started_button">Get Started</button>
+                <button id="getStartedButton" class="get_started_button">Get Started</button>
             </div>
             <div class="image-content">
                 <img class="section-image" src="images/assets/Automobile Avengers.png" alt="Automobile Avengers Image">
@@ -56,7 +56,8 @@
                 const authToken = sessionStorage.getItem("authToken");
                 const loginButton = document.getElementById("loginButton");
                 const logoutButton = document.getElementById("logoutButton");
-
+                const getStartedButton = document.getElementById("getStartedButton");
+                const isLoggedIn = sessionStorage.getItem("authToken");
                 
                 if (authToken) {
                     loginButton.style.display = "none";
@@ -78,6 +79,20 @@
                 loginButton.addEventListener("click", () => {
                     window.location.href = "login.html";
                 });
+                
+                if (isLoggedIn) {
+        // User is logged in
+        getStartedButton.textContent = "Start Booking!";
+        getStartedButton.onclick = () => {
+            window.location.href = "booking.html"; // Redirect to dashboard or booking page
+        };
+    } else {
+        // User is not logged in
+        getStartedButton.textContent = "Get Started";
+        getStartedButton.onclick = () => {
+            window.location.href = "login.html"; // Redirect to login page
+        };
+    }
             });
         </script>
     </body>
