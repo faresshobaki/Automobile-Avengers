@@ -132,6 +132,39 @@ calendarGrid.addEventListener("click", (event) => {
     }
   }
 });
+// Cancel appointment functionality
+cancelBtn.addEventListener("click", async () => {
+  if (!selectedAppointment) {
+    alert("No appointment selected for cancellation.");
+    return;
+  }
+
+  const confirmation = confirm(`Are you sure you want to cancel the appointment with ID: ${selectedAppointment.id}?`);
+  if (!confirmation) return;
+
+  try {
+    // Send a DELETE request to cancel the appointment
+    const response = await fetch(`http://localhost:8080/api/appointments/admin/appointments/${selectedAppointment.id}`, {
+      method: "DELETE",
+    });
+
+    if (!response.ok) throw new Error("Failed to cancel appointment.");
+
+    alert("Appointment canceled successfully.");
+
+    // Remove the canceled appointment from the list
+    appointments = appointments.filter(app => app.id !== selectedAppointment.id);
+    selectedAppointment = null;
+
+    // Update the UI
+    renderCalendar();
+    detailsContent.innerHTML = "No appointment selected.";
+    cancelBtn.style.display = "none";
+  } catch (error) {
+    console.error("Error canceling appointment:", error);
+    alert("Failed to cancel the appointment. Please try again.");
+  }
+});
 
 // Add event listeners for navigation buttons
 document.getElementById("prevWeek").addEventListener("click", () => {
