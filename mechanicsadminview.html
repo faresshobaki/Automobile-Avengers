@@ -119,14 +119,12 @@
                 event.preventDefault();
 
                 const name = document.getElementById("newMechanicName").value;
-                const id = document.getElementById("newMechanicId").value;
                 const hourlyRate = parseFloat(document.getElementById("newHourlyRate").value);
                 const username = document.getElementById("newMechanicUsername").value;
                 const password = document.getElementById("newMechanicPassword").value;
 
                 const payload = {
                     mechanicName: name,
-                    id,
                     hourlyRate,
                     username,
                     password,
@@ -281,7 +279,6 @@
             <h3>Add New Mechanic</h3>
             <form id="addMechanicForm">
                 <input type="text" id="newMechanicName" placeholder="Mechanic Name" required>
-                <input type="text" id="newMechanicId" placeholder="Mechanic ID" required>
                 <input type="number" id="newHourlyRate" placeholder="Hourly Rate" required>
                 <input type="text" id="newMechanicUsername" placeholder="Username" required>
                 <input type="password" id="newMechanicPassword" placeholder="Password" required>
