@@ -47,11 +47,15 @@ public class PromotionController {
             return ResponseEntity.status(404).body("Promotion not found.");
         }
 
+        Promotion promotion = promotionOpt.get();
+        promotion.setClaimedCount(promotion.getClaimedCount() + 1); // Increment the claimed count
+        promotionService.save(promotion); // Save the updated promotion
+
         return ResponseEntity.ok("Promotion claimed successfully.");
     }
     @GetMapping("/claimed-count")
     public ResponseEntity<Map<String, Long>> getClaimedPromotionsCount() {
-        long count = promotionService.getClaimedPromotionsCount(); // Service method to get count
+        long count = promotionService.getClaimedPromotionsCount(); 
         Map<String, Long> response = new HashMap<>();
         response.put("count", count);
         return ResponseEntity.ok(response);

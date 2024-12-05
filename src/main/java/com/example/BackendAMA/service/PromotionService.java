@@ -34,7 +34,11 @@ public class PromotionService {
     public Optional<Promotion> getPromotionById(Long id) {
         return promotionRepository.findById(id);
     }
+    public Promotion save(Promotion promotion) {
+        return promotionRepository.save(promotion);
+    }
+
     public long getClaimedPromotionsCount() {
-        return promotionRepository.count(); // Assuming a `PromotionClaim` entity
+        return promotionRepository.sumClaimedCount();
     }
 }

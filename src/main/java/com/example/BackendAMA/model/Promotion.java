@@ -15,14 +15,14 @@ public class Promotion {
     private String price;
     private String details;
     private String imageUrl;
-    private boolean claimed;
+    private int claimedCount = 0; 
 
-    public boolean isClaimed() {
-        return claimed;
+    public int getClaimedCount() {
+        return claimedCount;
     }
 
-    public void setClaimed(boolean claimed) {
-        this.claimed = claimed;
+    public void setClaimedCount(int claimedCount) {
+        this.claimedCount = claimedCount;
     }
     
     public Long getId() {
