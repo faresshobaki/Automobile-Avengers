@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mechanic Login | Automobile Avengers</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <section class="login-section">
+        <h1>Mechanic Login</h1>
+        <a href="javascript:history.back()" class="back-button">
+            <img src="images/assets/turn-back.png" alt="Back" class="back-arrow">
+        </a>
+        <form id="mechanicLoginForm" class="login-form">
+            <label for="mechanicUsername">Username:</label>
+            <input type="text" id="mechanicUsername" name="username" placeholder="Enter your mechanic username" required>
+            
+            <label for="mechanicPassword">Password:</label>
+            <input type="password" id="mechanicPassword" name="password" placeholder="Enter your password" required>
+            
+            <button type="submit" class="login-button">Login</button>
+        </form>
+        <div class="forgot-password">
+        </div>
+        <div class="login-footer">
+            <p>Not a mechanic? <a href="login.html">Go Back</a></p>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const mechanicLoginForm = document.getElementById("mechanicLoginForm");
+
+            mechanicLoginForm.addEventListener("submit", async (e) => {
+                e.preventDefault(); 
+
+                const username = document.getElementById("mechanicUsername").value.trim();
+                const password = document.getElementById("mechanicPassword").value.trim();
+
+                if (!username || !password) {
+                    alert("Please enter both username and password.");
+                    return;
+                }
+
+                try {
+                    const response = await fetch("http://localhost:8080/api/mechanics/login", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ username, password }),
+                    });
+
+                    if (response.ok) {
+                        const mechanic = await response.json();
+
+                        localStorage.setItem("mechanicData", JSON.stringify(mechanic));
+
+                        alert(`Welcome back, ${mechanic.mechanicName}!`);
+                        window.location.href = "mechanicview.html"; 
+                    } else if (response.status === 401) {
+                        alert("Invalid username or password. Please try again.");
+                    } else {
+                        alert("An error occurred. Please try again.");
+                    }
+                } catch (error) {
+                    console.error("Login error:", error);
+                    alert("Unable to connect to the server. Please try again later.");
+                }
+            });
+        });
+    </script>
+</body>
+</html>

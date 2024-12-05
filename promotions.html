@@ -35,6 +35,28 @@
             fetchPromotions();
         });
 
+		async function handleClaimAndRedirect(promotionId) {
+		    try {
+		        const response = await fetch(`http://localhost:8080/api/promotions/${promotionId}/claim`, {
+		            method: "POST",
+		            headers: { "Content-Type": "application/json" },
+		        });
+
+		        if (response.ok) {
+		            const randomCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+		            alert("Promotion claimed successfully!");
+		            window.location.href = `barcode.html?code=${randomCode}`;
+		        } else {
+		            const errorText = await response.text();
+		            alert(`Failed to claim promotion: ${errorText}`);
+		        }
+		    } catch (error) {
+		        console.error("Error claiming promotion:", error);
+		        alert("An error occurred while claiming the promotion.");
+		    }
+		}
+
+		
         async function fetchPromotions() {
             const promotionsContainer = document.querySelector(".promotions-container");
             try {
@@ -53,7 +75,7 @@
                             <h2>${promotion.name}</h2>
                             <p class="promotion-price">${promotion.price}</p>
                             <p class="promotion-details">${promotion.details}</p>
-                            <button class="claim-button" onclick="redirectToBarcode()">Claim</button>
+							<button class="claim-button" onclick="handleClaimAndRedirect(${promotion.id})">Claim</button>
                         </div>
                     `;
                     promotionsContainer.appendChild(card);
@@ -62,12 +84,7 @@
                 console.error("Error loading promotions:", error);
                 promotionsContainer.innerHTML = `<p class="error-message">Unable to load promotions at this time. Please try again later.</p>`;
             }
-        }
-
-        function redirectToBarcode() {
-            const randomCode = Math.random().toString(36).substring(2, 8).toUpperCase();
-            window.location.href = `barcode.html?code=${randomCode}`;
-        }
+        }        
     </script>
 </head>
 <body>

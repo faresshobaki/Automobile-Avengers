@@ -25,12 +25,10 @@
                 window.location.href = "admin.html";
             });
 
-            // Fetch live data
             try {
                 const appointmentsCount = await fetchAppointmentsCount();
                 const promotionsCount = await fetchPromotionsCount();
 
-                // Update the dashboard cards
                 document.getElementById("appointmentsCount").textContent = appointmentsCount;
                 document.getElementById("promotionsCount").textContent = promotionsCount;
             } catch (error) {
@@ -41,7 +39,7 @@
 
         async function fetchAppointmentsCount() {
             try {
-                const response = await fetch("http://localhost:8080/api/appointments/admin/appointments/with-count");
+                const response = await fetch("http://localhost:8080/api/appointments/admin/appointments");
                 if (!response.ok) throw new Error("Failed to fetch appointments count");
                 const data = await response.json();
                 return data.count || 0;
@@ -51,17 +49,17 @@
             }
         }
 
-        async function fetchPromotionsCount() {
-            try {
-                const response = await fetch("http://localhost:8080/api/promotions/claimed-count");
-                if (!response.ok) throw new Error("Failed to fetch promotions count");
-                const data = await response.json();
-                return data.count || 0;
-            } catch (error) {
-                console.error("Error fetching promotions count:", error);
-                return 0;
-            }
-        }
+		async function fetchPromotionsCount() {
+		    try {
+		        const response = await fetch("http://localhost:8080/api/promotions/claimed-count");
+		        if (!response.ok) throw new Error("Failed to fetch promotions count");
+		        const data = await response.json();
+		        return data.count || 0;
+		    } catch (error) {
+		        console.error("Error fetching promotions count:", error);
+		        return 0;
+		    }
+		}
     </script>
 </head>
 <body>

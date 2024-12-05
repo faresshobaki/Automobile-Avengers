@@ -104,13 +104,7 @@
     <div class="navbar">Mechanic Dashboard</div>
 
     <div class="container">
-        <div class="login-section" id="loginSection">
-            <h2>Mechanic Login</h2>
-            <input type="text" id="username" placeholder="Username (e.g., JohnDoeM001)" />
-            <input type="password" id="password" placeholder="Password" />
-            <button onclick="loginMechanic()">Login</button>
-        </div>
-
+		
         <div class="mechanic-card" id="mechanicCard">
             <h2>Welcome, <span id="mechanicFullName"></span></h2>
             <p><strong>Mechanic ID:</strong> <span id="mechanicId"></span></p>
@@ -127,65 +121,56 @@
             <h3>Upcoming Appointments</h3>
             <ul id="appointmentsList"></ul>
         </div>
+		<div id="updateStatusSection" style="display: none;">
+		         <h3>Update Service Status</h3>
+		         <input type="text" id="serviceId" placeholder="Enter Service ID">
+		         <select id="serviceStatus">
+		             <option value="Checked In">Checked In</option>
+		             <option value="In Progress">In Progress</option>
+		             <option value="Ready for Pick Up">Ready for Pick Up</option>
+		         </select>
+		         <button onclick="updateServiceStatus(
+		             document.getElementById('serviceId').value, 
+		             document.getElementById('serviceStatus').value
+		         )">Update Status</button>
+		     </div>
+		 </div>
 
         <div class="logout-button" style="display: none;" id="logoutButton">
             <button onclick="logoutMechanic()">Logout</button>
-        </div>
-
-        <div id="updateStatusSection" style="display: none;">
-            <h3>Update Service Status</h3>
-            <input type="text" id="serviceId" placeholder="Enter Service ID">
-            <select id="serviceStatus">
-                <option value="Checked In">Checked In</option>
-                <option value="In Progress">In Progress</option>
-                <option value="Ready for Pick Up">Ready for Pick Up</option>
-            </select>
-            <button onclick="updateServiceStatus(
-                document.getElementById('serviceId').value, 
-                document.getElementById('serviceStatus').value
-            )">Update Status</button>
-        </div>
+        </div>  
     </div>
 
     <script>
-        let mechanicId;
+		let mechanicId;
 
-        async function loginMechanic(username, password) {
-            username = username || document.getElementById("username").value;
-            password = password || document.getElementById("password").value;
+		     window.onload = function () {
+		         const mechanicData = JSON.parse(localStorage.getItem("mechanicData"));
+		         if (!mechanicData) {
+		             window.location.href = "mechaniclogin.html";
+		         } else {
+		             mechanicId = mechanicData.id;
+		             populateDashboard(mechanicData);
+		         }
+		     };
 
-            try {
-                const response = await fetch("http://localhost:8080/api/mechanics/login", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ username, password })
-                });
+		     function populateDashboard(mechanicData) {
+		         document.getElementById("mechanicCard").style.display = "block";
+		         document.getElementById("appointmentsSection").style.display = "block";
+		         document.getElementById("logoutButton").style.display = "block";
+		         document.getElementById("updateStatusSection").style.display = "block";
 
-                if (!response.ok) {
-                    alert("Login failed. Please check your credentials.");
-                    return;
-                }
+		         document.getElementById("mechanicFullName").innerText = mechanicData.mechanicName;
+		         document.getElementById("mechanicId").innerText = mechanicData.id;
+		         document.getElementById("hourlyRate").innerText = mechanicData.hourlyRate.toFixed(2);
+		         document.getElementById("hoursWorked").innerText = mechanicData.hoursWorked.toFixed(2);
+		         document.getElementById("grossSalary").innerText = (
+		             mechanicData.hourlyRate * mechanicData.hoursWorked
+		         ).toFixed(2);
 
-                const mechanic = await response.json();
-                mechanicId = mechanic.id;
+		         fetchAppointments();
+		     }
 
-                document.getElementById("loginSection").style.display = "none";
-                document.getElementById("mechanicCard").style.display = "block";
-                document.getElementById("appointmentsSection").style.display = "block";
-                document.getElementById("logoutButton").style.display = "block";
-                document.getElementById("updateStatusSection").style.display = "block";
-                document.getElementById("mechanicFullName").innerText = mechanic.mechanicName;
-                document.getElementById("mechanicId").innerText = mechanic.id;
-                document.getElementById("hourlyRate").innerText = mechanic.hourlyRate.toFixed(2);
-                document.getElementById("hoursWorked").innerText = mechanic.hoursWorked.toFixed(2);
-                document.getElementById("grossSalary").innerText = (mechanic.hourlyRate * mechanic.hoursWorked).toFixed(2);
-
-                fetchAppointments();
-            } catch (error) {
-                console.error("Login error:", error);
-                alert("An error occurred during login.");
-            }
-        }
 		async function clockIn() {
 		    try {
 		        const response = await fetch(`http://localhost:8080/api/mechanics/${mechanicId}/clock-in`, {
@@ -261,15 +246,13 @@
 		        }
 		    }
 
-        function logoutMechanic() {
-            mechanicId = null;
-            document.getElementById("loginSection").style.display = "block";
-            document.getElementById("mechanicCard").style.display = "none";
-            document.getElementById("appointmentsSection").style.display = "none";
-            document.getElementById("logoutButton").style.display = "none";
-            document.getElementById("updateStatusSection").style.display = "none";
-            alert("You have been logged out.");
-        }
+			function logoutMechanic() {
+			    localStorage.removeItem("mechanicData");
+			    sessionStorage.removeItem("mechanicData");
+
+			    window.location.href = "mechaniclogin.html";
+			}
+
     </script>
 </body>
 </html>
