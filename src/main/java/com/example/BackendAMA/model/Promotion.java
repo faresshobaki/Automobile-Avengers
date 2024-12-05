@@ -15,7 +15,15 @@ public class Promotion {
     private String price;
     private String details;
     private String imageUrl;
+    private boolean claimed;
 
+    public boolean isClaimed() {
+        return claimed;
+    }
+
+    public void setClaimed(boolean claimed) {
+        this.claimed = claimed;
+    }
     
     public Long getId() {
         return id;

@@ -7,7 +7,10 @@ import org.springframework.web.bind.annotation.*;
 import com.example.BackendAMA.model.Promotion;
 import com.example.BackendAMA.service.PromotionService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/promotions")
@@ -36,5 +39,21 @@ public class PromotionController {
         } else {
             return ResponseEntity.status(404).body("Promotion not found.");
         }
+    }
+    @PostMapping("/{id}/claim")
+    public ResponseEntity<String> claimPromotion(@PathVariable Long id) {
+        Optional<Promotion> promotionOpt = promotionService.getPromotionById(id);
+        if (promotionOpt.isEmpty()) {
+            return ResponseEntity.status(404).body("Promotion not found.");
+        }
+
+        return ResponseEntity.ok("Promotion claimed successfully.");
+    }
+    @GetMapping("/claimed-count")
+    public ResponseEntity<Map<String, Long>> getClaimedPromotionsCount() {
+        long count = promotionService.getClaimedPromotionsCount(); // Service method to get count
+        Map<String, Long> response = new HashMap<>();
+        response.put("count", count);
+        return ResponseEntity.ok(response);
     }
 }

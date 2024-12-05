@@ -7,12 +7,10 @@ import com.example.BackendAMA.service.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/appointments")
@@ -38,7 +36,6 @@ public class AppointmentController {
 
     @PostMapping
     public ResponseEntity<Map<String, String>> bookAppointment(@RequestBody Appointment appointment) {
-        // Generate a shorter numeric service status number
         String serviceStatusNumber = generateServiceStatusNumber();
         appointment.setServiceStatusNumber(serviceStatusNumber);
 
@@ -55,7 +52,6 @@ public class AppointmentController {
         }
     }
 
-    // Helper method to generate a shorter numeric service status number
     private String generateServiceStatusNumber() {
         Random random = new Random();
         int number = random.nextInt(900000) + 100000; // Generate a 6-digit number between 100000 and 999999
@@ -91,14 +87,10 @@ public class AppointmentController {
         List<Appointment> appointments = appointmentService.getAllAppointments();
         Map<String, Object> response = new HashMap<>();
         response.put("appointments", appointments);
-        response.put("count", appointments.size());  // Add the count of appointments to the response
+        response.put("count", appointments.size()); 
         return ResponseEntity.ok(response);
     }
 
-
-        
-
-        // Cancel an appointment
         @PostMapping("/{appointmentId}/cancel")
         public ResponseEntity<Void> cancelAppointment(
                 @PathVariable Long appointmentId,
