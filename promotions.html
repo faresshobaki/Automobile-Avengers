@@ -43,6 +43,12 @@
 		        });
 
 		        if (response.ok) {
+
+		            const countResponse = await fetch("http://localhost:8080/api/promotions/claimed-count");
+		            const countData = await countResponse.json();
+
+		            console.log("Updated Promotions Count:", countData.count);
+
 		            const randomCode = Math.random().toString(36).substring(2, 8).toUpperCase();
 		            alert("Promotion claimed successfully!");
 		            window.location.href = `barcode.html?code=${randomCode}`;
